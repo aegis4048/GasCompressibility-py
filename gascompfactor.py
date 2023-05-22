@@ -140,9 +140,11 @@ class Z_factor(object):
 
     """Newton-Raphson nonlinear solver"""
     def calc_Z(self, guess=0.9, sg=None, P=None, T=None, Tpc=None, Ppc=None, Tpc_corrected=None, Ppc_corrected=None,
-               A=None, B=None, H2S=None, CO2=None, Tr=None, Pr=None, e_correction=None):
+               A=None, B=None, H2S=None, CO2=None, Tr=None, Pr=None, e_correction=None, **kwargs):
+
         self._initialize_Pr(Pr, P, Ppc_corrected, sg, Tpc, Ppc, e_correction, Tpc_corrected, A, B, H2S, CO2)
         self._initialize_Tr(Tr, T, Tpc_corrected, sg, Tpc, e_correction, A, B, H2S, CO2)
+
         self.A1 = 0.3265
         self.A2 = -1.0700
         self.A3 = -0.5339
@@ -154,7 +156,9 @@ class Z_factor(object):
         self.A9 = 0.1056
         self.A10 = 0.6134
         self.A11 = 0.7210
-        self.Z = optimize.newton(self._calc_Z, guess)
+
+        self.Z = optimize.newton(self._calc_Z, guess, **kwargs)
+
         return self.Z
 
     def _initialize_sg(self, sg):
@@ -213,7 +217,7 @@ class Z_factor(object):
             if Tpc_corrected is None:
                 self.calc_Tpc_corrected(sg, Tpc, e_correction, A, B, H2S, CO2)
             else:
-                self.calc_Tpc_corrected = Tpc_corrected
+                self.Tpc_corrected = Tpc_corrected
 
     def _initialize_Ppc_corrected(self, Ppc_corrected, sg=None, Tpc=None, Ppc=None, e_correction=None,
                                   Tpc_corrected=None, A=None, B=None, H2S=None, CO2=None):
@@ -221,7 +225,7 @@ class Z_factor(object):
             if Ppc_corrected is None:
                 self.calc_Ppc_corrected(sg, Tpc, Ppc, e_correction, Tpc_corrected, A, B, H2S, CO2)
             else:
-                self.calc_Ppc_corrected = Ppc_corrected
+                self.Ppc_corrected = Ppc_corrected
 
     def _initialize_Pr(self, Pr, P, Ppc_corrected, sg=None, Tpc=None, Ppc=None, e_correction=None, Tpc_corrected=None,
                        A=None, B=None, H2S=None, CO2=None):
@@ -229,14 +233,14 @@ class Z_factor(object):
             if Pr is None:
                 self.calc_Pr(P, Ppc_corrected, sg, Tpc, Ppc, e_correction, Tpc_corrected, A, B, H2S, CO2)
             else:
-                self.calc_Pr = Pr
+                self.Pr = Pr
 
     def _initialize_Tr(self, Tr, T, Tpc_corrected, sg, Tpc=None, e_correction=None, A=None, B=None, H2S=None, CO2=None):
         if self.Tr is None:
             if Tr is None:
                 self.calc_Tr(T, Tpc_corrected, sg, Tpc, e_correction, A, B, H2S, CO2)
             else:
-                self.calc_Tr = Tr
+                self.Tr = Tr
 
     def _initialize_A(self, A, H2S, CO2):
         if self.A is None:
@@ -268,5 +272,64 @@ class Z_factor(object):
             raise TypeError("Missing a required argument, T (gas temperature, °F)")
         self._T = _T
 
+    def quickstart(self):
 
+        import matplotlib.pyplot as plt
 
+        xmax = 8
+        Prs = np.linspace(0, xmax, xmax * 10 + 1)
+        Prs = np.array([round(Pr, 1) for Pr in Prs])
+
+        Trs = np.array([1.05, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.2, 2.4, 2.6, 2.8, 3.0])
+
+        results = {Tr: {
+            'Pr': np.array([]),
+            'Z': np.array([])
+        } for Tr in Trs}
+
+        for Tr in Trs:
+            for Pr in Prs:
+                z_obj = Z_factor()
+                z = z_obj.calc_Z(Tr=Tr, Pr=Pr, **{'maxiter': 1000})
+                results[Tr]['Z'] = np.append(results[Tr]['Z'], [z], axis=0)
+                results[Tr]['Pr'] = np.append(results[Tr]['Pr'], [Pr], axis=0)
+
+        label_fontsize = 12
+
+        fig, ax = plt.subplots(figsize=(8, 5))
+        for Tr in Trs:
+
+            Zs = results[Tr]['Z']
+            idx_min = np.where(Zs == min(Zs))
+
+            p = ax.plot(Prs, Zs)
+            if Tr == 1.05:
+                t = ax.text(Prs[idx_min] - 0.5, min(Zs) - 0.005, '$T_{r}$ = 1.2', color=p[0].get_color())
+                t.set_bbox(dict(facecolor='white', alpha=0.9, edgecolor='white', pad=1))
+            else:
+                t = ax.text(Prs[idx_min] - 0.2, min(Zs) - 0.005, Tr, color=p[0].get_color())
+                t.set_bbox(dict(facecolor='white', alpha=0.9, edgecolor='white', pad=1))
+
+        ax.set_xlim(0, xmax)
+        ax.minorticks_on()
+        ax.grid(alpha=0.5)
+        ax.grid(b=True, which='minor', alpha=0.1)
+        ax.spines.top.set_visible(False)
+        ax.spines.right.set_visible(False)
+
+        ax.set_ylabel('Compressibility Factor, $Z$', fontsize=label_fontsize)
+        ax.set_xlabel('Pseudo-Reduced Pressure, $P_{r}$', fontsize=label_fontsize)
+        ax.text(0.57, 0.08, '$T_{r}$ = Pseudo-Reduced Temperature', fontsize=11, transform=ax.transAxes,
+                bbox=dict(facecolor='white'))
+
+        def setbold(txt):
+            return ' '.join([r"$\bf{" + item + "}$" for item in txt.split(' ')])
+
+        ax.set_title(setbold('Real Gas Law Compressibility Factor - Z') + ", computed with GasCompressiblityFactor-py ",
+                     fontsize=12, pad=10, x=0.445, y=1.06)
+        ax.annotate('', xy=(-0.09, 1.05), xycoords='axes fraction', xytext=(1.05, 1.05),
+                    arrowprops=dict(arrowstyle="-", color='k'))
+
+        fig.tight_layout()
+
+        return results, fig, ax
