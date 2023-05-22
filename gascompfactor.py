@@ -2,7 +2,7 @@ import numpy as np
 from scipy import optimize
 
 
-class Z_factor(object):
+class Zfactor(object):
     def __init__(self):
 
         self.T = None
@@ -289,7 +289,7 @@ class Z_factor(object):
 
         for Tr in Trs:
             for Pr in Prs:
-                z_obj = Z_factor()
+                z_obj = Zfactor()
                 z = z_obj.calc_Z(Tr=Tr, Pr=Pr, **{'maxiter': 1000})
                 results[Tr]['Z'] = np.append(results[Tr]['Z'], [z], axis=0)
                 results[Tr]['Pr'] = np.append(results[Tr]['Pr'], [Pr], axis=0)
