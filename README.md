@@ -12,5 +12,6 @@ The packages is under [MIT License](https://github.com/aegis4048/GasCompressibil
 
 * __[Eric 'Soobin' Kim](https://github.com/aegis4048)__ - Petroleum engineer with the gas compressor company, [Flogistix](https://flogistix.com/). Primary author of the package.
 
-
+# Work in Progress
+Currently working on publishing the library to PIP, thanks for your patience.
 
