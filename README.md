@@ -5,6 +5,13 @@ GasCompressibility-py is a Python library for calculating the gas compressibilit
 
 The packages is under [MIT License](https://github.com/aegis4048/GasCompressibiltiy-py/blob/main/LICENSE).
 
+
+# Authors
+
+* __[Eric 'Soobin' Kim]([https://github.com/waylan](https://github.com/aegis4048))__ - Petroleum engineer with the gas compressor company, [Flogistix](https://flogistix.com/). Primary author of the package.
+
+
+
 Primary Author: @aegis4048 , Eric 'Soobin' Kim
 
 and it's associated attributes ($`T_{r}, P_{r}, P^{'}_{pc}, P^{'}_{pc}`$.
