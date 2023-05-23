@@ -8,8 +8,7 @@ The packages is under [MIT License](https://github.com/aegis4048/GasCompressibil
 
 # Authors
 
-* __[Eric 'Soobin' Kim][https://github.com/aegis4048]__ - Petroleum engineer with the gas compressor company, [Flogistix](https://flogistix.com/). Primary author of the package.
-
+* __[Eric 'Soobin' Kim](https://github.com/aegis4048)__ - Petroleum engineer with the gas compressor company, [Flogistix](https://flogistix.com/). Primary author of the package.
 
 
 and it's associated attributes ($`T_{r}, P_{r}, P^{'}_{pc}, P^{'}_{pc}`$.
