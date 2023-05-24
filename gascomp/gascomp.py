@@ -1,5 +1,6 @@
 import numpy as np
 from scipy import optimize
+import matplotlib.pyplot as plt
 
 
 class Zfactor(object):
@@ -117,6 +118,19 @@ class Zfactor(object):
     Objective function to miminize for Newton-Raphson nonlinear solver - Z factor calculation
     """
     def _calc_Z(self, z):
+
+        self.A1 = 0.3265
+        self.A2 = -1.0700
+        self.A3 = -0.5339
+        self.A4 = 0.01569
+        self.A5 = -0.05165
+        self.A6 = 0.5475
+        self.A7 = -0.7361
+        self.A8 = 0.1844
+        self.A9 = 0.1056
+        self.A10 = 0.6134
+        self.A11 = 0.7210
+
         return 1 + (
                 self.A1 +
                 self.A2 / self.Tr +
@@ -144,19 +158,6 @@ class Zfactor(object):
 
         self._initialize_Pr(Pr, P, Ppc_corrected, sg, Tpc, Ppc, e_correction, Tpc_corrected, A, B, H2S, CO2)
         self._initialize_Tr(Tr, T, Tpc_corrected, sg, Tpc, e_correction, A, B, H2S, CO2)
-
-        self.A1 = 0.3265
-        self.A2 = -1.0700
-        self.A3 = -0.5339
-        self.A4 = 0.01569
-        self.A5 = -0.05165
-        self.A6 = 0.5475
-        self.A7 = -0.7361
-        self.A8 = 0.1844
-        self.A9 = 0.1056
-        self.A10 = 0.6134
-        self.A11 = 0.7210
-
         self.Z = optimize.newton(self._calc_Z, guess, **kwargs)
 
         return self.Z
@@ -273,8 +274,6 @@ class Zfactor(object):
         self._T = _T
 
     def quickstart(self):
-
-        import matplotlib.pyplot as plt
 
         xmax = 8
         Prs = np.linspace(0, xmax, xmax * 10 + 1)
