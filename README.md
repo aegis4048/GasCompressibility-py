@@ -1,4 +1,4 @@
-<img src="/intro_image.png" alt="Alt text" title="Optional title">
+<img src="/misc/intro_image.png" alt="Alt text" title="Optional title">
 
 # GasCompressibility-py
 GasCompressibility-py is a Python library for calculating the gas compressibility factor, $`Z`$, based on real gas law. 

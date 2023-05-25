@@ -1,3 +1,5 @@
+
+'''
 from setuptools import setup, find_packages
 
 
@@ -5,7 +7,7 @@ with open('readme', 'r') as f:
     long_description = f.read()
 
 setup(
-    name='gascomp',
+    name='gascompressibility',
     version='0.0.1',
     packages=find_packages(exclude=[
         "tutorials",
@@ -26,3 +28,4 @@ setup(
     ],
     url='https://github.com/aegis4048/GasCompressibiltiy-py/tree/main',
 )
+'''
