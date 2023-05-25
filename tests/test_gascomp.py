@@ -149,6 +149,21 @@ class Test_zfactor(unittest.TestCase):
         result3 = instance.calc_Pr(Ppc_corrected=628.21, P=2010)
         self.assertAlmostEqual(result3, 3.1995, places=3)
 
+        result4 = instance.calc_Pr(Ppc=663.29, P=2010, e_correction=21.278, H2S=0.07, Tpc=377.59)
+        self.assertAlmostEqual(result4, 3.1995, places=3)
+
+        print('calc_Pr passed')
+
+    def test_calc_Z(self):
+        instance = zfactor()
+
+        result1 = instance.calc_Z(P=2010, T=75, CO2=0.1, H2S=0.07, sg=0.7)
+        self.assertAlmostEqual(result1, 0.7730, places=3)
+
+        result2 = instance.calc_Z(P=2010, T=75, Ppc=747.9, Tpc=373.6)
+        self.assertAlmostEqual(result2, 0.7418, places=3)
+
+        print('calc_Z passed')
 
 
 if __name__ == '__main__':
