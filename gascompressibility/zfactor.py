@@ -52,13 +52,13 @@ class zfactor(object):
 
     """pseudo-critical temperature (°R)"""
     def calc_Tpc(self, sg=None):
-        self._initialize_sg(sg)
+        self._initialize_sg(sg, calc_from='Tpc')
         self.Tpc = 169.2 + 349.5 * self.sg - 74.0 * self.sg ** 2
         return self.Tpc
 
     """pseudo-critical pressure (psi)"""
     def calc_Ppc(self, sg=None):
-        self._initialize_sg(sg)
+        self._initialize_sg(sg, calc_from='Ppc')
         self.Ppc = 756.8 - 131.07 * self.sg - 3.6 * self.sg ** 2
         return self.Ppc
 
@@ -116,29 +116,6 @@ class zfactor(object):
             self._initialize_Tpc_corrected(Tpc_corrected, sg=sg, Tpc=Tpc, e_correction=e_correction, A=A, B=B, H2S=H2S, CO2=CO2)
         self.Ppc_corrected = (self.Ppc * self.Tpc_corrected) / (self.Tpc - self.B * (1 - self.B) * self.e_correction)
         return self.Ppc_corrected
-
-    def _redundant_argument_check_Tpc_corrected(self, sg=None, Tpc=None, H2S=None, CO2=None, A=None, B=None, e_correction=None):
-        if sg is not None:
-            raise TypeError("Redundant arguments Tpc_corrected and sg, input only one of them")
-        if Tpc is not None:
-            raise TypeError("Redundant arguments Tpc_corrected and Tpc, input only one of them")
-        if H2S is not None:
-            raise TypeError("Redundant arguments Tpc_corrected and H2S, input only one of them")
-        if CO2 is not None:
-            raise TypeError("Redundant arguments Tpc_corrected and CO2, input only one of them")
-        if A is not None:
-            raise TypeError("Redundant arguments Tpc_corrected and A, input only one of them")
-        if B is not None:
-            raise TypeError("Redundant arguments Tpc_corrected and B, input only one of them")
-        if e_correction is not None:
-            raise TypeError("Redundant arguments Tpc_corrected and e_correction, input only one of them")
-
-    def _redundant_argument_check_Ppc_corrected(self, sg=None, Ppc=None, Tpc_corrected=None, Tpc=None, H2S=None, CO2=None, A=None, B=None, e_correction=None):
-        if Ppc is not None:
-            raise TypeError("Redundant arguments Ppc_corrected and Ppc, input only one of them")
-        if Tpc_corrected is not None:
-            raise TypeError("Redundant arguments Ppc_corrected and Tpc_corrected, input only one of them")
-        self._redundant_argument_check_Tpc_corrected(sg=sg, Tpc=Tpc, H2S=H2S, CO2=CO2, A=A, B=B, e_correction=e_correction)
 
     """pseudo-reduced temperature (°R)"""
     def calc_Tr(self, T=None, Tpc_corrected=None, sg=None, Tpc=None, e_correction=None, A=None, B=None, H2S=None, CO2=None):
@@ -210,9 +187,15 @@ class zfactor(object):
 
         return self.Z
 
-    def _initialize_sg(self, sg):
+    def _initialize_sg(self, sg, calc_from=None):
         if sg is None:
-            raise TypeError("Missing a required argument, sg (specific gravity, dimensionless)")
+            if calc_from == 'Ppc' or calc_from == 'Tpc':
+                raise TypeError("Missing a required argument, sg (specific gravity, dimensionless)")
+            else:
+                raise TypeError("Missing a required arguments, sg (specific gravity, dimensionless), or Tpc "
+                                "(pseudo-critical temperature, °R) or Ppc (pseudo-critical pressure, psia). "
+                                "Either both Tpc and Rpc must be inputted, or sg needs to be inputted. "
+                                "Both Tpc and Rpc can be computed from sg")
         else:
             self.sg = sg
 
@@ -308,6 +291,29 @@ class zfactor(object):
         if _T is None:
             raise TypeError("Missing a required argument, T (gas temperature, °F)")
         self._T = _T
+
+    def _redundant_argument_check_Tpc_corrected(self, sg=None, Tpc=None, H2S=None, CO2=None, A=None, B=None, e_correction=None):
+        if sg is not None:
+            raise TypeError("Redundant arguments Tpc_corrected and sg, input only one of them")
+        if Tpc is not None:
+            raise TypeError("Redundant arguments Tpc_corrected and Tpc, input only one of them")
+        if H2S is not None:
+            raise TypeError("Redundant arguments Tpc_corrected and H2S, input only one of them")
+        if CO2 is not None:
+            raise TypeError("Redundant arguments Tpc_corrected and CO2, input only one of them")
+        if A is not None:
+            raise TypeError("Redundant arguments Tpc_corrected and A, input only one of them")
+        if B is not None:
+            raise TypeError("Redundant arguments Tpc_corrected and B, input only one of them")
+        if e_correction is not None:
+            raise TypeError("Redundant arguments Tpc_corrected and e_correction, input only one of them")
+
+    def _redundant_argument_check_Ppc_corrected(self, sg=None, Ppc=None, Tpc_corrected=None, Tpc=None, H2S=None, CO2=None, A=None, B=None, e_correction=None):
+        if Ppc is not None:
+            raise TypeError("Redundant arguments Ppc_corrected and Ppc, input only one of them")
+        if Tpc_corrected is not None:
+            raise TypeError("Redundant arguments Ppc_corrected and Tpc_corrected, input only one of them")
+        self._redundant_argument_check_Tpc_corrected(sg=sg, Tpc=Tpc, H2S=H2S, CO2=CO2, A=A, B=B, e_correction=e_correction)
 
     def quickstart(self):
 
