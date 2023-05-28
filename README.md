@@ -12,7 +12,7 @@ The packages is under [MIT License](https://github.com/aegis4048/GasCompressibil
 
 # Authors
 
-* __[Eric 'Soobin' Kim](https://github.com/aegis4048)__ - Petroleum engineer with the gas compressor company, [Flogistix](https://flogistix.com/). Primary author of the package.
+* __[Eric 'Soobin' Kim](https://github.com/aegis4048)__ - Petroleum engineer with the gas compressor company, [Flogistix](https://flogistix.com/). Primary author of the package. (Contact | aegis4048@gmail.com, Website | [PythonicExcursions](https://aegis4048.github.io/))
 
 # Work in Progress
 Currently working on publishing the library to PIP, thanks for your patience.

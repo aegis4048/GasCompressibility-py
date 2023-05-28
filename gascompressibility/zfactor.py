@@ -4,7 +4,29 @@ import matplotlib.pyplot as plt
 
 
 class zfactor(object):
-    def __init__(self):
+    def __init__(
+            self,
+            mode='sutton',
+            Pc_H2S=1306,
+            Tc_H2S=672.3,
+            Pc_CO2=1071,
+            Tc_CO2=547.5,
+            Pc_N2=492.4,
+            Tc_N2=227.16,
+            A1=0.3265,
+            A2=-1.0700,
+            A3=-0.5339,
+            A4=0.01569,
+            A5=-0.05165,
+            A6=0.5475,
+            A7=-0.7361,
+            A8=0.1844,
+            A9=0.1056,
+            A10=0.6134,
+            A11=0.7210,
+    ):
+        self._check_invalid_mode(mode)
+        self.mode = mode
 
         self.T = None
         self.sg = None
@@ -12,6 +34,14 @@ class zfactor(object):
         self.P = None
         self.H2S = None
         self.CO2 = None
+        self.N2 = None
+
+        self.Pc_H2S = Pc_H2S
+        self.Tc_H2S = Tc_H2S
+        self.Pc_CO2 = Pc_CO2
+        self.Tc_CO2 = Tc_CO2
+        self.Pc_N2 = Pc_N2
+        self.Tc_N2 = Tc_N2
 
         self.Tpc = None
         self.Ppc = None
@@ -20,20 +50,22 @@ class zfactor(object):
         self.e_correction = None
         self.Tpc_corrected = None
         self.Ppc_corrected = None
-        self.Pr = None
+        self.J = None
+        self.K = None
         self.Tr = None
+        self.Pr = None
 
-        self.A1 = None
-        self.A2 = None
-        self.A3 = None
-        self.A4 = None
-        self.A5 = None
-        self.A6 = None
-        self.A7 = None
-        self.A8 = None
-        self.A9 = None
-        self.A10 = None
-        self.A11 = None
+        self.A1 = A1
+        self.A2 = A2
+        self.A3 = A3
+        self.A4 = A4
+        self.A5 = A5
+        self.A6 = A6
+        self.A7 = A7
+        self.A8 = A8
+        self.A9 = A9
+        self.A10 = A10
+        self.A11 = A11
 
         self.Z = None
 
@@ -46,31 +78,42 @@ class zfactor(object):
     def calc_Fahrenheit_to_Rankine(self, _T):
         if _T is None:
             raise TypeError("Missing a required argument, T (gas temperature, °F)")
-        self._T = _T # Fahrenheit
-        self.T = _T + 459.67 # Rankine, Rankine is used for calculation below
+        self._T = _T  # Fahrenheit
+        self.T = _T + 459.67  # Rankine, Rankine is used for calculation below
         return self.T
 
     """pseudo-critical temperature (°R)"""
-    def calc_Tpc(self, sg=None):
-        self._initialize_sg(sg, calc_from='Tpc')
-        self.Tpc = 169.2 + 349.5 * self.sg - 74.0 * self.sg ** 2
+    def calc_Tpc(self, sg=None, H2S=None, CO2=None, N2=None, J=None, K=None):
+        if self.mode == 'sutton':
+            self._initialize_sg(sg, calc_from='Tpc')
+            self.Tpc = 169.2 + 349.5 * self.sg - 74.0 * self.sg ** 2
+        else:  # mode == 'piper'
+            self._redundant_argument_check_J_or_K(sg=sg, J=J, K=K, H2S=H2S, CO2=CO2, N2=N2)
+            self._initialize_J(J, sg=sg, H2S=H2S, CO2=CO2, N2=N2)
+            self._initialize_K(K, sg=sg, H2S=H2S, CO2=CO2, N2=N2)
+            self.Tpc = self.K ** 2 / self.J
         return self.Tpc
 
     """pseudo-critical pressure (psi)"""
-    def calc_Ppc(self, sg=None):
-        self._initialize_sg(sg, calc_from='Ppc')
-        self.Ppc = 756.8 - 131.07 * self.sg - 3.6 * self.sg ** 2
+    def calc_Ppc(self, sg=None, H2S=None, CO2=None, N2=None, J=None, K=None, Tpc=None):
+        if self.mode == 'sutton':
+            self._initialize_sg(sg, calc_from='Ppc')
+            self.Ppc = 756.8 - 131.07 * self.sg - 3.6 * self.sg ** 2
+        else:  # mode = 'piper'
+            self._initialize_Tpc(Tpc, sg=sg, H2S=H2S, CO2=CO2, N2=N2, J=J, K=K)
+            self._initialize_J(J, sg=sg, H2S=H2S, CO2=CO2, N2=N2)
+            self.Ppc = self.Tpc / self.J
         return self.Ppc
 
     """sum of the mole fractions of CO2 and H2S in a gas mixture"""
-    def calc_A(self, H2S=0, CO2=0):
+    def calc_A(self, H2S=None, CO2=None):
         self._initialize_H2S(H2S)
         self._initialize_CO2(CO2)
         self.A = self.H2S + self.CO2
         return self.A
 
     """mole fraction of H2S in a gas mixture"""
-    def calc_B(self, H2S=0):
+    def calc_B(self, H2S=None):
         self._initialize_H2S(H2S)
         self.B = self.H2S
         return self.B
@@ -117,26 +160,56 @@ class zfactor(object):
         self.Ppc_corrected = (self.Ppc * self.Tpc_corrected) / (self.Tpc - self.B * (1 - self.B) * self.e_correction)
         return self.Ppc_corrected
 
+    def calc_J(self, sg=None, H2S=None, CO2=None, N2=None):
+        self._initialize_sg(sg, calc_from='J')
+        self._initialize_H2S(H2S)
+        self._initialize_CO2(CO2)
+        self._initialize_N2(N2)
+        self.J = 0.11582 \
+                 - 0.45820 * self.H2S * (self.Tc_H2S / self.Pc_H2S) \
+                 - 0.90348 * self.CO2 * (self.Tc_CO2 / self.Pc_CO2) \
+                 - 0.66026 * self.N2 * (self.Tc_N2 / self.Pc_N2) \
+                 + 0.70729 * self.sg \
+                 - 0.099397 * self.sg ** 2
+        return self.J
+
+    def calc_K(self, sg=None, H2S=None, CO2=None, N2=None):
+        self._initialize_sg(sg, calc_from='K')
+        self._initialize_H2S(H2S)
+        self._initialize_CO2(CO2)
+        self._initialize_N2(N2)
+        self.K = 3.8216 \
+                 - 0.06534 * self.H2S * (self.Tc_H2S / np.sqrt(self.Pc_H2S)) \
+                 - 0.42113 * self.CO2 * (self.Tc_CO2 / np.sqrt(self.Pc_CO2)) \
+                 - 0.91249 * self.N2 * (self.Tc_N2 / np.sqrt(self.Pc_N2)) \
+                 + 17.438 * self.sg \
+                 - 3.2191 * self.sg ** 2
+        return self.K
+
     """pseudo-reduced temperature (°R)"""
-    def calc_Tr(self, T=None, Tpc_corrected=None, sg=None, Tpc=None, e_correction=None, A=None, B=None, H2S=None, CO2=None):
-
-        if Tpc_corrected is not None:
-            self._redundant_argument_check_Tpc_corrected(sg=sg, Tpc=Tpc, H2S=H2S, CO2=CO2, A=A, B=B, e_correction=e_correction)
-
+    def calc_Tr(self, T=None, Tpc_corrected=None, sg=None, Tpc=None, e_correction=None, A=None, B=None, H2S=None, CO2=None, N2=None, J=None, K=None):
         self._initialize_T(T)
-        self._initialize_Tpc_corrected(Tpc_corrected, sg=sg, Tpc=Tpc, e_correction=e_correction, A=A, B=B, H2S=H2S, CO2=CO2)
-        self.Tr = self.T / self.Tpc_corrected
+        if self.mode == 'sutton':
+            self._redundant_argument_check_Tpc_corrected(sg=sg, Tpc=Tpc, H2S=H2S, CO2=CO2, A=A, B=B, e_correction=e_correction)
+            self._initialize_Tpc_corrected(Tpc_corrected, sg=sg, Tpc=Tpc, e_correction=e_correction, A=A, B=B, H2S=H2S, CO2=CO2)
+            self.Tr = self.T / self.Tpc_corrected
+        else:  # mode == 'piper'
+            self._redundant_argument_check_Tpc(Tpc=Tpc, sg=sg, H2S=H2S, CO2=CO2, N2=N2, J=J, K=K)
+            self._initialize_Tpc(Tpc, sg=sg, H2S=H2S, CO2=CO2, N2=N2, J=J, K=K)
+            self.Tr = self.T / self.Tpc
         return self.Tr
 
     """pseudo-reduced pressure (psi)"""
-    def calc_Pr(self, P=None, Ppc_corrected=None, sg=None, Tpc=None, Ppc=None, e_correction=None, Tpc_corrected=None, A=None, B=None, H2S=None, CO2=None):
-
-        if Ppc_corrected is not None:
-            self._redundant_argument_check_Ppc_corrected(sg=sg, Ppc=Ppc, Tpc_corrected=Tpc_corrected, Tpc=Tpc, H2S=H2S, CO2=CO2, A=None, B=None, e_correction=e_correction)
-
+    def calc_Pr(self, P=None, Ppc_corrected=None, sg=None, Tpc=None, Ppc=None, e_correction=None, Tpc_corrected=None, A=None, B=None, H2S=None, CO2=None, N2=None, J=None, K=None):
         self._initialize_P(P)
-        self._initialize_Ppc_corrected(Ppc_corrected, sg=sg, Tpc=Tpc, Ppc=Ppc, e_correction=e_correction, Tpc_corrected=Tpc_corrected, A=A, B=B, H2S=H2S, CO2=CO2)
-        self.Pr = self.P / self.Ppc_corrected
+        if self.mode == 'sutton':
+            self._redundant_argument_check_Ppc_corrected(sg=sg, Ppc=Ppc, Tpc_corrected=Tpc_corrected, Tpc=Tpc, H2S=H2S, CO2=CO2, A=None, B=None, e_correction=e_correction)
+            self._initialize_Ppc_corrected(Ppc_corrected, sg=sg, Tpc=Tpc, Ppc=Ppc, e_correction=e_correction, Tpc_corrected=Tpc_corrected, A=A, B=B, H2S=H2S, CO2=CO2)
+            self.Pr = self.P / self.Ppc_corrected
+        else:  # mode == 'piper'
+            self._redundant_argument_check_Ppc(Ppc=Ppc, Tpc=Tpc, sg=sg, H2S=H2S, CO2=CO2, N2=N2, J=J, K=K)
+            self._initialize_Ppc(Ppc, sg=sg, H2S=H2S, CO2=CO2, N2=N2, J=J, K=K, Tpc=Tpc)
+            self.Pr = self.P / self.Ppc
         return self.Pr
 
     """
@@ -179,7 +252,7 @@ class zfactor(object):
 
     """Newton-Raphson nonlinear solver"""
     def calc_Z(self, guess=0.9, sg=None, P=None, T=None, Tpc=None, Ppc=None, Tpc_corrected=None, Ppc_corrected=None,
-               A=None, B=None, H2S=None, CO2=None, Tr=None, Pr=None, e_correction=None, **kwargs):
+               A=None, B=None, H2S=None, CO2=None, N2=None, Tr=None, Pr=None, e_correction=None, **kwargs):
 
         self._initialize_Pr(Pr, P=P, Ppc_corrected=Ppc_corrected, sg=sg, Tpc=Tpc, Ppc=Ppc, e_correction=e_correction, Tpc_corrected=Tpc_corrected, A=A, B=B, H2S=H2S, CO2=CO2)
         self._initialize_Tr(Tr, T, Tpc_corrected=Tpc_corrected, sg=sg, Tpc=Tpc, e_correction=e_correction, A=A, B=B, H2S=H2S, CO2=CO2)
@@ -191,11 +264,18 @@ class zfactor(object):
         if sg is None:
             if calc_from == 'Ppc' or calc_from == 'Tpc':
                 raise TypeError("Missing a required argument, sg (specific gravity, dimensionless)")
+            elif calc_from == 'J' or calc_from == 'K':
+                raise TypeError("Missing a required argument, sg (specific gravity, dimensionless), or J "
+                                "(Stewart-Burkhardt-VOO parameter, °R/psia), or "
+                                "K (Stewart-Burkhardt-VOO parameter, °R/psia^0.5). "
+                                "The calculation requires either "
+                                "1) both J and K provided without sg, or "
+                                "2) only sg provided without both J and K")
             else:
                 raise TypeError("Missing a required arguments, sg (specific gravity, dimensionless), or Tpc "
                                 "(pseudo-critical temperature, °R) or Ppc (pseudo-critical pressure, psia). "
-                                "Either both Tpc and Rpc must be inputted, or sg needs to be inputted. "
-                                "Both Tpc and Rpc can be computed from sg")
+                                "Either both Tpc and Ppc must be inputted, or sg needs to be inputted. "
+                                "Both Tpc and Ppc can be computed from sg")
         else:
             self.sg = sg
 
@@ -212,22 +292,32 @@ class zfactor(object):
             self.T = self.calc_Fahrenheit_to_Rankine(T)
 
     def _initialize_H2S(self, H2S):
-        self.H2S = H2S
+        if H2S is None:
+            self.H2S = 0
+        else:
+            self.H2S = H2S
 
     def _initialize_CO2(self, CO2):
-        self.CO2 = CO2
+        if CO2 is None:
+            self.CO2 = 0
+        else:
+            self.CO2 = CO2
 
-    def _initialize_Tpc(self, Tpc, sg=None):
+    def _initialize_N2(self, N2):
+        if N2 is None:
+            self.N2 = 0
+        else:
+            self.N2 = N2
+
+    def _initialize_Tpc(self, Tpc, sg=None, H2S=None, CO2=None, N2=None, J=None, K=None):
         if Tpc is None:
-            self._initialize_sg(sg)
-            self.calc_Tpc(self.sg)
+            self.calc_Tpc(sg=sg, H2S=H2S, CO2=CO2, N2=N2, J=J, K=K)
         else:
             self.Tpc = Tpc
 
-    def _initialize_Ppc(self, Ppc, sg=None):
+    def _initialize_Ppc(self, Ppc, sg=None, H2S=None, CO2=None, N2=None, J=None, K=None, Tpc=None):
         if Ppc is None:
-            self._initialize_sg(sg)
-            self.calc_Ppc(sg)
+            self.calc_Ppc(sg=sg, H2S=H2S, CO2=CO2, N2=N2, J=J, K=K, Tpc=Tpc)
         else:
             self.Ppc = Ppc
 
@@ -251,14 +341,26 @@ class zfactor(object):
         else:
             self.Ppc_corrected = Ppc_corrected
 
+    def _initialize_J(self, J, sg=None, H2S=None, CO2=None, N2=None):
+        if J is None:
+            self.calc_J(sg, H2S, CO2, N2)
+        else:
+            self.J = J
+
+    def _initialize_K(self, K, sg=None, H2S=None, CO2=None, N2=None):
+        if K is None:
+            self.calc_K(sg, H2S, CO2, N2)
+        else:
+            self.K = K
+
     def _initialize_Pr(self, Pr, P=None, Ppc_corrected=None, sg=None, Tpc=None, Ppc=None, e_correction=None, Tpc_corrected=None,
-                       A=None, B=None, H2S=None, CO2=None):
+                       A=None, B=None, H2S=None, CO2=None, N2=None):
         if Pr is None:
             self.calc_Pr(P, Ppc_corrected, sg, Tpc, Ppc, e_correction, Tpc_corrected, A, B, H2S, CO2)
         else:
             self.Pr = Pr
 
-    def _initialize_Tr(self, Tr, T, Tpc_corrected=None, sg=None, Tpc=None, e_correction=None, A=None, B=None, H2S=None, CO2=None):
+    def _initialize_Tr(self, Tr, T, Tpc_corrected=None, sg=None, Tpc=None, e_correction=None, A=None, B=None, H2S=None, CO2=None, N2=None):
         if Tr is None:
             self.calc_Tr(T, Tpc_corrected, sg, Tpc, e_correction, A, B, H2S, CO2)
         else:
@@ -266,18 +368,12 @@ class zfactor(object):
 
     def _initialize_A(self, A, H2S=None, CO2=None):
         if A is None:
-            if H2S is None:
-                H2S = 0
-            if CO2 is None:
-                CO2 = 0
             self.calc_A(H2S, CO2)
         else:
             self.A = A
 
     def _initialize_B(self, B, H2S=None):
         if B is None:
-            if H2S is None:
-                H2S = 0
             self.calc_B(H2S)
         else:
             self.B = B
@@ -292,28 +388,71 @@ class zfactor(object):
             raise TypeError("Missing a required argument, T (gas temperature, °F)")
         self._T = _T
 
-    def _redundant_argument_check_Tpc_corrected(self, sg=None, Tpc=None, H2S=None, CO2=None, A=None, B=None, e_correction=None):
-        if sg is not None:
-            raise TypeError("Redundant arguments Tpc_corrected and sg, input only one of them")
-        if Tpc is not None:
-            raise TypeError("Redundant arguments Tpc_corrected and Tpc, input only one of them")
-        if H2S is not None:
-            raise TypeError("Redundant arguments Tpc_corrected and H2S, input only one of them")
-        if CO2 is not None:
-            raise TypeError("Redundant arguments Tpc_corrected and CO2, input only one of them")
-        if A is not None:
-            raise TypeError("Redundant arguments Tpc_corrected and A, input only one of them")
-        if B is not None:
-            raise TypeError("Redundant arguments Tpc_corrected and B, input only one of them")
-        if e_correction is not None:
-            raise TypeError("Redundant arguments Tpc_corrected and e_correction, input only one of them")
+    def _check_invalid_mode(self, mode):
+        if mode != 'sutton' and mode != 'piper':
+            raise TypeError("Invalid optional argument, mode (calculation method), input either 'sutton', 'piper', or None (default='sutton')")
+        self.mode = mode
 
-    def _redundant_argument_check_Ppc_corrected(self, sg=None, Ppc=None, Tpc_corrected=None, Tpc=None, H2S=None, CO2=None, A=None, B=None, e_correction=None):
-        if Ppc is not None:
-            raise TypeError("Redundant arguments Ppc_corrected and Ppc, input only one of them")
+    def _redundant_argument_check_Tpc_corrected(self, Tpc_corrected=None, sg=None, Tpc=None, e_correction=None, A=None, B=None, H2S=None, CO2=None):
         if Tpc_corrected is not None:
-            raise TypeError("Redundant arguments Ppc_corrected and Tpc_corrected, input only one of them")
-        self._redundant_argument_check_Tpc_corrected(sg=sg, Tpc=Tpc, H2S=H2S, CO2=CO2, A=A, B=B, e_correction=e_correction)
+            if sg is not None:
+                raise TypeError("Redundant arguments Tpc_corrected and sg, input only one of them")
+            if Tpc is not None:
+                raise TypeError("Redundant arguments Tpc_corrected and Tpc, input only one of them")
+            if H2S is not None:
+                raise TypeError("Redundant arguments Tpc_corrected and H2S, input only one of them")
+            if CO2 is not None:
+                raise TypeError("Redundant arguments Tpc_corrected and CO2, input only one of them")
+            if A is not None:
+                raise TypeError("Redundant arguments Tpc_corrected and A, input only one of them")
+            if B is not None:
+                raise TypeError("Redundant arguments Tpc_corrected and B, input only one of them")
+            if e_correction is not None:
+                raise TypeError("Redundant arguments Tpc_corrected and e_correction, input only one of them")
+
+    def _redundant_argument_check_Ppc_corrected(self, Ppc_corrected=None, sg=None, Tpc=None, Ppc=None, e_correction=None, Tpc_corrected=None, A=None, B=None, H2S=None, CO2=None):
+        if Ppc_corrected is not None:
+            if Ppc is not None:
+                raise TypeError("Redundant arguments Ppc_corrected and Ppc, input only one of them")
+            if Tpc_corrected is not None:
+                raise TypeError("Redundant arguments Ppc_corrected and Tpc_corrected, input only one of them")
+            self._redundant_argument_check_Tpc_corrected(sg=sg, Tpc=Tpc, H2S=H2S, CO2=CO2, A=A, B=B, e_correction=e_correction)
+
+    def _redundant_argument_check_J_or_K(self, sg=None, J=None, K=None, H2S=None, CO2=None, N2=None):
+        if J is not None:
+            if sg is not None:
+                raise TypeError("Redundant arguments J and sg, input only one of them")
+            if H2S is not None:
+                raise TypeError("Redundant arguments J and H2S, input only one of them")
+            if CO2 is not None:
+                raise TypeError("Redundant arguments J and CO2, input only one of them")
+            if N2 is not None:
+                raise TypeError("Redundant arguments J and N2, input only one of them")
+        if K is not None:
+            if sg is not None:
+                raise TypeError("Redundant arguments K and sg, input only one of them")
+            if H2S is not None:
+                raise TypeError("Redundant arguments K and H2S, input only one of them")
+            if CO2 is not None:
+                raise TypeError("Redundant arguments K and CO2, input only one of them")
+            if N2 is not None:
+                raise TypeError("Redundant arguments K and N2, input only one of them")
+
+    def _redundant_argument_check_Tpc(self, Tpc=None, sg=None, H2S=None, CO2=None, N2=None, J=None, K=None):
+        if self.mode == 'piper':
+            if Tpc is not None:
+                if sg is not None:
+                    raise TypeError("Redundant arguments Tpc and sg, input only one of them")
+                if J is not None:
+                    raise TypeError("Redundant arguments Tpc and J, input only one of them")
+                if K is not None:
+                    raise TypeError("Redundant arguments Tpc and K, input only one of them")
+                self._redundant_argument_check_J_or_K(J=J, K=K, H2S=H2S, CO2=CO2, N2=N2)
+
+    def _redundant_argument_check_Ppc(self, Ppc=None, Tpc=None, sg=None, H2S=None, CO2=None, N2=None, J=None, K=None):
+        if self.mode == 'piper':
+            if Ppc is not None:
+                self._redundant_argument_check_Tpc(Tpc=Tpc, sg=sg, H2S=H2S, CO2=CO2, N2=N2, J=J, K=K)
 
     def quickstart(self):
 
