@@ -8,17 +8,72 @@ class Test_zfactor(unittest.TestCase):
     def test_calc_Ppc(self):
         instance = zfactor()
 
-        result = instance.calc_Ppc(sg=0.7)
+        result1 = instance.calc_Ppc(sg=0.7)
+        self.assertAlmostEqual(result1, 663.2869, places=3)
 
-        self.assertAlmostEqual(result, 663.2869, places=3)
+        print('calc_Ppc passed (mode="sutton")')
 
-        print('calc_Ppc passed')
+        instance = zfactor('piper')
+
+        result2 = instance.calc_Ppc(Tpc=373.6, J=0.4995)
+        self.assertAlmostEqual(result2, 747.9479, places=3)
+
+        result3 = instance.calc_Ppc(K=13.661, J=0.4995)
+        self.assertAlmostEqual(result3, 747.9869, places=3)
+
+        result4 = instance.calc_Ppc(sg=0.7, CO2=0.1, H2S=0.07)
+        self.assertAlmostEqual(result4, 747.9468, places=3)
+
+        print('calc_Ppc passed (mode="piper")')
 
     def test_calc_Tpc(self):
         instance = zfactor()
-        result = instance.calc_Tpc(sg=0.7)
-        self.assertAlmostEqual(result, 377.59, places=1)
-        print('calc_Tpc passed')
+
+        result1 = instance.calc_Tpc(sg=0.7)
+        self.assertAlmostEqual(result1, 377.59, places=1)
+
+        print('calc_Tpc passed (mode="sutton")')
+
+        instance = zfactor('piper')
+
+        result2 = instance.calc_Tpc(K=13.661, J=0.4995)
+        self.assertAlmostEqual(result2, 373.6194, places=3)
+
+        result3 = instance.calc_Tpc(sg=0.7, H2S=0.07, CO2=0.1, N2=0)
+        self.assertAlmostEqual(result3, 373.6152, places=3)
+
+        result4 = instance.calc_Tpc(sg=0.7, H2S=0.07, CO2=0.1, N2=0.5)
+        self.assertAlmostEqual(result4, 232.7950, places=3)
+
+        print('calc_Tpc passed (mode="piper")')
+
+    def test_calc_J(self):
+        instance = zfactor(mode='piper')
+
+        result1 = instance.calc_J(sg=0.7, H2S=0.07, CO2=0.1, N2=0)
+        self.assertAlmostEqual(result1, 0.4995, places=3)
+
+        result2 = instance.calc_J(sg=0.7, H2S=0.07, CO2=0.1, N2=0.1)
+        self.assertAlmostEqual(result2, 0.4690, places=3)
+
+        result3 = instance.calc_J(sg=0.7)
+        self.assertAlmostEqual(result3, 0.5622, places=3)
+
+        print('calc_J passed')
+
+    def test_calc_K(self):
+        instance = zfactor(mode='piper')
+
+        result1 = instance.calc_K(sg=0.7, H2S=0.07, CO2=0.1, N2=0)
+        self.assertAlmostEqual(result1, 13.6612, places=3)
+
+        result2 = instance.calc_K(sg=0.7, H2S=0.07, CO2=0.1, N2=0.1)
+        self.assertAlmostEqual(result2, 12.7270, places=3)
+
+        result3 = instance.calc_K(sg=0.7)
+        self.assertAlmostEqual(result3, 14.4508, places=3)
+
+        print('calc_K passed')
 
     def test_calc_A(self):
         instance = zfactor()
@@ -135,7 +190,20 @@ class Test_zfactor(unittest.TestCase):
         result4 = instance.calc_Tr(Tpc_corrected=10, T=10)
         self.assertAlmostEqual(result4, 46.967, places=2)
 
-        print('calc_Pr passed')
+        print('calc_Tr passed (mode="sutton")')
+
+        instance = zfactor(mode='piper')
+
+        result5 = instance.calc_Tr(T=75, sg=0.7, H2S=0.07, CO2=0.1)
+        self.assertAlmostEqual(result5, 1.4310, places=3)
+
+        result6 = instance.calc_Tr(T=75, K=13.661, J=0.4995)
+        self.assertAlmostEqual(result6, 1.4310, places=3)
+
+        result7 = instance.calc_Tr(T=75, Tpc=373.6)
+        self.assertAlmostEqual(result7, 1.4311, places=3)
+
+        print('calc_Tr passed (mode="piper")')
 
     def test_calc_Pr(self):
         instance = zfactor()
@@ -152,7 +220,26 @@ class Test_zfactor(unittest.TestCase):
         result4 = instance.calc_Pr(Ppc=663.29, P=2010, e_correction=21.278, H2S=0.07, Tpc=377.59)
         self.assertAlmostEqual(result4, 3.1995, places=3)
 
-        print('calc_Pr passed')
+        print('calc_Pr passed (mode="sutton")')
+
+        instance = zfactor(mode='piper')
+
+        result5 = instance.calc_Pr(Tpc=373.6, sg=0.7, P=2010, H2S=0.07, CO2=0.1)
+        self.assertAlmostEqual(result5, 2.6874, places=3)
+
+        result6 = instance.calc_Pr(Ppc=747.9, P=2010)
+        self.assertAlmostEqual(result6, 2.6875, places=3)
+
+        result7 = instance.calc_Pr(P=2010, K=4, J=2)
+        self.assertAlmostEqual(result7, 502.5, places=1)
+
+        result8 = instance.calc_Pr(P=2010, sg=2)
+        self.assertAlmostEqual(result8, 3.8686, places=3)
+
+        result9 = instance.calc_Pr(P=2010, Tpc=373.6, J=0.4995)
+        self.assertAlmostEqual(result9, 2.6873, places=3)
+
+        print('calc_Pr passed (mode="piper")')
 
     def test_calc_Z(self):
         instance = zfactor()
@@ -163,7 +250,26 @@ class Test_zfactor(unittest.TestCase):
         result2 = instance.calc_Z(P=2010, T=75, Ppc=747.9, Tpc=373.6)
         self.assertAlmostEqual(result2, 0.7418, places=3)
 
-        print('calc_Z passed')
+        print('calc_Z passed (mode="sutton")')
+
+        instance = zfactor(mode='piper')
+
+        result3 = instance.calc_Z(P=2010, T=75, sg=0.7, H2S=0.07, CO2=0.1, N2=0.1)
+        self.assertAlmostEqual(result3, 0.8093, places=3)
+
+        result4 = instance.calc_Z(P=2010, T=75, sg=0.7, H2S=0.07, CO2=0.1)
+        self.assertAlmostEqual(result4, 0.7418, places=3)
+
+        result5 = instance.calc_Z(P=2010, T=75, K=13.661, J=0.4995)
+        self.assertAlmostEqual(result5, 0.7418, places=3)
+
+        result6 = instance.calc_Z(P=2010, T=75, Tpc=373.6, J=0.4995)
+        self.assertAlmostEqual(result6, 0.7418, places=3)
+
+        result7 = instance.calc_Z(P=2010, T=75, Pr=2.687, K=13.661, J=0.4995)
+        self.assertAlmostEqual(result7, 0.7418, places=3)
+
+        print('calc_Z passed (mode="piper")')
 
 
 if __name__ == '__main__':
