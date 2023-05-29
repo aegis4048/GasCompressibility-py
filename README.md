@@ -1,4 +1,4 @@
-[![Build Status](https://app.travis-ci.com/aegis4048/GasCompressibiltiy-py.svg?branch=main)](https://app.travis-ci.com/aegis4048/GasCompressibiltiy-py)
+[![Build Status](https://app.travis-ci.com/aegis4048/GasCompressibiltiy-py.svg?branch=master)](https://app.travis-ci.com/aegis4048/GasCompressibiltiy-py)
 
 <img src="/misc/intro_image.png" alt="Alt text" title="Optional title">
 

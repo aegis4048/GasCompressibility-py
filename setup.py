@@ -1,5 +1,3 @@
-
-'''
 from setuptools import setup, find_packages
 
 
@@ -28,4 +26,3 @@ setup(
     ],
     url='https://github.com/aegis4048/GasCompressibiltiy-py/tree/main',
 )
-'''
