@@ -75,7 +75,7 @@ class zfactor(object):
         return str(self.Z)
 
     def __repr__(self):
-        return '1'
+        return '<GasCompressibilityFactor object. Mixing Rule = %s>' % self.mode
 
     def calc_Fahrenheit_to_Rankine(self, _T):
         if _T is None:
