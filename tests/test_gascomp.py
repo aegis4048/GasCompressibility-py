@@ -269,9 +269,13 @@ class Test_zfactor(unittest.TestCase):
         result7 = instance.calc_Z(P=2010, T=75, Pr=2.687, K=13.661, J=0.4995)
         self.assertAlmostEqual(result7, 0.7418, places=3)
 
+        result8 = instance.calc_Z(P=2010, T=75, Ppc=663.28, Tpc=377.59)
+        self.assertAlmostEqual(result8, 0.7207, places=3)
+
         print('calc_Z passed (mode="piper")')
 
 
 if __name__ == '__main__':
     unittest.main()
 
+# Documents\GasCompressibiltiyFactor-py>python -m unittest tests.test_gascomp

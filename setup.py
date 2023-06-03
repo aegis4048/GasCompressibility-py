@@ -30,6 +30,7 @@ setup(
         "misc",
         ".travis.yml",
         "notes.py",
+        "custom.svg",
     ]),
     description='GasCompressibility-py is a Python library for calculating the gas compressibility factor, Z, based on real gas law.',
     long_description=readme(),
