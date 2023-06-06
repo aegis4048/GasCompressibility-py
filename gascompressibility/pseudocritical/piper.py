@@ -45,43 +45,20 @@ class piper(object):
 
         self.Z = None
 
-        self._calc_from = None
-
+        self._first_caller_name = None
+        self._first_caller_keys = {}
+        self._first_caller_kwargs = {}
+        self._first_caller_is_saved = False
     def __str__(self):
         return str(self.Z)
 
     def __repr__(self):
         return '<GasCompressibilityFactor object. Mixing Rule = %s>' % self.mode
 
-    def _store_first_caller_name(self, func_name):
-        if self._calc_from is None:
-            self._calc_from = func_name
-
-    """pseudo-critical temperature (°R)"""
-    def calc_Tpc(self, sg=None, H2S=None, CO2=None, N2=None, J=None, K=None):
-        self._store_first_caller_name(inspect.stack()[0][3])
-        self._redundant_argument_check_J_or_K(sg=sg, J=J, K=K, H2S=H2S, CO2=CO2, N2=N2)
-        self._initialize_J(J, sg=sg, H2S=H2S, CO2=CO2, N2=N2)
-        self._initialize_K(K, sg=sg, H2S=H2S, CO2=CO2, N2=N2)
-        self.Tpc = self.K ** 2 / self.J
-        return self.Tpc
-
-    """pseudo-critical pressure (psi)"""
-    def calc_Ppc(self, sg=None, H2S=None, CO2=None, N2=None, J=None, K=None, Tpc=None):
-        self._store_first_caller_name(inspect.stack()[0][3])
-        if self.mode == 'sutton':
-            self._initialize_sg(sg, calc_from='Ppc')
-            self.Ppc = 756.8 - 131.07 * self.sg - 3.6 * self.sg ** 2
-        else:  # mode = 'piper'
-            self._initialize_Tpc(Tpc, sg=sg, H2S=H2S, CO2=CO2, N2=N2, J=J, K=K)
-            self._initialize_J(J, sg=sg, H2S=H2S, CO2=CO2, N2=N2)
-            self.Ppc = self.Tpc / self.J
-        return self.Ppc
-
     """Stewart-Burkhardt-VOO parameter J, (°R/psia)"""
     def calc_J(self, sg=None, H2S=None, CO2=None, N2=None):
-        self._store_first_caller_name(inspect.stack()[0][3])
-        self._initialize_sg(sg, calc_from='J')
+        self._set_first_caller_attributes(inspect.stack()[0][3], locals())
+        self._initialize_sg(sg)
         self._initialize_H2S(H2S)
         self._initialize_CO2(CO2)
         self._initialize_N2(N2)
@@ -95,8 +72,8 @@ class piper(object):
 
     """Stewart-Burkhardt-VOO parameter K, (°R/psia^0.5)"""
     def calc_K(self, sg=None, H2S=None, CO2=None, N2=None):
-        self._store_first_caller_name(inspect.stack()[0][3])
-        self._initialize_sg(sg, calc_from='K')
+        self._set_first_caller_attributes(inspect.stack()[0][3], locals())
+        self._initialize_sg(sg)
         self._initialize_H2S(H2S)
         self._initialize_CO2(CO2)
         self._initialize_N2(N2)
@@ -108,10 +85,31 @@ class piper(object):
                  - 3.2191 * self.sg ** 2
         return self.K
 
-    """pseudo-reduced temperature (°R)"""
+    """pseudo-critical temperature (°R)"""
+    def calc_Tpc(self, sg=None, H2S=None, CO2=None, N2=None, J=None, K=None, ignore_conflict=False):
+        self._set_first_caller_attributes(inspect.stack()[0][3], locals())
+        self._initialize_J(J, sg=sg, H2S=H2S, CO2=CO2, N2=N2)
+        self._initialize_K(K, sg=sg, H2S=H2S, CO2=CO2, N2=N2)
+        self.Tpc = self.K ** 2 / self.J
+        return self.Tpc
 
-    def calc_Tr(self, T=None, Tpc_corrected=None, sg=None, Tpc=None, e_correction=None, A=None, B=None, H2S=None,
-                CO2=None, N2=None, J=None, K=None):
+    """pseudo-critical pressure (psi)"""
+    def calc_Ppc(self, sg=None, H2S=None, CO2=None, N2=None, J=None, K=None, Tpc=None, ignore_conflict=False):
+        self._set_first_caller_attributes(inspect.stack()[0][3], locals())
+
+        if Tpc is not None:
+            if K is not None:
+                raise TypeError('%s() has conflicting keyword arguments "%s" and "%s"' % (self._first_caller_name, 'Tpc', 'K'))
+            self.Tpc = Tpc  # skips self._check_conflicting_arguments() when initializing Tpc
+        else:
+            self._initialize_Tpc(Tpc, sg=sg, H2S=H2S, CO2=CO2, N2=N2, J=J, K=K)
+
+        self._initialize_J(J, sg=sg, H2S=H2S, CO2=CO2, N2=N2)
+        self.Ppc = self.Tpc / self.J
+        return self.Ppc 
+
+    """pseudo-reduced temperature (°R)"""
+    def calc_Tr(self, T=None, sg=None, Tpc=None, H2S=None, CO2=None, N2=None, J=None, K=None, ignore_conflict=False):
         self._store_first_caller_name(inspect.stack()[0][3])
         self._initialize_T(T)
         if self.mode == 'sutton':
@@ -128,8 +126,7 @@ class piper(object):
 
     """pseudo-reduced pressure (psi)"""
 
-    def calc_Pr(self, P=None, Ppc_corrected=None, sg=None, Tpc=None, Ppc=None, e_correction=None, Tpc_corrected=None,
-                A=None, B=None, H2S=None, CO2=None, N2=None, J=None, K=None):
+    def calc_Pr(self, P=None, sg=None, Tpc=None, Ppc=None, H2S=None, CO2=None, N2=None, J=None, K=None, ignore_conflict=False):
         self._store_first_caller_name(inspect.stack()[0][3])
         self._initialize_P(P)
         if self.mode == 'sutton':
@@ -196,21 +193,60 @@ class piper(object):
 
         return self.Z
 
-    def _initialize_sg(self, sg, calc_from=None):
+    def _set_first_caller_attributes(self, func_name, func_kwargs):
+        """
+        Helper function to set properties related to the first function called (first in the call stack).
+        This function doesn't do anything for 'calc_...()' functions called inside the first function.
+        For exmaple, if `calc_Pr()' is called, this function is skipped for 'calc_Ppc()' function which is
+        triggered inside `calc_Pr()`.
+        :param func_name: string
+            ex1) func_name= "calc_Tr",
+            ex2) func_name = "calc_Pr",
+        :param func_kwargs: dictionary kwarg parameters passed to 'func_name'
+            ex1) func_kwargs = {'self': ...some_string, 'sg': None, 'Tpc': 377.59, 'H2S': 0.07, 'CO2': 0.1}
+            ex2) func_kwargs = {'self': ...some_string, 'sg': 0.6, 'Tpc': None, 'H2S': 0.07, 'CO2': 0.1}
+        """
+        if not self._first_caller_is_saved:
+            func_kwargs = {key: value for key, value in func_kwargs.items() if key != 'self'}
+            if 'ignore_conflict' in func_kwargs:
+
+                if func_kwargs['ignore_conflict'] is False:
+                    """
+                    This modification is needed for self._check_conflicting_arguments(). 
+                    The exception in self._check_conflicting_arguments() compares if "kwarg is not None"
+                    The default 'ignore_conflict' is a boolean object, so comparing if "ignore_conflict is not None"
+                    will raise type error 
+                    """
+                    func_kwargs['ignore_conflict'] = None
+
+            self._first_caller_name = func_name
+            self._first_caller_kwargs = func_kwargs
+            self._first_caller_is_saved = True
+        else:
+            pass
+
+    def _check_conflicting_arguments(self, func, calculated_var):
+        """
+        :param func: string
+            ex1) func_name = "calc_Tpc",
+            ex2) func_name = "calc_J",
+        :param calculated_var: string
+            ex1) calculated_var = 'Tpc'
+            ex1) calculated_var = 'J'
+        """
+        args = inspect.getfullargspec(func).args[1:]  # arg[0] = 'self'
+        for arg in args:
+            if self._first_caller_kwargs[arg] is not None:
+                raise TypeError('%s() has conflicting keyword arguments "%s" and "%s"' % (self._first_caller_name, calculated_var, arg))
+
+    def _initialize_sg(self, sg):
         if sg is None:
-            if calc_from == 'Ppc' or calc_from == 'Tpc':
+            if self._first_caller_name == 'calc_J' or self._first_caller_name == 'calc_K':
                 raise TypeError("Missing a required argument, sg (specific gravity, dimensionless)")
-            elif calc_from == 'J' or calc_from == 'K':
-                raise TypeError("Missing a required argument, sg (specific gravity, dimensionless), or J "
-                                "(Stewart-Burkhardt-VOO parameter, °R/psia), or "
-                                "K (Stewart-Burkhardt-VOO parameter, °R/psia^0.5). "
-                                "The calculation requires either "
-                                "1) both J and K provided without sg, or "
-                                "2) only sg provided without both J and K")
             else:
                 raise TypeError("Missing a required arguments, sg (specific gravity, dimensionless), or Tpc "
                                 "(pseudo-critical temperature, °R) or Ppc (pseudo-critical pressure, psia). "
-                                "Either both Tpc and Ppc must be inputted, or sg needs to be inputted. "
+                                "Either both Tpc and Ppc must be inputted, or only sg needs to be inputted. "
                                 "Both Tpc and Ppc can be computed from sg")
         else:
             self.sg = sg
@@ -225,7 +261,8 @@ class piper(object):
         if T is None:
             raise TypeError("Missing a required argument, T (gas temperature, °F)")
         else:
-            self.T = self.calc_Fahrenheit_to_Rankine(T)
+            self.T_f = T
+            self.T = calc_Fahrenheit_to_Rankine(T)
 
     def _initialize_H2S(self, H2S):
         if H2S is None:
@@ -245,43 +282,48 @@ class piper(object):
         else:
             self.N2 = N2
 
-    def _initialize_Tpc(self, Tpc, sg=None, H2S=None, CO2=None, N2=None, J=None, K=None):
-        if Tpc is None:
-            self.calc_Tpc(sg=sg, H2S=H2S, CO2=CO2, N2=N2, J=J, K=K)
-        else:
-            self.Tpc = Tpc
-
-    def _initialize_Ppc(self, Ppc, sg=None, H2S=None, CO2=None, N2=None, J=None, K=None, Tpc=None):
-        if Ppc is None:
-            self.calc_Ppc(sg=sg, H2S=H2S, CO2=CO2, N2=N2, J=J, K=K, Tpc=Tpc)
-        else:
-            self.Ppc = Ppc
-
     def _initialize_J(self, J, sg=None, H2S=None, CO2=None, N2=None):
         if J is None:
-            self.calc_J(sg, H2S, CO2, N2)
+            self.calc_J(sg=sg, H2S=H2S, CO2=CO2, N2=N2)
         else:
             self.J = J
 
     def _initialize_K(self, K, sg=None, H2S=None, CO2=None, N2=None):
         if K is None:
-            self.calc_K(sg, H2S, CO2, N2)
+            self.calc_K(sg=sg, H2S=H2S, CO2=CO2, N2=N2)
         else:
             self.K = K
 
-    def _initialize_Pr(self, Pr, P=None, Ppc_corrected=None, sg=None, Tpc=None, Ppc=None, e_correction=None,
-                       Tpc_corrected=None,
-                       A=None, B=None, H2S=None, CO2=None, N2=None):
-        if Pr is None:
-            self.calc_Pr(P, Ppc_corrected, sg, Tpc, Ppc, e_correction, Tpc_corrected, A, B, H2S, CO2)
+    def _initialize_Tpc(self, Tpc, sg=None, H2S=None, CO2=None, N2=None, J=None, K=None, ignore_conflict=False):
+        if Tpc is None:
+            self.calc_Tpc(sg=sg, H2S=H2S, CO2=CO2, N2=N2, J=J, K=K, ignore_conflict=ignore_conflict)
         else:
+            if ignore_conflict is False:
+                self._check_conflicting_arguments(self.calc_Tpc, 'Tpc')
+            self.Tpc = Tpc
+
+    def _initialize_Ppc(self, Ppc, sg=None, H2S=None, CO2=None, N2=None, J=None, K=None, Tpc=None, ignore_conflict=False):
+        if Ppc is None:
+            self.calc_Ppc(sg=sg, H2S=H2S, CO2=CO2, N2=N2, J=J, K=K, Tpc=Tpc, ignore_conflict=ignore_conflict)
+        else:
+            if ignore_conflict is False:
+                self._check_conflicting_arguments(self.calc_Ppc, 'Ppc')
+            self.Ppc = Ppc
+
+    def _initialize_Pr(self, Pr, P=None, sg=None, Tpc=None, Ppc=None, H2S=None, CO2=None, N2=None, J=None, K=None, ignore_conflict=False):
+        if Pr is None:
+            self.calc_Pr(P=P, sg=sg, Tpc=Tpc, Ppc=Ppc, H2S=H2S, CO2=CO2, N2=N2, J=J, K=K, ignore_conflict=ignore_conflict)
+        else:
+            if ignore_conflict is False:
+                self._check_conflicting_arguments(self.calc_Pr, 'Pr')
             self.Pr = Pr
 
-    def _initialize_Tr(self, Tr, T, Tpc_corrected=None, sg=None, Tpc=None, e_correction=None, A=None, B=None, H2S=None,
-                       CO2=None, N2=None):
+    def _initialize_Tr(self, Tr, T, sg=None, Tpc=None, H2S=None, CO2=None, N2=None, J=None, K=None, ignore_conflict=False):
         if Tr is None:
-            self.calc_Tr(T, Tpc_corrected, sg, Tpc, e_correction, A, B, H2S, CO2)
+            self.calc_Tr(T=T, sg=sg, Tpc=Tpc, H2S=H2S, CO2=CO2, N2=N2, J=J, K=K, ignore_conflict=ignore_conflict)
         else:
+            if ignore_conflict is False:
+                self._check_conflicting_arguments(self.calc_Tr, 'Tr')
             self.Tr = Tr
 
     def _check_missing_P(self, P):
@@ -298,71 +340,6 @@ class piper(object):
         if mode != 'sutton' and mode != 'piper':
             raise TypeError("Invalid optional argument, mode (calculation method), input either 'sutton', 'piper'")
         self.mode = mode
-
-    def _redundant_argument_check_Tpc_corrected(self, Tpc_corrected=None, sg=None, Tpc=None, e_correction=None, A=None,
-                                                B=None, H2S=None, CO2=None):
-        if Tpc_corrected is not None:
-            if sg is not None:
-                raise TypeError("Redundant arguments Tpc_corrected and sg, input only one of them")
-            if Tpc is not None:
-                raise TypeError("Redundant arguments Tpc_corrected and Tpc, input only one of them")
-            if H2S is not None:
-                raise TypeError("Redundant arguments Tpc_corrected and H2S, input only one of them")
-            if CO2 is not None:
-                raise TypeError("Redundant arguments Tpc_corrected and CO2, input only one of them")
-            if A is not None:
-                raise TypeError("Redundant arguments Tpc_corrected and A, input only one of them")
-            if B is not None:
-                raise TypeError("Redundant arguments Tpc_corrected and B, input only one of them")
-            if e_correction is not None:
-                raise TypeError("Redundant arguments Tpc_corrected and e_correction, input only one of them")
-
-    def _redundant_argument_check_Ppc_corrected(self, Ppc_corrected=None, sg=None, Tpc=None, Ppc=None,
-                                                e_correction=None, Tpc_corrected=None, A=None, B=None, H2S=None,
-                                                CO2=None):
-        if Ppc_corrected is not None:
-            if Ppc is not None:
-                raise TypeError("Redundant arguments Ppc_corrected and Ppc, input only one of them")
-            if Tpc_corrected is not None:
-                raise TypeError("Redundant arguments Ppc_corrected and Tpc_corrected, input only one of them")
-            self._redundant_argument_check_Tpc_corrected(sg=sg, Tpc=Tpc, H2S=H2S, CO2=CO2, A=A, B=B,
-                                                         e_correction=e_correction)
-
-    def _redundant_argument_check_J_or_K(self, sg=None, J=None, K=None, H2S=None, CO2=None, N2=None):
-        if J is not None:
-            if sg is not None:
-                raise TypeError("Redundant arguments J and sg, input only one of them")
-            if H2S is not None:
-                raise TypeError("Redundant arguments J and H2S, input only one of them")
-            if CO2 is not None:
-                raise TypeError("Redundant arguments J and CO2, input only one of them")
-            if N2 is not None:
-                raise TypeError("Redundant arguments J and N2, input only one of them")
-        if K is not None:
-            if sg is not None:
-                raise TypeError("Redundant arguments K and sg, input only one of them")
-            if H2S is not None:
-                raise TypeError("Redundant arguments K and H2S, input only one of them")
-            if CO2 is not None:
-                raise TypeError("Redundant arguments K and CO2, input only one of them")
-            if N2 is not None:
-                raise TypeError("Redundant arguments K and N2, input only one of them")
-
-    def _redundant_argument_check_Tpc(self, Tpc=None, sg=None, H2S=None, CO2=None, N2=None, J=None, K=None):
-        if self.mode == 'piper':
-            if Tpc is not None:
-                if sg is not None:
-                    raise TypeError("Redundant arguments Tpc and sg, input only one of them")
-                if J is not None:
-                    raise TypeError("Redundant arguments Tpc and J, input only one of them")
-                if K is not None:
-                    raise TypeError("Redundant arguments Tpc and K, input only one of them")
-                self._redundant_argument_check_J_or_K(J=J, K=K, H2S=H2S, CO2=CO2, N2=N2)
-
-    def _redundant_argument_check_Ppc(self, Ppc=None, Tpc=None, sg=None, H2S=None, CO2=None, N2=None, J=None, K=None):
-        if self.mode == 'piper':
-            if Ppc is not None:
-                self._redundant_argument_check_Tpc(Tpc=Tpc, sg=sg, H2S=H2S, CO2=CO2, N2=N2, J=J, K=K)
 
     def quickstart(self):
 

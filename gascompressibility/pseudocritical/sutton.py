@@ -182,7 +182,7 @@ class sutton:
         This function doesn't do anything for 'calc_...()' functions called inside the first function.
         For exmaple, if `calc_Ppc_corrected()' is called, this function is skipped for 'calc_Ppc()' function which is
         triggered inside `calc_Ppc_corrected()`.
-        :param func_name:
+        :param func_name: string
             ex1) func_name= "calc_Tpc_corrected",
             ex2) func_name = "calc_Ppc_corrected",
         :param func_kwargs: kwarg parameters passed to 'func_name'
@@ -209,6 +209,14 @@ class sutton:
             pass
 
     def _check_conflicting_arguments(self, func, calculated_var):
+        """
+        :param func: string
+            ex1) func_name = "calc_Tpc",
+            ex2) func_name = "calc_J",
+        :param calculated_var: string
+            ex1) calculated_var = 'Tpc'
+            ex1) calculated_var = 'J'
+        """
         args = inspect.getfullargspec(func).args[1:]  # arg[0] = 'self'
         for arg in args:
             if self._first_caller_kwargs[arg] is not None:
@@ -221,7 +229,7 @@ class sutton:
             else:
                 raise TypeError("Missing a required arguments, sg (specific gravity, dimensionless), or Tpc "
                                 "(pseudo-critical temperature, °R) or Ppc (pseudo-critical pressure, psia). "
-                                "Either both Tpc and Ppc must be inputted, or sg needs to be inputted. "
+                                "Either both Tpc and Ppc must be inputted, or only sg needs to be inputted. "
                                 "Both Tpc and Ppc can be computed from sg")
         else:
             self.sg = sg
@@ -254,14 +262,14 @@ class sutton:
     # The first argument A will always be None when called. However, still defining it for structural consistency
     def _initialize_A(self, A, H2S=None, CO2=None):
         if A is None:
-            self._calc_A(H2S, CO2)
+            self._calc_A(H2S=H2S, CO2=CO2)
         else:
             self.A = A
 
     # The first argument B will always be None when called. However, still defining it for structural consistency
     def _initialize_B(self, B, H2S=None):
         if B is None:
-            self._calc_B(H2S)
+            self._calc_B(H2S=H2S)
         else:
             self.B = B
 
