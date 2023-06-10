@@ -31,6 +31,7 @@ setup(
         ".travis.yml",
         "notes.py",
         "custom.svg",
+        "testruns.ipynb",
     ]),
     description='GasCompressibility-py is a Python library for calculating the gas compressibility factor, Z, based on real gas law.',
     long_description=readme(),
@@ -40,7 +41,7 @@ setup(
     author='Eric Kim',
     author_email='aegis4048@gmail.com',
     install_requires=[
-        'numpy>=1.21.5',
+        'numpy>=1.22',
         'scipy>=1.9.1',
         'matplotlib>=3.5.1',
     ],

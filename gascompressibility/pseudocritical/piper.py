@@ -23,7 +23,7 @@ class piper(object):
         self._check_invalid_mode(self.mode)  # prevent user modification of self.mode
 
         self.sg = None
-        self._T = None
+        self.T_f = None
         self.T = None
         self.P = None
         self.H2S = None
@@ -49,6 +49,9 @@ class piper(object):
         self._first_caller_keys = {}
         self._first_caller_kwargs = {}
         self._first_caller_is_saved = False
+
+
+
     def __str__(self):
         return str(self.Z)
 
@@ -88,8 +91,8 @@ class piper(object):
     """pseudo-critical temperature (°R)"""
     def calc_Tpc(self, sg=None, H2S=None, CO2=None, N2=None, J=None, K=None, ignore_conflict=False):
         self._set_first_caller_attributes(inspect.stack()[0][3], locals())
-        self._initialize_J(J, sg=sg, H2S=H2S, CO2=CO2, N2=N2)
-        self._initialize_K(K, sg=sg, H2S=H2S, CO2=CO2, N2=N2)
+        self._initialize_J(J, sg=sg, H2S=H2S, CO2=CO2, N2=N2, ignore_conflict=ignore_conflict)
+        self._initialize_K(K, sg=sg, H2S=H2S, CO2=CO2, N2=N2, ignore_conflict=ignore_conflict)
         self.Tpc = self.K ** 2 / self.J
         return self.Tpc
 
@@ -102,49 +105,32 @@ class piper(object):
                 raise TypeError('%s() has conflicting keyword arguments "%s" and "%s"' % (self._first_caller_name, 'Tpc', 'K'))
             self.Tpc = Tpc  # skips self._check_conflicting_arguments() when initializing Tpc
         else:
-            self._initialize_Tpc(Tpc, sg=sg, H2S=H2S, CO2=CO2, N2=N2, J=J, K=K)
+            self._initialize_Tpc(Tpc, sg=sg, H2S=H2S, CO2=CO2, N2=N2, J=J, K=K, ignore_conflict=ignore_conflict)
 
-        self._initialize_J(J, sg=sg, H2S=H2S, CO2=CO2, N2=N2)
+        self._initialize_J(J, sg=sg, H2S=H2S, CO2=CO2, N2=N2, ignore_conflict=ignore_conflict)
         self.Ppc = self.Tpc / self.J
-        return self.Ppc 
+        return self.Ppc
 
     """pseudo-reduced temperature (°R)"""
     def calc_Tr(self, T=None, sg=None, Tpc=None, H2S=None, CO2=None, N2=None, J=None, K=None, ignore_conflict=False):
-        self._store_first_caller_name(inspect.stack()[0][3])
+        self._set_first_caller_attributes(inspect.stack()[0][3], locals())
         self._initialize_T(T)
-        if self.mode == 'sutton':
-            self._redundant_argument_check_Tpc_corrected(sg=sg, Tpc=Tpc, H2S=H2S, CO2=CO2, A=A, B=B,
-                                                         e_correction=e_correction)
-            self._initialize_Tpc_corrected(Tpc_corrected, sg=sg, Tpc=Tpc, e_correction=e_correction, A=A, B=B, H2S=H2S,
-                                           CO2=CO2)
-            self.Tr = self.T / self.Tpc_corrected
-        else:  # mode == 'piper'
-            self._redundant_argument_check_Tpc(Tpc=Tpc, sg=sg, H2S=H2S, CO2=CO2, N2=N2, J=J, K=K)
-            self._initialize_Tpc(Tpc, sg=sg, H2S=H2S, CO2=CO2, N2=N2, J=J, K=K)
-            self.Tr = self.T / self.Tpc
+        self._initialize_Tpc(Tpc, sg=sg, H2S=H2S, CO2=CO2, N2=N2, J=J, K=K, ignore_conflict=ignore_conflict)
+        self.Tr = self.T / self.Tpc
         return self.Tr
 
     """pseudo-reduced pressure (psi)"""
 
     def calc_Pr(self, P=None, sg=None, Tpc=None, Ppc=None, H2S=None, CO2=None, N2=None, J=None, K=None, ignore_conflict=False):
-        self._store_first_caller_name(inspect.stack()[0][3])
+        self._set_first_caller_attributes(inspect.stack()[0][3], locals())
         self._initialize_P(P)
-        if self.mode == 'sutton':
-            self._redundant_argument_check_Ppc_corrected(sg=sg, Ppc=Ppc, Tpc_corrected=Tpc_corrected, Tpc=Tpc, H2S=H2S,
-                                                         CO2=CO2, A=None, B=None, e_correction=e_correction)
-            self._initialize_Ppc_corrected(Ppc_corrected, sg=sg, Tpc=Tpc, Ppc=Ppc, e_correction=e_correction,
-                                           Tpc_corrected=Tpc_corrected, A=A, B=B, H2S=H2S, CO2=CO2)
-            self.Pr = self.P / self.Ppc_corrected
-        else:  # mode == 'piper'
-            self._redundant_argument_check_Ppc(Ppc=Ppc, Tpc=Tpc, sg=sg, H2S=H2S, CO2=CO2, N2=N2, J=J, K=K)
-            self._initialize_Ppc(Ppc, sg=sg, H2S=H2S, CO2=CO2, N2=N2, J=J, K=K, Tpc=Tpc)
-            self.Pr = self.P / self.Ppc
+        self._initialize_Ppc(Ppc, sg=sg, H2S=H2S, CO2=CO2, N2=N2, J=J, K=K, Tpc=Tpc, ignore_conflict=ignore_conflict)
+        self.Pr = self.P / self.Ppc
         return self.Pr
 
     """
     Objective function to miminize for Newton-Raphson nonlinear solver - Z factor calculation
     """
-
     def _calc_Z(self, z):
 
         self.A1 = 0.3265
@@ -181,15 +167,15 @@ class piper(object):
         ) * np.exp(-self.A11 * ((0.27 * self.Pr) / (z * self.Tr)) ** 2) - z
 
     """Newton-Raphson nonlinear solver"""
+    def calc_Z(self, guess=0.9, sg=None, P=None, T=None, Tpc=None, Ppc=None, H2S=None, CO2=None, N2=None, Tr=None, Pr=None, J=None, K=None, ignore_conflict=False, newton_kwargs=None):
+        self._set_first_caller_attributes(inspect.stack()[0][3], locals())
+        self._initialize_Tr(Tr, T=T, sg=sg, Tpc=Tpc, H2S=H2S, CO2=CO2, N2=N2, J=J, K=K, ignore_conflict=ignore_conflict)
+        self._initialize_Pr(Pr, P=P, sg=sg, Tpc=Tpc, Ppc=Ppc, H2S=H2S, CO2=CO2, N2=N2, J=J, K=K, ignore_conflict=ignore_conflict)
 
-    def calc_Z(self, guess=0.9, sg=None, P=None, T=None, Tpc=None, Ppc=None, Tpc_corrected=None, Ppc_corrected=None,
-               A=None, B=None, H2S=None, CO2=None, N2=None, Tr=None, Pr=None, e_correction=None, **kwargs):
-        self._store_first_caller_name(inspect.stack()[0][3])
-        self._initialize_Pr(Pr, P=P, Ppc_corrected=Ppc_corrected, sg=sg, Tpc=Tpc, Ppc=Ppc, e_correction=e_correction,
-                            Tpc_corrected=Tpc_corrected, A=A, B=B, H2S=H2S, CO2=CO2)
-        self._initialize_Tr(Tr, T, Tpc_corrected=Tpc_corrected, sg=sg, Tpc=Tpc, e_correction=e_correction, A=A, B=B,
-                            H2S=H2S, CO2=CO2)
-        self.Z = optimize.newton(self._calc_Z, guess, **kwargs)
+        if newton_kwargs is None:
+            self.Z = optimize.newton(self._calc_Z, guess)
+        else:
+            self.Z = optimize.newton(self._calc_Z, guess, **newton_kwargs)
 
         return self.Z
 
@@ -282,16 +268,20 @@ class piper(object):
         else:
             self.N2 = N2
 
-    def _initialize_J(self, J, sg=None, H2S=None, CO2=None, N2=None):
+    def _initialize_J(self, J, sg=None, H2S=None, CO2=None, N2=None, ignore_conflict=None):
         if J is None:
             self.calc_J(sg=sg, H2S=H2S, CO2=CO2, N2=N2)
         else:
+            if ignore_conflict is False:
+                self._check_conflicting_arguments(self.calc_J, 'J')
             self.J = J
 
-    def _initialize_K(self, K, sg=None, H2S=None, CO2=None, N2=None):
+    def _initialize_K(self, K, sg=None, H2S=None, CO2=None, N2=None, ignore_conflict=None):
         if K is None:
             self.calc_K(sg=sg, H2S=H2S, CO2=CO2, N2=N2)
         else:
+            if ignore_conflict is False:
+                self._check_conflicting_arguments(self.calc_K, 'K')
             self.K = K
 
     def _initialize_Tpc(self, Tpc, sg=None, H2S=None, CO2=None, N2=None, J=None, K=None, ignore_conflict=False):
@@ -325,16 +315,6 @@ class piper(object):
             if ignore_conflict is False:
                 self._check_conflicting_arguments(self.calc_Tr, 'Tr')
             self.Tr = Tr
-
-    def _check_missing_P(self, P):
-        if P is None:
-            raise TypeError("Missing a required argument, P (gas pressure, psia)")
-        self.P = P
-
-    def _check_missing_T(self, _T):
-        if _T is None:
-            raise TypeError("Missing a required argument, T (gas temperature, °F)")
-        self._T = _T
 
     def _check_invalid_mode(self, mode):
         if mode != 'sutton' and mode != 'piper':
