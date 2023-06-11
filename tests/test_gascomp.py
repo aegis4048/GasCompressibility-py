@@ -691,6 +691,11 @@ class Test_sutton(unittest.TestCase):
 
         print('calc_Z_models passed (model="londono")')
 
+        result = calc_Z(model="kareem", Pr=3.1995, Tr=1.5006)
+        self.assertAlmostEqual(result, 0.7667, places=3)
+
+        print('calc_Z_models passed (model="kareem")')
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -2,7 +2,7 @@ import numpy as np
 
 """
 Londono, F.E., Archer, R.A., and Blasingame, T.A.: "Simplified Correlations for Hydrocarbon Gas Viscosity and Gas 
-Density — Validation and Correlation of Behavior Using a Large-Scale Database," paper SPE 75721 ()
+Density — Validation and Correlation of Behavior Using a Large-Scale Database," paper SPE 75721 (2005)
 
 https://onepetro.org/SPEGTS/proceedings/02GTS/All-02GTS/SPE-75721-MS/135705
 """
