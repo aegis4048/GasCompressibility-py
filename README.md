@@ -82,7 +82,7 @@ Tr            = 1.5005661019949397
 
 The package currently supports 2 ways to compute pseudo-critical properties:
 
-* `zfactor(mode='sutton)` : Sutton's gas specific gravity correlation<sup>[[1]](#ref-1)</sup> and Wichert-Aziz correction for $`H_{2}S`$ and $`CO_{2}`$ fractions<sup>[[2]](#ref-2)</sup> (default mode)
+* `zfactor(mode='sutton)` : Sutton's gas specific gravity correlation<sup>[[1]](#ref-1)</sup> and DAK correction for $`H_{2}S`$ and $`CO_{2}`$ fractions<sup>[[2]](#ref-2)</sup> (default mode)
 
 * `zfactor(mode='piper')` : Piper's gas specific gravity correlation for naturally occuring petroleum gases with  $`H_{2}S`$, $`CO_{2}`$ and $`N_{2}`$ fractions<sup>[[3]](#ref-3)</sup>
 
@@ -111,7 +111,7 @@ Different calculation modes involve different inputs and middle step variables. 
 - `zfactor(mode='sutton)` 
 	- `Ppc`: pseudo-critical pressure, $`P_{pc}`$ (psia)
 	- `Tpc`: pseudo-critical temperature, $`T_{pc}`$ (°R)
-	- `e_correction`: Wichert-Aziz deviation parameter, $`\epsilon`$ (°R)
+	- `e_correction`: DAK deviation parameter, $`\epsilon`$ (°R)
 	- `Ppc_corrected`: sour-gas-corrected pseudo-critical pressure, $`P^{'}_{pc}`$ (psia)
 	- `Tpc_corrected`: sour-gas-corrected pseudo-critical temperature, $`T^{'}_{pc}`$ (°R)
 	- `Pr`: reduced pressure, $`P_{r}`$ (psia)

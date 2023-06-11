@@ -3,14 +3,8 @@ from scipy import optimize
 import matplotlib.pyplot as plt
 import inspect
 
-
-try:
-    from gascompressibility.utilities.utilities import calc_Fahrenheit_to_Rankine
-except:
-    pass
-
-
-
+from gascompressibility.utilities.utilities import calc_Fahrenheit_to_Rankine
+from gascompressibility.z_correlation.z_helper import get_z_model
 
 
 class sutton:
@@ -129,57 +123,23 @@ class sutton:
         self.Pr = self.P / self.Ppc_corrected
         return self.Pr
 
-    """
-    Objective function to miminize for Newton-Raphson nonlinear solver - Z factor calculation
-    """
-    def _calc_Z(self, z):
-
-        self.A1 = 0.3265
-        self.A2 = -1.0700
-        self.A3 = -0.5339
-        self.A4 = 0.01569
-        self.A5 = -0.05165
-        self.A6 = 0.5475
-        self.A7 = -0.7361
-        self.A8 = 0.1844
-        self.A9 = 0.1056
-        self.A10 = 0.6134
-        self.A11 = 0.7210
-
-        return 1 + (
-                self.A1 +
-                self.A2 / self.Tr +
-                self.A3 / self.Tr ** 3 +
-                self.A4 / self.Tr ** 4 +
-                self.A5 / self.Tr ** 5
-        ) * (0.27 * self.Pr) / (z * self.Tr) + (
-                self.A6 +
-                self.A7 / self.Tr +
-                self.A8 / self.Tr ** 2
-        ) * ((0.27 * self.Pr) / (z * self.Tr)) ** 2 - self.A9 * (
-                self.A7 / self.Tr +
-                self.A8 / self.Tr ** 2
-        ) * ((0.27 * self.Pr) / (z * self.Tr)) ** 5 + self.A10 * (
-                1 +
-                self.A11 * ((0.27 * self.Pr) / (z * self.Tr)) ** 2
-        ) * (
-                ((0.27 * self.Pr) / (z * self.Tr)) ** 2 /
-                self.Tr ** 3
-        ) * np.exp(-self.A11 * ((0.27 * self.Pr) / (z * self.Tr)) ** 2) - z
-
     """Newton-Raphson nonlinear solver"""
-    def calc_Z(self, guess=0.9, sg=None, P=None, T=None, Tpc=None, Ppc=None, Tpc_corrected=None, Ppc_corrected=None,
-               H2S=None, CO2=None, Tr=None, Pr=None, e_correction=None, ignore_conflict=False, newton_kwargs=None):
+    def calc_Z(self, sg=None, P=None, T=None, Tpc=None, Ppc=None, Tpc_corrected=None, Ppc_corrected=None,
+               H2S=None, CO2=None, Tr=None, Pr=None, e_correction=None, ignore_conflict=False,
+               model='DAK', guess=0.9, newton_kwargs=None):
+
         self._set_first_caller_attributes(inspect.stack()[0][3], locals())
         self._initialize_Tr(Tr, T, Tpc_corrected=Tpc_corrected, sg=sg, Tpc=Tpc, e_correction=e_correction, H2S=H2S,
                             CO2=CO2, ignore_conflict=ignore_conflict)
         self._initialize_Pr(Pr, P=P, Ppc_corrected=Ppc_corrected, sg=sg, Tpc=Tpc, Ppc=Ppc, e_correction=e_correction,
                             Tpc_corrected=Tpc_corrected, H2S=H2S, CO2=CO2, ignore_conflict=ignore_conflict)
 
+        z_model = get_z_model(model=model)
+
         if newton_kwargs is None:
-            self.Z = optimize.newton(self._calc_Z, guess)
+            self.Z = optimize.newton(z_model, guess, args=(self.Pr, self.Tr))
         else:
-            self.Z = optimize.newton(self._calc_Z, guess, **newton_kwargs)
+            self.Z = optimize.newton(z_model, guess, args=(self.Pr, self.Tr), **newton_kwargs)
 
         return self.Z
 

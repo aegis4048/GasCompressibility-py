@@ -32,6 +32,7 @@ setup(
         "notes.py",
         "custom.svg",
         "testruns.ipynb",
+        "papers",
     ]),
     description='GasCompressibility-py is a Python library for calculating the gas compressibility factor, Z, based on real gas law.',
     long_description=readme(),

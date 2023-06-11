@@ -4,6 +4,7 @@ import sys
 sys.path.append('.')
 from gascompressibility import sutton
 from gascompressibility import piper
+from gascompressibility import calc_Z
 
 """ Test print script
 def tround(a, n):
@@ -674,9 +675,25 @@ class Test_sutton(unittest.TestCase):
 
         print('calc_Z passed (mode="piper")')
 
+    def test_calc_Z_models(self):
+        result = calc_Z(model="hall_yarborough", Pr=3.1995, Tr=1.5006, guess=0.9)
+        self.assertAlmostEqual(result, 0.7714, places=3)
+
+        print('calc_Z_models passed (model="hall_yarborough")')
+
+        result = calc_Z(model="DAK", Pr=3.1995, Tr=1.5006, guess=0.9)
+        self.assertAlmostEqual(result, 0.7730, places=3)
+
+        print('calc_Z_models passed (model="DAK")')
+
+        result = calc_Z(model="londono", Pr=3.1995, Tr=1.5006, guess=0.9)
+        self.assertAlmostEqual(result, 0.7754, places=3)
+
+        print('calc_Z_models passed (model="londono")')
+
 
 if __name__ == '__main__':
     unittest.main()
 
-# Documents\GasCompressibiltiyFactor-py>python -m unittest tests.test_gascomp2
+# Documents\GasCompressibiltiyFactor-py>python -m unittest tests.test_gascomp
 # python -m unittest discover .
