@@ -6,6 +6,9 @@ from gascompressibility import sutton
 from gascompressibility import piper
 from gascompressibility import calc_Z
 
+# Documents\GasCompressibiltiyFactor-py>python -m unittest tests.test_gascomp
+# python -m unittest discover .
+
 """ Test print script
 def tround(a, n):
     if a is not None:
@@ -422,7 +425,7 @@ class Test_sutton(unittest.TestCase):
 
     def test_calc_Pr(self):
         instance = sutton()
-        result = instance.calc_Pr(sg=0.7, P=2010, H2S=0.07, CO2=0.1)
+        result = instance.calc_Pr(sg=0.7, P=1995.3, H2S=0.07, CO2=0.1)
         self.assertEqual(instance.sg, 0.7)
         self.assertEqual(instance.P, 2010)
         self.assertEqual(instance.H2S, 0.07)
@@ -437,7 +440,7 @@ class Test_sutton(unittest.TestCase):
         self.assertAlmostEqual(instance.Pr, 3.1995, places=3)
 
         instance = sutton()
-        result = instance.calc_Pr(Ppc=663.29, Tpc=377.59, P=2010, H2S=0.07, CO2=0.1)
+        result = instance.calc_Pr(Ppc=663.29, Tpc=377.59, P=1995.3, H2S=0.07, CO2=0.1)
         self.assertEqual(instance.Ppc, 663.29)
         self.assertEqual(instance.Tpc, 377.59)
         self.assertEqual(instance.P, 2010)
@@ -451,14 +454,14 @@ class Test_sutton(unittest.TestCase):
         self.assertAlmostEqual(instance.Pr, 3.1995, places=3)
 
         instance = sutton()
-        result = instance.calc_Pr(Ppc_corrected=628.21, P=2010)
+        result = instance.calc_Pr(Ppc_corrected=628.21, P=1995.3)
         self.assertEqual(instance.Ppc_corrected, 628.21)
         self.assertEqual(instance.P, 2010)
         self.assertAlmostEqual(result, 3.1995, places=3)
         self.assertAlmostEqual(instance.Pr, 3.1996, places=3)
 
         instance = sutton()
-        result = instance.calc_Pr(Ppc=663.29, P=2010, e_correction=21.278, H2S=0.07, Tpc=377.59, ignore_conflict=True)
+        result = instance.calc_Pr(Ppc=663.29, P=1995.3, e_correction=21.278, H2S=0.07, Tpc=377.59, ignore_conflict=True)
         self.assertEqual(instance.Ppc, 663.29)
         self.assertEqual(instance.P, 2010)
         self.assertEqual(instance.e_correction, 21.278)
@@ -472,7 +475,7 @@ class Test_sutton(unittest.TestCase):
         print('calc_Pr passed (mode="sutton")')
 
         instance = piper()
-        result = instance.calc_Pr(Tpc=373.6, sg=0.7, P=2010, H2S=0.07, CO2=0.1)
+        result = instance.calc_Pr(Tpc=373.6, sg=0.7, P=1995.3, H2S=0.07, CO2=0.1)
         self.assertEqual(instance.Tpc, 373.6)
         self.assertEqual(instance.sg, 0.7)
         self.assertEqual(instance.P, 2010)
@@ -484,14 +487,14 @@ class Test_sutton(unittest.TestCase):
         self.assertAlmostEqual(instance.Pr, 2.6875, places=3)
 
         instance = piper()
-        result = instance.calc_Pr(Ppc=747.9, P=2010)
+        result = instance.calc_Pr(Ppc=747.9, P=1995.3)
         self.assertEqual(instance.Ppc, 747.9)
         self.assertEqual(instance.P, 2010)
         self.assertAlmostEqual(result, 2.6875, places=3)
         self.assertAlmostEqual(instance.Pr, 2.6875, places=3)
 
         instance = piper()
-        result = instance.calc_Pr(P=2010, K=4, J=2)
+        result = instance.calc_Pr(P=1995.3, K=4, J=2)
         self.assertEqual(instance.K, 4)
         self.assertEqual(instance.J, 2)
         self.assertEqual(instance.P, 2010)
@@ -501,7 +504,7 @@ class Test_sutton(unittest.TestCase):
         self.assertAlmostEqual(instance.Pr, 502.5, places=3)
 
         instance = piper()
-        result = instance.calc_Pr(P=2010, sg=2)
+        result = instance.calc_Pr(P=1995.3, sg=2)
         self.assertEqual(instance.sg, 2)
         self.assertEqual(instance.P, 2010)
         self.assertAlmostEqual(result, 3.8686, places=3)
@@ -512,7 +515,7 @@ class Test_sutton(unittest.TestCase):
         self.assertAlmostEqual(instance.Pr, 3.8686, places=3)
 
         instance = piper()
-        result = instance.calc_Pr(P=2010, Tpc=373.6, J=0.4995)
+        result = instance.calc_Pr(P=1995.3, Tpc=373.6, J=0.4995)
         self.assertEqual(instance.Tpc, 373.6)
         self.assertEqual(instance.J, 0.4995)
         self.assertEqual(instance.P, 2010)
@@ -524,7 +527,7 @@ class Test_sutton(unittest.TestCase):
 
     def test_calc_Z(self):
         instance = sutton()
-        result = instance.calc_Z(P=2010, T=75, CO2=0.1, H2S=0.07, sg=0.7)
+        result = instance.calc_Z(P=1995.3, T=75, CO2=0.1, H2S=0.07, sg=0.7)
         self.assertEqual(instance.P, 2010)
         self.assertEqual(instance.T_f, 75)
         self.assertEqual(instance.CO2, 0.1)
@@ -542,7 +545,7 @@ class Test_sutton(unittest.TestCase):
         self.assertAlmostEqual(instance.Z, 0.7731, places=3)
 
         instance = sutton()
-        result = instance.calc_Z(P=2010, T=75, Ppc=747.9, Tpc=373.6)
+        result = instance.calc_Z(P=1995.3, T=75, Ppc=747.9, Tpc=373.6)
         self.assertEqual(instance.P, 2010)
         self.assertEqual(instance.T_f, 75)
         self.assertEqual(instance.Ppc, 747.9)
@@ -569,7 +572,7 @@ class Test_sutton(unittest.TestCase):
         self.assertAlmostEqual(instance.Z, 0.7731, places=3)
 
         instance = sutton()
-        result = instance.calc_Z(Tpc_corrected=356.31, sg=0.7, P=2010, T=75, H2S=0.07, CO2=0.1, ignore_conflict=True)
+        result = instance.calc_Z(Tpc_corrected=356.31, sg=0.7, P=1995.3, T=75, H2S=0.07, CO2=0.1, ignore_conflict=True)
         self.assertEqual(instance.P, 2010)
         self.assertEqual(instance.T_f, 75)
         self.assertEqual(instance.H2S, 0.07)
@@ -588,7 +591,7 @@ class Test_sutton(unittest.TestCase):
         print('calc_Z passed (mode="sutton")')
 
         instance = piper()
-        result = instance.calc_Z(P=2010, T=75, sg=0.7, H2S=0.07, CO2=0.1, N2=0)
+        result = instance.calc_Z(P=1995.3, T=75, sg=0.7, H2S=0.07, CO2=0.1, N2=0)
         self.assertEqual(instance.P, 2010)
         self.assertEqual(instance.T_f, 75)
         self.assertEqual(instance.sg, 0.7)
@@ -606,7 +609,7 @@ class Test_sutton(unittest.TestCase):
         self.assertAlmostEqual(instance.Z, 0.7418, places=3)
 
         instance = piper()
-        result = instance.calc_Z(P=2010, T=75, sg=0.7, H2S=0.07, CO2=0.1, N2=0.1)
+        result = instance.calc_Z(P=1995.3, T=75, sg=0.7, H2S=0.07, CO2=0.1, N2=0.1)
         self.assertEqual(instance.P, 2010)
         self.assertEqual(instance.T_f, 75)
         self.assertEqual(instance.sg, 0.7)
@@ -624,7 +627,7 @@ class Test_sutton(unittest.TestCase):
         self.assertAlmostEqual(instance.Z, 0.8093, places=3)
 
         instance = piper()
-        result = instance.calc_Z(P=2010, T=75, K=13.661, J=0.4995)
+        result = instance.calc_Z(P=1995.3, T=75, K=13.661, J=0.4995)
         self.assertEqual(instance.P, 2010)
         self.assertEqual(instance.T_f, 75)
         self.assertEqual(instance.K, 13.661)
@@ -638,7 +641,7 @@ class Test_sutton(unittest.TestCase):
         self.assertAlmostEqual(instance.Z, 0.7418, places=3)
 
         instance = piper()
-        result = instance.calc_Z(P=2010, T=75, Tpc=373.6, J=0.4995, ignore_conflict=True)
+        result = instance.calc_Z(P=1995.3, T=75, Tpc=373.6, J=0.4995, ignore_conflict=True)
         self.assertEqual(instance.P, 2010)
         self.assertEqual(instance.T_f, 75)
         self.assertEqual(instance.Tpc, 373.6)
@@ -662,7 +665,7 @@ class Test_sutton(unittest.TestCase):
         self.assertAlmostEqual(instance.Z, 0.7418, places=3)
 
         instance = piper()
-        result = instance.calc_Z(P=2010, T=75, Ppc=663.28, Tpc=377.59, ignore_conflict=True)
+        result = instance.calc_Z(P=1995.3, T=75, Ppc=663.28, Tpc=377.59, ignore_conflict=True)
         self.assertEqual(instance.P, 2010)
         self.assertEqual(instance.T_f, 75)
         self.assertEqual(instance.Ppc, 663.28)
@@ -676,29 +679,47 @@ class Test_sutton(unittest.TestCase):
         print('calc_Z passed (mode="piper")')
 
     def test_calc_Z_models(self):
-        result = calc_Z(model="hall_yarborough", Pr=3.1995, Tr=1.5006, guess=0.9)
-        self.assertAlmostEqual(result, 0.7714, places=3)
 
+        result = calc_Z(zmodel="hall_yarborough", Pr=3.1995, Tr=1.5006, guess=0.9)
+        self.assertAlmostEqual(result, 0.7714, places=3)
         print('calc_Z_models passed (model="hall_yarborough")')
 
-        result = calc_Z(model="DAK", Pr=3.1995, Tr=1.5006, guess=0.9)
+        result = calc_Z(zmodel="DAK", Pr=3.1995, Tr=1.5006, guess=0.9)
         self.assertAlmostEqual(result, 0.7730, places=3)
-
         print('calc_Z_models passed (model="DAK")')
 
-        result = calc_Z(model="londono", Pr=3.1995, Tr=1.5006, guess=0.9)
+        result = calc_Z(zmodel="londono", Pr=3.1995, Tr=1.5006, guess=0.9)
         self.assertAlmostEqual(result, 0.7754, places=3)
-
         print('calc_Z_models passed (model="londono")')
 
-        result = calc_Z(model="kareem", Pr=3.1995, Tr=1.5006)
+        result = calc_Z(zmodel="kareem", Pr=3.1995, Tr=1.5006)
         self.assertAlmostEqual(result, 0.7667, places=3)
-
         print('calc_Z_models passed (model="kareem")')
+
+        result = calc_Z(sg=0.7, H2S=0.07, CO2=0.1, P=2010-14.7, T=75, guess=0.9, zmodel='DAK', pmodel='sutton')
+        self.assertAlmostEqual(result, 0.7730, places=3)
+
+        result = calc_Z(sg=0.7, H2S=0.07, CO2=0.1, N2=0.1, P=2010-14.7, guess=0.9, T=75, zmodel='DAK', pmodel='piper')
+        self.assertAlmostEqual(result, 0.8093, places=3)
+
+        result = calc_Z(sg=0.7, H2S=0.07, CO2=0.1, P=2010-14.7, T=75, zmodel='kareem', pmodel='piper')
+        self.assertAlmostEqual(result, 0.7319, places=3)
+
+        result = calc_Z(sg=0.7, H2S=0.07, CO2=0.1, P=2010-14.7, T=75, N2=0.1, zmodel='hall_yarborough', pmodel='piper')
+        self.assertAlmostEqual(result, 0.8084, places=3)
+
+        with self.assertRaises(TypeError):
+            calc_Z(sg=0.7, H2S=0.07, CO2=0.1, P=2010 - 14.7, Pr=1.5, T=75, zmodel='DAK', pmodel='sutton')
+
+        with self.assertRaises(TypeError):
+            calc_Z(sg=0.7, H2S=0.07, CO2=0.1, N2=0.1, P=2010 - 14.7, T=75, guess=0.9, zmodel='kareem', pmodel='piper')
+
+
 
 
 if __name__ == '__main__':
     unittest.main()
+
 
 # Documents\GasCompressibiltiyFactor-py>python -m unittest tests.test_gascomp
 # python -m unittest discover .

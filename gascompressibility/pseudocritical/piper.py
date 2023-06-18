@@ -4,7 +4,8 @@ import matplotlib.pyplot as plt
 import inspect
 
 from gascompressibility.utilities.utilities import calc_Fahrenheit_to_Rankine
-from gascompressibility.z_correlation.z_helper import get_z_model
+from gascompressibility.utilities.utilities import calc_psig_to_psia
+from gascompressibility.z_correlation import z_helper
 
 
 class piper(object):
@@ -133,14 +134,8 @@ class piper(object):
         self._set_first_caller_attributes(inspect.stack()[0][3], locals())
         self._initialize_Tr(Tr, T=T, sg=sg, Tpc=Tpc, H2S=H2S, CO2=CO2, N2=N2, J=J, K=K, ignore_conflict=ignore_conflict)
         self._initialize_Pr(Pr, P=P, sg=sg, Tpc=Tpc, Ppc=Ppc, H2S=H2S, CO2=CO2, N2=N2, J=J, K=K, ignore_conflict=ignore_conflict)
-
-        z_model = get_z_model(model=model)
-
-        if newton_kwargs is None:
-            self.Z = optimize.newton(z_model, guess, args=(self.Pr, self.Tr))
-        else:
-            self.Z = optimize.newton(z_model, guess, args=(self.Pr, self.Tr), **newton_kwargs)
-
+        Z = z_helper.calc_Z(Pr=self.Pr, Tr=self.Tr, zmodel=model, guess=guess)
+        self.Z = Z
         return self.Z
 
     def _set_first_caller_attributes(self, func_name, func_kwargs):
@@ -203,15 +198,16 @@ class piper(object):
 
     def _initialize_P(self, P):
         if P is None:
-            raise TypeError("Missing a required argument, P (gas pressure, psia)")
+            raise TypeError("Missing a required argument, P (gas pressure, psig)")
         else:
-            self.P = P
+            self.P_a = P  # psia
+            self.P = calc_psig_to_psia(P)
 
     def _initialize_T(self, T):
         if T is None:
             raise TypeError("Missing a required argument, T (gas temperature, °F)")
         else:
-            self.T_f = T
+            self.T_f = T  # °F
             self.T = calc_Fahrenheit_to_Rankine(T)
 
     def _initialize_H2S(self, H2S):

@@ -38,7 +38,7 @@ def kareem(Pr=None, Tr=None):
     D = a10 * t * np.exp(a11 * (1 - t) ** 2)
     """
     Notes: 
-    When Pr = 3.0153, Tr = 1.6155, the calulated values for E, F, and G does not agree with the sample calculation
+    When Pr = 3.0153, Tr = 1.6155, the calculated values for E, F, and G does not agree with the sample calculation
     presented in the original paper. 
     
     Python codes:        Paper sample calculation:
@@ -49,14 +49,29 @@ def kareem(Pr=None, Tr=None):
     After many checks and hand-calculation, I concluded that the author made some mistakes while writing up his sample
     calculation steps. 
     
-    Long-story short: this python implementation of the model is safe to use. 
     """
     E = a12 * t + a13 * t ** 2 + a14 * t ** 3
     F = a15 * t + a16 * t ** 2 + a17 * t ** 3
     G = a18 + a19 * t
 
+    #E = 6.56232
+    #F = -17.08860
+    #G = 3.80547
+
     y = (D * Pr) / (
             (1 + A ** 2) / C - (A ** 2 * B) / C ** 3
     )
 
+    #print('t = ', t)
+    #print('A = ', A)
+    #print('B = ', B)
+    #print('C = ', C)
+    #print('D = ', D)
+    #print('E = ', E)
+    #print('F = ', F)
+    #print('G = ', G)
+    #print('y = ', y)
+
     return (D * Pr * (1 + y + y ** 2 - y ** 3)) / ((D * Pr + E * y ** 2 - F * y ** G) * (1 - y) ** 3)
+
+#print(kareem(Pr=3.0153, Tr=1.6155))

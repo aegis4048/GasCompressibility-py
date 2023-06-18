@@ -21,7 +21,7 @@ def classifiers():
 
 setup(
     name='gascompressibility',
-    version='0.0.3',
+    version='0.1.1',
     packages=find_packages(exclude=[
         "tutorials",
         "LICENSE",
@@ -51,4 +51,6 @@ setup(
 
 
 # python setup.py sdist bdist_wheel
+# python -m twine upload --skip-existing dist/*
+
 # python -m twine upload --skip-existing --repository testpypi dist/*
