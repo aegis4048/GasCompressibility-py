@@ -43,16 +43,15 @@ class piper(object):
         self.Pr = None
 
         self.ps_props = {
-            'Tpc': self.Tpc,
-            'Ppc': self.Ppc,
-            'J': self.J,
-            'K': self.K,
-            'Tr': self.Tr,
-            'Pr': self.Pr,
+            'Tpc': None,
+            'Ppc': None,
+            'J': None,
+            'K': None,
+            'Tr': None,
+            'Pr': None,
         }
 
         self._first_caller_name = None
-        self._first_caller_keys = {}
         self._first_caller_kwargs = {}
         self._first_caller_is_saved = False
 
@@ -63,7 +62,6 @@ class piper(object):
         return str(self.ps_props)
 
     def calc_J(self, sg=None, H2S=None, CO2=None, N2=None):
-
         """
         Calculates the Stewart-Burkhardt-VOO parameter J, (°R/psia)
 
@@ -154,7 +152,7 @@ class piper(object):
         K : float
             SBV parameter, K, (°R/psia^0.5)
         ignore_conflict : bool
-            set this to True to force usage of input variables instead of calculated variables.
+            set this to True to override calculated variables with input keyword arguments.
         Returns
         -------
         float
@@ -188,7 +186,7 @@ class piper(object):
         Tpc : float
             pseudo-critical temperature, Tpc (°R)
         ignore_conflict : bool
-            set this to True to force usage of input variables instead of calculated variables.
+            set this to True to override calculated variables with input keyword arguments.
 
         Returns
         -------
@@ -231,7 +229,7 @@ class piper(object):
         K : float
             SBV parameter, K, (°R/psia^0.5)
         ignore_conflict : bool
-            set this to True to force usage of input variables instead of calculated variables.
+            set this to True to override calculated variables with input keyword arguments.
 
         Returns
         -------
@@ -268,7 +266,7 @@ class piper(object):
         K : float
             SBV parameter, K, (°R/psia^0.5)
         ignore_conflict : bool
-            set this to True to force usage of input variables instead of calculated variables.
+            set this to True to override calculated variables with input keyword arguments.
 
         Returns
         -------

@@ -281,6 +281,9 @@ class Test_sutton(unittest.TestCase):
         self.assertEqual(result, 300)
         self.assertAlmostEqual(instance.Tpc_corrected, 300, places=3)
 
+        with self.assertRaises(TypeError):
+            sutton().calc_Tpc_corrected(sg=0.7, Tpc=1)
+
         print('calc_Tpc_corrected passed')
 
     def test_calc_Ppc_corrected(self):
@@ -654,6 +657,7 @@ class Test_sutton(unittest.TestCase):
 
         with self.assertRaises(KeyError):
             calc_Z(sg=0.7, H2S=0.07, CO2=0.1, N2=0.1, P=2010 - 14.7, T=75, guess=0.9, zmodel='kareem', pmodel='piper')
+
 
 
 

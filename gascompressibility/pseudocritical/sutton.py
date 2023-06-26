@@ -31,17 +31,16 @@ class sutton:
         self.Pr = None
 
         self.ps_props = {
-            'Tpc': self.Tpc,
-            'Ppc': self.Ppc,
-            'e_correction': self.e_correction,
-            'Tpc_corrected': self.Tpc_corrected,
-            'Ppc_corrected': self.Ppc_corrected,
-            'Tr': self.Tr,
-            'Pr': self.Pr,
+            'Tpc': None,
+            'Ppc': None,
+            'e_correction': None,
+            'Tpc_corrected': None,
+            'Ppc_corrected': None,
+            'Tr': None,
+            'Pr': None,
         }
 
         self._first_caller_name = None
-        self._first_caller_keys = {}
         self._first_caller_kwargs = {}
         self._first_caller_is_saved = False
 
@@ -91,7 +90,7 @@ class sutton:
 
     def calc_Tpc_corrected(self, sg=None, Tpc=None, e_correction=None, H2S=None, CO2=None, ignore_conflict=False):
         self._set_first_caller_attributes(inspect.stack()[0][3], locals())
-        self._initialize_Tpc(Tpc, sg=sg)
+        self._initialize_Tpc(Tpc, sg=sg, ignore_conflict=ignore_conflict)
 
         # Correction is not needed if no sour gas is present
         if e_correction is None and H2S is None and CO2 is None:
@@ -107,7 +106,7 @@ class sutton:
     """ corrected pseudo-critical pressure (psi)"""
     def calc_Ppc_corrected(self, sg=None, Tpc=None, Ppc=None, e_correction=None, Tpc_corrected=None, H2S=None, CO2=None, ignore_conflict=False):
         self._set_first_caller_attributes(inspect.stack()[0][3], locals())
-        self._initialize_Ppc(Ppc, sg=sg)
+        self._initialize_Ppc(Ppc, sg=sg, ignore_conflict=ignore_conflict)
 
         # Correction is not needed if no sour gas is present
         if e_correction is None and H2S is None and CO2 is None and Tpc is None and Tpc_corrected is None:
@@ -115,7 +114,7 @@ class sutton:
             self.ps_props['Ppc_corrected'] = self.Ppc_corrected
             return self.Ppc_corrected
 
-        self._initialize_Tpc(Tpc, sg=sg)
+        self._initialize_Tpc(Tpc, sg=sg, ignore_conflict=ignore_conflict)
         self._initialize_B(B=None, H2S=H2S)
         self._initialize_e_correction(e_correction, H2S=H2S, CO2=CO2, ignore_conflict=ignore_conflict)
         self._initialize_Tpc_corrected(Tpc_corrected, sg=sg, Tpc=Tpc, e_correction=e_correction, H2S=H2S, CO2=CO2, ignore_conflict=ignore_conflict)
@@ -197,7 +196,7 @@ class sutton:
         args = inspect.getfullargspec(func).args[1:]  # arg[0] = 'self', args = arguments defined in "func"
         for arg in args:
             if self._first_caller_kwargs[arg] is not None:
-
+                # this is triggered in z_helper.py's calc_z() function
                 if self._first_caller_name == '_initialize_Tr_and_Pr':
                     raise TypeError('%s() has conflicting keyword arguments "%s" and "%s"' % ('calc_Z', calculated_var, arg))
 
@@ -255,16 +254,20 @@ class sutton:
         else:
             self.B = B
 
-    def _initialize_Tpc(self, Tpc, sg=None):
+    def _initialize_Tpc(self, Tpc, sg=None, ignore_conflict=None):
         if Tpc is None:
             self.calc_Tpc(sg=sg)
         else:
+            if ignore_conflict is False:
+                self._check_conflicting_arguments(self.calc_Tpc, 'Tpc')
             self.Tpc = Tpc
 
-    def _initialize_Ppc(self, Ppc, sg=None):
+    def _initialize_Ppc(self, Ppc, sg=None, ignore_conflict=None):
         if Ppc is None:
             self.calc_Ppc(sg=sg)
         else:
+            if ignore_conflict is False:
+                self._check_conflicting_arguments(self.calc_Ppc, 'Ppc')
             self.Ppc = Ppc
 
     def _initialize_e_correction(self, e_correction, H2S=None, CO2=None, ignore_conflict=False):

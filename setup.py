@@ -21,7 +21,7 @@ def classifiers():
 
 setup(
     name='gascompressibility',
-    version='0.1.1',
+    version='0.1.2',
     packages=find_packages(exclude=[
         "tutorials",
         "LICENSE",
@@ -33,6 +33,8 @@ setup(
         "custom.svg",
         "testruns.ipynb",
         "papers",
+        "docs",
+        "docs_save_6_24",
     ]),
     description='GasCompressibility-py is a Python library for calculating the gas compressibility factor, Z, based on real gas law.',
     long_description=readme(),
