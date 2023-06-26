@@ -21,11 +21,11 @@ zmodels_ks = '["DAK", "hall_yarborough", "londono", "kareem"]'
 pmodels_ks = '["sutton", "piper"]'
 
 
-def get_guess_constant():
+def _get_guess_constant():
     return 0.900000765321234598723486
 
 
-def get_z_model(model='DAK'):
+def _get_z_model(model='DAK'):
 
     if model not in models.keys():
         raise KeyError(
@@ -41,7 +41,7 @@ def _calc_Z_explicit_implicit_helper(Pr, Tr, zmodel_func, zmodel_str, guess, new
 
     # Explicit models
     if zmodel_str in ['kareem']:
-        if guess != get_guess_constant():
+        if guess != _get_guess_constant():
             raise KeyError('calc_Z(model="%s") got an unexpected argument "guess"' % zmodel_str)
         if newton_kwargs is not None:
             raise KeyError('calc_Z(model="%s") got an unexpected argument "newton_kwargs"' % zmodel_str)
@@ -62,9 +62,9 @@ def _calc_Z_explicit_implicit_helper(Pr, Tr, zmodel_func, zmodel_str, guess, new
 
 
 def calc_Z(sg=None, P=None, T=None, H2S=None, CO2=None, N2=None, Pr=None, Tr=None, pmodel='piper', zmodel='DAK',
-           guess=get_guess_constant(), newton_kwargs=None, ps_props=False, ignore_conflict=False, **kwargs):
+           guess=_get_guess_constant(), newton_kwargs=None, ps_props=False, ignore_conflict=False, **kwargs):
 
-    z_model = get_z_model(model=zmodel)
+    z_model = _get_z_model(model=zmodel)
 
     # Pr and Tr are already provided:
     if Pr is not None and Tr is not None:
@@ -79,7 +79,7 @@ def calc_Z(sg=None, P=None, T=None, H2S=None, CO2=None, N2=None, Pr=None, Tr=Non
 
     # Pr and Tr are NOT provided:
     if pmodel == 'piper':
-        pc_instance = piper.piper()
+        pc_instance = piper.piper()  # this import doesn't work on this file but it will work when imported from other files
         Tr, Pr = pc_instance._initialize_Tr_and_Pr(sg=sg, P=P, T=T, Tr=Tr, Pr=Pr, H2S=H2S, CO2=CO2, N2=N2, ignore_conflict=ignore_conflict, **kwargs)
     elif pmodel == 'sutton':
         if N2 is not None:

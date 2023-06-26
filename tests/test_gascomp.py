@@ -2,8 +2,8 @@ import unittest
 import sys
 
 sys.path.append('.')
-from gascompressibility import sutton
-from gascompressibility import piper
+from gascompressibility.pseudocritical import sutton
+from gascompressibility.pseudocritical import piper
 from gascompressibility import calc_Z
 
 # Documents\GasCompressibiltiyFactor-py>python -m unittest tests.test_gascomp

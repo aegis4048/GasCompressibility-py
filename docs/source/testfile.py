@@ -93,12 +93,10 @@ for key, val in a.items():
             print('   ' + method_w)
         i +=1
 
-
-
     a[key] = filtered_methods
 
-
 os.chdir(curdir)
+
 
 
 

@@ -16,5 +16,3 @@ piper module
    piper.piper.calc_Ppc
    piper.piper.calc_Tr
    piper.piper.calc_Pr
-   piper.piper.calc_Z
-   piper.piper.quickstart

@@ -3,7 +3,7 @@
 # This file only contains a selection of the most common options. For a full
 # list see the documentation:
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
-import os, shutil, sys, glob
+import os, shutil, sys, glob, ast
 
 
 def replace_line(w_detect=None, w_replace=None, f_loc=None, f_extension='*.rst'):
@@ -36,6 +36,9 @@ def copy_misc_to_static():
     misc_dir = os.getcwd()
     shutil.copytree(misc_dir, newdir, dirs_exist_ok=True)
     os.chdir(curdir)
+
+
+
 
 
 # -- Path setup --------------------------------------------------------------
@@ -91,22 +94,24 @@ extensions = [
 ################## Run "html make" with True once, and then change to False and run again ########################
 
 generate_rsts = False
-autosummary_generate = False
 
 try:
     curdir = os.getcwd()
     os.chdir("..")
     shutil.rmtree(os.getcwd() + '\\build\\html')
+    print('\\build\\html remove succeeded')
 except:
-    pass
+    print('\\build\\html remove FAILED')
 
 if generate_rsts:
     autosummary_generate = True
 
     try:
         shutil.rmtree(os.getcwd() + '\\docs\\source\\functions')
+        print('\\docs\\source\\functions remove succeeded')
     except:
-        pass
+        print('\\docs\\source\\functions remove FAILED')
+
 else:
     autosummary_generate = False
     #replace_line(w_detect='__init__', w_replace='', f_loc="..\\source\\functions")

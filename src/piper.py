@@ -4,8 +4,6 @@ import inspect
 
 from gascompressibility.utilities.utilities import calc_Fahrenheit_to_Rankine
 from gascompressibility.utilities.utilities import calc_psig_to_psia
-from gascompressibility.z_correlation import z_helper
-
 
 """
 This is a piper module
@@ -17,15 +15,7 @@ class piper(object):
     An example docstring for a class definition.
     """
 
-    def __init__(
-            self,
-            Pc_H2S=1306,
-            Tc_H2S=672.3,
-            Pc_CO2=1071,
-            Tc_CO2=547.5,
-            Pc_N2=492.4,
-            Tc_N2=227.16,
-    ):
+    def __init__(self):
 
         self.mode = 'piper'
         self._check_invalid_mode(self.mode)  # prevent user modification of self.mode
@@ -38,12 +28,13 @@ class piper(object):
         self.CO2 = None
         self.N2 = None
 
-        self.Pc_H2S = Pc_H2S
-        self.Tc_H2S = Tc_H2S
-        self.Pc_CO2 = Pc_CO2
-        self.Tc_CO2 = Tc_CO2
-        self.Pc_N2 = Pc_N2
-        self.Tc_N2 = Tc_N2
+        self.Pc_H2S = 1306
+        self.Tc_H2S = 672.3
+        self.Pc_CO2 = 1071
+        self.Tc_CO2 = 547.5
+        self.Pc_N2 = 492.4
+        self.Tc_N2 = 227.16
+
         self.Tpc = None
         self.Ppc = None
         self.J = None
@@ -51,7 +42,14 @@ class piper(object):
         self.Tr = None
         self.Pr = None
 
-        self.Z = None
+        self.ps_props = {
+            'Tpc': self.Tpc,
+            'Ppc': self.Ppc,
+            'J': self.J,
+            'K': self.K,
+            'Tr': self.Tr,
+            'Pr': self.Pr,
+        }
 
         self._first_caller_name = None
         self._first_caller_keys = {}
@@ -59,10 +57,10 @@ class piper(object):
         self._first_caller_is_saved = False
 
     def __str__(self):
-        return str(self.Z)
+        return str(self.ps_props)
 
     def __repr__(self):
-        return '<GasCompressibilityFactor object. Mixing Rule = %s>' % self.mode
+        return str(self.ps_props)
 
     def calc_J(self, sg=None, H2S=None, CO2=None, N2=None):
 
@@ -98,6 +96,7 @@ class piper(object):
                  - 0.66026 * self.N2 * (self.Tc_N2 / self.Pc_N2) \
                  + 0.70729 * self.sg \
                  - 0.099397 * self.sg ** 2
+        self.ps_props['J'] = self.J
         return self.J
 
     def calc_K(self, sg=None, H2S=None, CO2=None, N2=None):
@@ -132,6 +131,7 @@ class piper(object):
                  - 0.91249 * self.N2 * (self.Tc_N2 / np.sqrt(self.Pc_N2)) \
                  + 17.438 * self.sg \
                  - 3.2191 * self.sg ** 2
+        self.ps_props['K'] = self.K
         return self.K
 
     """pseudo-critical temperature (°R)"""
@@ -164,6 +164,7 @@ class piper(object):
         self._initialize_J(J, sg=sg, H2S=H2S, CO2=CO2, N2=N2, ignore_conflict=ignore_conflict)
         self._initialize_K(K, sg=sg, H2S=H2S, CO2=CO2, N2=N2, ignore_conflict=ignore_conflict)
         self.Tpc = self.K ** 2 / self.J
+        self.ps_props['Tpc'] = self.Tpc
         return self.Tpc
 
     def calc_Ppc(self, sg=None, H2S=None, CO2=None, N2=None, J=None, K=None, Tpc=None, ignore_conflict=False):
@@ -206,6 +207,7 @@ class piper(object):
 
         self._initialize_J(J, sg=sg, H2S=H2S, CO2=CO2, N2=N2, ignore_conflict=ignore_conflict)
         self.Ppc = self.Tpc / self.J
+        self.ps_props['Ppc'] = self.Ppc
         return self.Ppc
 
     def calc_Tr(self, T=None, sg=None, Tpc=None, H2S=None, CO2=None, N2=None, J=None, K=None, ignore_conflict=False):
@@ -241,6 +243,7 @@ class piper(object):
         self._initialize_T(T)
         self._initialize_Tpc(Tpc, sg=sg, H2S=H2S, CO2=CO2, N2=N2, J=J, K=K, ignore_conflict=ignore_conflict)
         self.Tr = self.T / self.Tpc
+        self.ps_props['Tr'] = self.Tr
         return self.Tr
 
     """pseudo-reduced pressure (psi)"""
@@ -277,14 +280,15 @@ class piper(object):
         self._initialize_P(P)
         self._initialize_Ppc(Ppc, sg=sg, H2S=H2S, CO2=CO2, N2=N2, J=J, K=K, Tpc=Tpc, ignore_conflict=ignore_conflict)
         self.Pr = self.P / self.Ppc
+        self.ps_props['Pr'] = self.Pr
         return self.Pr
 
     """This function is used by z_helper.py's calc_Z function to check redundant arguments for Pr and Tr"""
-    def _initialize_Tr_and_Pr(self, sg=None, P=None, T=None, Tpc=None, Ppc=None, H2S=None, CO2=None, N2=None, Tr=None, Pr=None, J=None, K=None):
+    def _initialize_Tr_and_Pr(self, sg=None, P=None, T=None, Tpc=None, Ppc=None, H2S=None, CO2=None, N2=None, Tr=None, Pr=None, J=None, K=None, ignore_conflict=False):
         self._set_first_caller_attributes(inspect.stack()[0][3], locals())
-        self._initialize_Tr(Tr, T=T, sg=sg, Tpc=Tpc, H2S=H2S, CO2=CO2, N2=N2, J=J, K=K)
-        self._initialize_Pr(Pr, P=P, sg=sg, Tpc=Tpc, Ppc=Ppc, H2S=H2S, CO2=CO2, N2=N2, J=J, K=K)
-        pass
+        self._initialize_Tr(Tr, T=T, sg=sg, Tpc=Tpc, H2S=H2S, CO2=CO2, N2=N2, J=J, K=K, ignore_conflict=ignore_conflict)
+        self._initialize_Pr(Pr, P=P, sg=sg, Tpc=Tpc, Ppc=Ppc, H2S=H2S, CO2=CO2, N2=N2, J=J, K=K, ignore_conflict=ignore_conflict)
+        return self.Tr, self.Pr
 
     def _set_first_caller_attributes(self, func_name, func_kwargs):
         """
@@ -327,9 +331,13 @@ class piper(object):
             ex1) calculated_var = 'Tpc'
             ex1) calculated_var = 'J'
         """
-        args = inspect.getfullargspec(func).args[1:]  # arg[0] = 'self'
+        args = inspect.getfullargspec(func).args[1:]  # arg[0] = 'self', args = arguments defined in "func"
         for arg in args:
             if self._first_caller_kwargs[arg] is not None:
+
+                if self._first_caller_name == '_initialize_Tr_and_Pr':
+                    raise TypeError('%s() has conflicting keyword arguments "%s" and "%s"' % ('calc_Z', calculated_var, arg))
+
                 raise TypeError('%s() has conflicting keyword arguments "%s" and "%s"' % (self._first_caller_name, calculated_var, arg))
 
     def _initialize_sg(self, sg):
@@ -429,62 +437,3 @@ class piper(object):
             raise TypeError("Invalid optional argument, mode (calculation method), input either 'sutton', 'piper'")
         self.mode = mode
 
-    def quickstart(self):
-
-        xmax = 8
-        Prs = np.linspace(0, xmax, xmax * 10 + 1)
-        Prs = np.array([round(Pr, 1) for Pr in Prs])
-
-        Trs = np.array([1.05, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.2, 2.4, 2.6, 2.8, 3.0])
-
-        results = {Tr: {
-            'Pr': np.array([]),
-            'Z': np.array([])
-        } for Tr in Trs}
-
-        for Tr in Trs:
-            for Pr in Prs:
-                z_obj = piper()
-                z = z_obj.calc_Z(Tr=Tr, Pr=Pr, **{'maxiter': 1000})
-                results[Tr]['Z'] = np.append(results[Tr]['Z'], [z], axis=0)
-                results[Tr]['Pr'] = np.append(results[Tr]['Pr'], [Pr], axis=0)
-
-        label_fontsize = 12
-
-        fig, ax = plt.subplots(figsize=(8, 5))
-        for Tr in Trs:
-
-            Zs = results[Tr]['Z']
-            idx_min = np.where(Zs == min(Zs))
-
-            p = ax.plot(Prs, Zs)
-            if Tr == 1.05:
-                t = ax.text(Prs[idx_min] - 0.5, min(Zs) - 0.005, '$T_{r}$ = 1.2', color=p[0].get_color())
-                t.set_bbox(dict(facecolor='white', alpha=0.9, edgecolor='white', pad=1))
-            else:
-                t = ax.text(Prs[idx_min] - 0.2, min(Zs) - 0.005, Tr, color=p[0].get_color())
-                t.set_bbox(dict(facecolor='white', alpha=0.9, edgecolor='white', pad=1))
-
-        ax.set_xlim(0, xmax)
-        ax.minorticks_on()
-        ax.grid(alpha=0.5)
-        ax.grid(b=True, which='minor', alpha=0.1)
-        ax.spines.top.set_visible(False)
-        ax.spines.right.set_visible(False)
-
-        ax.set_ylabel('Compressibility Factor, $Z$', fontsize=label_fontsize)
-        ax.set_xlabel('Pseudo-Reduced Pressure, $P_{r}$', fontsize=label_fontsize)
-        ax.text(0.57, 0.08, '$T_{r}$ = Pseudo-Reduced Temperature', fontsize=11, transform=ax.transAxes,
-                bbox=dict(facecolor='white'))
-
-        def setbold(txt):
-            return ' '.join([r"$\bf{" + item + "}$" for item in txt.split(' ')])
-
-        ax.set_title(setbold('Real Gas Law Compressibility Factor - Z') + ", computed with GasCompressiblityFactor-py ",
-                     fontsize=12, pad=10, x=0.445, y=1.06)
-        ax.annotate('', xy=(-0.09, 1.05), xycoords='axes fraction', xytext=(1.05, 1.05),
-                    arrowprops=dict(arrowstyle="-", color='k'))
-
-        fig.tight_layout()
-
-        return results, fig, ax
