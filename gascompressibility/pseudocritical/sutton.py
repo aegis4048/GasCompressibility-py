@@ -30,7 +30,15 @@ class sutton:
         self.Tr = None
         self.Pr = None
 
-        self.Z = None
+        self.ps_props = {
+            'Tpc': self.Tpc,
+            'Ppc': self.Ppc,
+            'e_correction': self.e_correction,
+            'Tpc_corrected': self.Tpc_corrected,
+            'Ppc_corrected': self.Ppc_corrected,
+            'Tr': self.Tr,
+            'Pr': self.Pr,
+        }
 
         self._first_caller_name = None
         self._first_caller_keys = {}
@@ -38,10 +46,10 @@ class sutton:
         self._first_caller_is_saved = False
 
     def __str__(self):
-        return str(self.Z)
+        return str(self.ps_props)
 
     def __repr__(self):
-        return '<GasCompressibilityFactor object. Mixing Rule = %s>' % self.mode
+        return str(self.ps_props)
 
     """sum of the mole fractions of CO2 and H2S in a gas mixture"""
     def _calc_A(self, H2S=None, CO2=None):
@@ -61,6 +69,7 @@ class sutton:
         self._set_first_caller_attributes(inspect.stack()[0][3], locals())
         self._initialize_sg(sg)
         self.Tpc = 169.2 + 349.5 * self.sg - 74.0 * self.sg ** 2
+        self.ps_props['Tpc'] = self.Tpc
         return self.Tpc
 
     """pseudo-critical pressure (psi)"""
@@ -68,6 +77,7 @@ class sutton:
         self._set_first_caller_attributes(inspect.stack()[0][3], locals())
         self._initialize_sg(sg)
         self.Ppc = 756.8 - 131.07 * self.sg - 3.6 * self.sg ** 2
+        self.ps_props['Ppc'] = self.Ppc
         return self.Ppc
 
     """correction for CO2 and H2S (°R)"""
@@ -76,6 +86,7 @@ class sutton:
         self._initialize_A(A=None, H2S=H2S, CO2=CO2)
         self._initialize_B(B=None, H2S=H2S)
         self.e_correction = 120 * (self.A ** 0.9 - self.A ** 1.6) + 15 * (self.B ** 0.5 - self.B ** 4)
+        self.ps_props['e_correction'] = self.e_correction
         return self.e_correction
 
     def calc_Tpc_corrected(self, sg=None, Tpc=None, e_correction=None, H2S=None, CO2=None, ignore_conflict=False):
@@ -85,10 +96,12 @@ class sutton:
         # Correction is not needed if no sour gas is present
         if e_correction is None and H2S is None and CO2 is None:
             self.Tpc_corrected = self.Tpc
+            self.ps_props['Tpc_corrected'] = self.Tpc_corrected
             return self.Tpc_corrected
 
         self._initialize_e_correction(e_correction, H2S=H2S, CO2=CO2, ignore_conflict=ignore_conflict)
         self.Tpc_corrected = self.Tpc - self.e_correction
+        self.ps_props['Tpc_corrected'] = self.Tpc_corrected
         return self.Tpc_corrected
 
     """ corrected pseudo-critical pressure (psi)"""
@@ -99,6 +112,7 @@ class sutton:
         # Correction is not needed if no sour gas is present
         if e_correction is None and H2S is None and CO2 is None and Tpc is None and Tpc_corrected is None:
             self.Ppc_corrected = self.Ppc
+            self.ps_props['Ppc_corrected'] = self.Ppc_corrected
             return self.Ppc_corrected
 
         self._initialize_Tpc(Tpc, sg=sg)
@@ -106,6 +120,7 @@ class sutton:
         self._initialize_e_correction(e_correction, H2S=H2S, CO2=CO2, ignore_conflict=ignore_conflict)
         self._initialize_Tpc_corrected(Tpc_corrected, sg=sg, Tpc=Tpc, e_correction=e_correction, H2S=H2S, CO2=CO2, ignore_conflict=ignore_conflict)
         self.Ppc_corrected = (self.Ppc * self.Tpc_corrected) / (self.Tpc - self.B * (1 - self.B) * self.e_correction)
+        self.ps_props['Ppc_corrected'] = self.Ppc_corrected
         return self.Ppc_corrected
 
     """pseudo-reduced temperature (°R)"""
@@ -114,6 +129,7 @@ class sutton:
         self._initialize_T(T)
         self._initialize_Tpc_corrected(Tpc_corrected, sg=sg, Tpc=Tpc, e_correction=e_correction, H2S=H2S, CO2=CO2, ignore_conflict=ignore_conflict)
         self.Tr = self.T / self.Tpc_corrected
+        self.ps_props['Tr'] = self.Tr
         return self.Tr
 
     """pseudo-reduced pressure (psi)"""
@@ -122,20 +138,18 @@ class sutton:
         self._initialize_P(P)
         self._initialize_Ppc_corrected(Ppc_corrected, sg=sg, Tpc=Tpc, Ppc=Ppc, e_correction=e_correction, Tpc_corrected=Tpc_corrected, H2S=H2S, CO2=CO2, ignore_conflict=ignore_conflict)
         self.Pr = self.P / self.Ppc_corrected
+        self.ps_props['Pr'] = self.Pr
         return self.Pr
 
-    """Newton-Raphson nonlinear solver"""
-    def calc_Z(self, sg=None, P=None, T=None, Tpc=None, Ppc=None, Tpc_corrected=None, Ppc_corrected=None,
-               H2S=None, CO2=None, Tr=None, Pr=None, e_correction=None, ignore_conflict=False,
-               model='DAK', guess=0.9, newton_kwargs=None):
+    """This function is used by z_helper.py's calc_Z function to check redundant arguments for Pr and Tr"""
+    def _initialize_Tr_and_Pr(self, sg=None, P=None, T=None, Tpc=None, Ppc=None, Tpc_corrected=None, Ppc_corrected=None,
+               H2S=None, CO2=None, Tr=None, Pr=None, e_correction=None, ignore_conflict=False):
         self._set_first_caller_attributes(inspect.stack()[0][3], locals())
         self._initialize_Tr(Tr, T, Tpc_corrected=Tpc_corrected, sg=sg, Tpc=Tpc, e_correction=e_correction, H2S=H2S,
                             CO2=CO2, ignore_conflict=ignore_conflict)
         self._initialize_Pr(Pr, P=P, Ppc_corrected=Ppc_corrected, sg=sg, Tpc=Tpc, Ppc=Ppc, e_correction=e_correction,
                             Tpc_corrected=Tpc_corrected, H2S=H2S, CO2=CO2, ignore_conflict=ignore_conflict)
-        Z = z_helper.calc_Z(Pr=self.Pr, Tr=self.Tr, zmodel=model, guess=guess)
-        self.Z = Z
-        return self.Z
+        return self.Tr, self.Pr
 
 
     def _set_first_caller_attributes(self, func_name, func_kwargs):
@@ -183,6 +197,10 @@ class sutton:
         args = inspect.getfullargspec(func).args[1:]  # arg[0] = 'self', args = arguments defined in "func"
         for arg in args:
             if self._first_caller_kwargs[arg] is not None:
+
+                if self._first_caller_name == '_initialize_Tr_and_Pr':
+                    raise TypeError('%s() has conflicting keyword arguments "%s" and "%s"' % ('calc_Z', calculated_var, arg))
+
                 raise TypeError('%s() has conflicting keyword arguments "%s" and "%s"' % (self._first_caller_name, calculated_var, arg))
 
     def _initialize_sg(self, sg):

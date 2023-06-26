@@ -17,7 +17,15 @@ class piper(object):
     An example docstring for a class definition.
     """
 
-    def __init__(self):
+    def __init__(
+            self,
+            Pc_H2S=1306,
+            Tc_H2S=672.3,
+            Pc_CO2=1071,
+            Tc_CO2=547.5,
+            Pc_N2=492.4,
+            Tc_N2=227.16,
+    ):
 
         self.mode = 'piper'
         self._check_invalid_mode(self.mode)  # prevent user modification of self.mode
@@ -30,13 +38,12 @@ class piper(object):
         self.CO2 = None
         self.N2 = None
 
-        self.Pc_H2S = 1306
-        self.Tc_H2S = 672.3
-        self.Pc_CO2 = 1071
-        self.Tc_CO2 = 547.5
-        self.Pc_N2 = 492.4
-        self.Tc_N2 = 227.16
-
+        self.Pc_H2S = Pc_H2S
+        self.Tc_H2S = Tc_H2S
+        self.Pc_CO2 = Pc_CO2
+        self.Tc_CO2 = Tc_CO2
+        self.Pc_N2 = Pc_N2
+        self.Tc_N2 = Tc_N2
         self.Tpc = None
         self.Ppc = None
         self.J = None
@@ -44,14 +51,7 @@ class piper(object):
         self.Tr = None
         self.Pr = None
 
-        self.ps_props = {
-            'Tpc': self.Tpc,
-            'Ppc': self.Ppc,
-            'J': self.J,
-            'K': self.K,
-            'Tr': self.Tr,
-            'Pr': self.Pr,
-        }
+        self.Z = None
 
         self._first_caller_name = None
         self._first_caller_keys = {}
@@ -59,10 +59,10 @@ class piper(object):
         self._first_caller_is_saved = False
 
     def __str__(self):
-        return str(self.ps_props)
+        return str(self.Z)
 
     def __repr__(self):
-        return str(self.ps_props)
+        return '<GasCompressibilityFactor object. Mixing Rule = %s>' % self.mode
 
     def calc_J(self, sg=None, H2S=None, CO2=None, N2=None):
 
@@ -98,7 +98,6 @@ class piper(object):
                  - 0.66026 * self.N2 * (self.Tc_N2 / self.Pc_N2) \
                  + 0.70729 * self.sg \
                  - 0.099397 * self.sg ** 2
-        self.ps_props['J'] = self.J
         return self.J
 
     def calc_K(self, sg=None, H2S=None, CO2=None, N2=None):
@@ -133,7 +132,6 @@ class piper(object):
                  - 0.91249 * self.N2 * (self.Tc_N2 / np.sqrt(self.Pc_N2)) \
                  + 17.438 * self.sg \
                  - 3.2191 * self.sg ** 2
-        self.ps_props['K'] = self.K
         return self.K
 
     """pseudo-critical temperature (°R)"""
@@ -166,7 +164,6 @@ class piper(object):
         self._initialize_J(J, sg=sg, H2S=H2S, CO2=CO2, N2=N2, ignore_conflict=ignore_conflict)
         self._initialize_K(K, sg=sg, H2S=H2S, CO2=CO2, N2=N2, ignore_conflict=ignore_conflict)
         self.Tpc = self.K ** 2 / self.J
-        self.ps_props['Tpc'] = self.Tpc
         return self.Tpc
 
     def calc_Ppc(self, sg=None, H2S=None, CO2=None, N2=None, J=None, K=None, Tpc=None, ignore_conflict=False):
@@ -209,7 +206,6 @@ class piper(object):
 
         self._initialize_J(J, sg=sg, H2S=H2S, CO2=CO2, N2=N2, ignore_conflict=ignore_conflict)
         self.Ppc = self.Tpc / self.J
-        self.ps_props['Ppc'] = self.Ppc
         return self.Ppc
 
     def calc_Tr(self, T=None, sg=None, Tpc=None, H2S=None, CO2=None, N2=None, J=None, K=None, ignore_conflict=False):
@@ -245,7 +241,6 @@ class piper(object):
         self._initialize_T(T)
         self._initialize_Tpc(Tpc, sg=sg, H2S=H2S, CO2=CO2, N2=N2, J=J, K=K, ignore_conflict=ignore_conflict)
         self.Tr = self.T / self.Tpc
-        self.ps_props['Tr'] = self.Tr
         return self.Tr
 
     """pseudo-reduced pressure (psi)"""
@@ -282,15 +277,14 @@ class piper(object):
         self._initialize_P(P)
         self._initialize_Ppc(Ppc, sg=sg, H2S=H2S, CO2=CO2, N2=N2, J=J, K=K, Tpc=Tpc, ignore_conflict=ignore_conflict)
         self.Pr = self.P / self.Ppc
-        self.ps_props['Pr'] = self.Pr
         return self.Pr
 
     """This function is used by z_helper.py's calc_Z function to check redundant arguments for Pr and Tr"""
-    def _initialize_Tr_and_Pr(self, sg=None, P=None, T=None, Tpc=None, Ppc=None, H2S=None, CO2=None, N2=None, Tr=None, Pr=None, J=None, K=None, ignore_conflict=False):
+    def _initialize_Tr_and_Pr(self, sg=None, P=None, T=None, Tpc=None, Ppc=None, H2S=None, CO2=None, N2=None, Tr=None, Pr=None, J=None, K=None):
         self._set_first_caller_attributes(inspect.stack()[0][3], locals())
-        self._initialize_Tr(Tr, T=T, sg=sg, Tpc=Tpc, H2S=H2S, CO2=CO2, N2=N2, J=J, K=K, ignore_conflict=ignore_conflict)
-        self._initialize_Pr(Pr, P=P, sg=sg, Tpc=Tpc, Ppc=Ppc, H2S=H2S, CO2=CO2, N2=N2, J=J, K=K, ignore_conflict=ignore_conflict)
-        return self.Tr, self.Pr
+        self._initialize_Tr(Tr, T=T, sg=sg, Tpc=Tpc, H2S=H2S, CO2=CO2, N2=N2, J=J, K=K)
+        self._initialize_Pr(Pr, P=P, sg=sg, Tpc=Tpc, Ppc=Ppc, H2S=H2S, CO2=CO2, N2=N2, J=J, K=K)
+        pass
 
     def _set_first_caller_attributes(self, func_name, func_kwargs):
         """
@@ -333,13 +327,9 @@ class piper(object):
             ex1) calculated_var = 'Tpc'
             ex1) calculated_var = 'J'
         """
-        args = inspect.getfullargspec(func).args[1:]  # arg[0] = 'self', args = arguments defined in "func"
+        args = inspect.getfullargspec(func).args[1:]  # arg[0] = 'self'
         for arg in args:
             if self._first_caller_kwargs[arg] is not None:
-
-                if self._first_caller_name == '_initialize_Tr_and_Pr':
-                    raise TypeError('%s() has conflicting keyword arguments "%s" and "%s"' % ('calc_Z', calculated_var, arg))
-
                 raise TypeError('%s() has conflicting keyword arguments "%s" and "%s"' % (self._first_caller_name, calculated_var, arg))
 
     def _initialize_sg(self, sg):

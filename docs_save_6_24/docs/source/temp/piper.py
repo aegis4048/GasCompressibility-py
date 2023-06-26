@@ -1,4 +1,21 @@
+"""
+main.py
+====================================
+The core module of my example project
+"""
+
+def about_me(your_name):
+    """
+    Return the most important thing about a person.
+    Parameters
+    ----------
+    your_name
+        A string indicating the name of the person.
+    """
+    return "The wise {} loves Python.".format(your_name)
+
 import numpy as np
+from scipy import optimize
 import matplotlib.pyplot as plt
 import inspect
 
@@ -6,18 +23,25 @@ from gascompressibility.utilities.utilities import calc_Fahrenheit_to_Rankine
 from gascompressibility.utilities.utilities import calc_psig_to_psia
 from gascompressibility.z_correlation import z_helper
 
-
-"""
-This is a piper module
-"""
-
-
 class piper(object):
-    """
-    An example docstring for a class definition.
-    """
+    """An example docstring for a class definition."""
 
-    def __init__(self):
+    def __init__(
+            self,
+            Pc_H2S=1306,
+            Tc_H2S=672.3,
+            Pc_CO2=1071,
+            Tc_CO2=547.5,
+            Pc_N2=492.4,
+            Tc_N2=227.16,
+    ):
+        """
+        Blah blah blah.
+        Parameters
+        ---------
+        name
+            A string to assign to the `name` instance attribute.
+        """
 
         self.mode = 'piper'
         self._check_invalid_mode(self.mode)  # prevent user modification of self.mode
@@ -30,13 +54,12 @@ class piper(object):
         self.CO2 = None
         self.N2 = None
 
-        self.Pc_H2S = 1306
-        self.Tc_H2S = 672.3
-        self.Pc_CO2 = 1071
-        self.Tc_CO2 = 547.5
-        self.Pc_N2 = 492.4
-        self.Tc_N2 = 227.16
-
+        self.Pc_H2S = Pc_H2S
+        self.Tc_H2S = Tc_H2S
+        self.Pc_CO2 = Pc_CO2
+        self.Tc_CO2 = Tc_CO2
+        self.Pc_N2 = Pc_N2
+        self.Tc_N2 = Tc_N2
         self.Tpc = None
         self.Ppc = None
         self.J = None
@@ -44,46 +67,25 @@ class piper(object):
         self.Tr = None
         self.Pr = None
 
-        self.ps_props = {
-            'Tpc': self.Tpc,
-            'Ppc': self.Ppc,
-            'J': self.J,
-            'K': self.K,
-            'Tr': self.Tr,
-            'Pr': self.Pr,
-        }
+        self.Z = None
 
         self._first_caller_name = None
         self._first_caller_keys = {}
         self._first_caller_kwargs = {}
         self._first_caller_is_saved = False
 
+
+
     def __str__(self):
-        return str(self.ps_props)
+        return str(self.Z)
 
     def __repr__(self):
-        return str(self.ps_props)
+        return '<GasCompressibilityFactor object. Mixing Rule = %s>' % self.mode
 
+    """Stewart-Burkhardt-VOO parameter J, (°R/psia)"""
     def calc_J(self, sg=None, H2S=None, CO2=None, N2=None):
-
         """
-        Calculates the Stewart-Burkhardt-VOO parameter J, (°R/psia)
-
-        Parameters
-        ----------
-        sg : float
-            specific gravity of gas (dimensionless)
-        H2S : float
-            mole fraction of H2S (dimensionless)
-        CO2 : float
-            mole fraction of CO2 (dimensionless)
-        N2 : float
-            mole fraction of N2 (dimensionless)
-
-        Returns
-        -------
-        float
-            SBV parameter, J, (°R/psia)
+        Return information about an instance created from ExampleClass.
         """
 
 
@@ -98,30 +100,10 @@ class piper(object):
                  - 0.66026 * self.N2 * (self.Tc_N2 / self.Pc_N2) \
                  + 0.70729 * self.sg \
                  - 0.099397 * self.sg ** 2
-        self.ps_props['J'] = self.J
         return self.J
 
+    """Stewart-Burkhardt-VOO parameter K, (°R/psia^0.5)"""
     def calc_K(self, sg=None, H2S=None, CO2=None, N2=None):
-        """
-        Calculates the Stewart-Burkhardt-VOO parameter K, (°R/psia^0.5)
-
-        Parameters
-        ----------
-        sg : float
-            specific gravity of gas (dimensionless)
-        H2S : float
-            mole fraction of H2S (dimensionless)
-        CO2 : float
-            mole fraction of CO2 (dimensionless)
-        N2 : float
-            mole fraction of N2 (dimensionless)
-
-        Returns
-        -------
-        float
-            SBV parameter, K, (°R/psia^0.5)
-        """
-
         self._set_first_caller_attributes(inspect.stack()[0][3], locals())
         self._initialize_sg(sg)
         self._initialize_H2S(H2S)
@@ -133,71 +115,18 @@ class piper(object):
                  - 0.91249 * self.N2 * (self.Tc_N2 / np.sqrt(self.Pc_N2)) \
                  + 17.438 * self.sg \
                  - 3.2191 * self.sg ** 2
-        self.ps_props['K'] = self.K
         return self.K
 
     """pseudo-critical temperature (°R)"""
     def calc_Tpc(self, sg=None, H2S=None, CO2=None, N2=None, J=None, K=None, ignore_conflict=False):
-        """
-        Calculates pseudo-critical temperature, Tpc (°R)
-
-        Parameters
-        ----------
-        sg : float
-            specific gravity of gas (dimensionless)
-        H2S : float
-            mole fraction of H2S (dimensionless)
-        CO2 : float
-            mole fraction of CO2 (dimensionless)
-        N2 : float
-            mole fraction of N2 (dimensionless)
-        J : float
-            SBV parameter, J, (°R/psia)
-        K : float
-            SBV parameter, K, (°R/psia^0.5)
-        ignore_conflict : bool
-            set this to True to force usage of input variables instead of calculated variables.
-        Returns
-        -------
-        float
-            Pseudo-critical temperature, Tpc (°R)
-        """
         self._set_first_caller_attributes(inspect.stack()[0][3], locals())
         self._initialize_J(J, sg=sg, H2S=H2S, CO2=CO2, N2=N2, ignore_conflict=ignore_conflict)
         self._initialize_K(K, sg=sg, H2S=H2S, CO2=CO2, N2=N2, ignore_conflict=ignore_conflict)
         self.Tpc = self.K ** 2 / self.J
-        self.ps_props['Tpc'] = self.Tpc
         return self.Tpc
 
+    """pseudo-critical pressure (psi)"""
     def calc_Ppc(self, sg=None, H2S=None, CO2=None, N2=None, J=None, K=None, Tpc=None, ignore_conflict=False):
-        """
-        Calculates pseudo-critical pressure, Ppc (psia)
-
-        Parameters
-        ----------
-        sg : float
-            specific gravity of gas (dimensionless)
-        H2S : float
-            mole fraction of H2S (dimensionless)
-        CO2 : float
-            mole fraction of CO2 (dimensionless)
-        N2 : float
-            mole fraction of N2 (dimensionless)
-        J : float
-            SBV parameter, J, (°R/psia)
-        K : float
-            SBV parameter, K, (°R/psia^0.5)
-        Tpc : float
-            pseudo-critical temperature, Tpc (°R)
-        ignore_conflict : bool
-            set this to True to force usage of input variables instead of calculated variables.
-
-        Returns
-        -------
-        float
-            pseudo-critical pressure, Ppc (psia)
-        """
-
         self._set_first_caller_attributes(inspect.stack()[0][3], locals())
 
         if Tpc is not None:
@@ -209,88 +138,35 @@ class piper(object):
 
         self._initialize_J(J, sg=sg, H2S=H2S, CO2=CO2, N2=N2, ignore_conflict=ignore_conflict)
         self.Ppc = self.Tpc / self.J
-        self.ps_props['Ppc'] = self.Ppc
         return self.Ppc
 
+    """pseudo-reduced temperature (°R)"""
     def calc_Tr(self, T=None, sg=None, Tpc=None, H2S=None, CO2=None, N2=None, J=None, K=None, ignore_conflict=False):
-        """
-        Calculates pseudo-reduced temperature, Tr (°R)
-
-        Parameters
-        ----------
-        T : float
-            temperature of gas (°F)
-        sg : float
-            specific gravity of gas (dimensionless)
-        H2S : float
-            mole fraction of H2S (dimensionless)
-        CO2 : float
-            mole fraction of CO2 (dimensionless)
-        N2 : float
-            mole fraction of N2 (dimensionless)
-        J : float
-            SBV parameter, J, (°R/psia)
-        K : float
-            SBV parameter, K, (°R/psia^0.5)
-        ignore_conflict : bool
-            set this to True to force usage of input variables instead of calculated variables.
-
-        Returns
-        -------
-        float
-            pseudo-reduced temperature, Tr (°R)
-
-        """
         self._set_first_caller_attributes(inspect.stack()[0][3], locals())
         self._initialize_T(T)
         self._initialize_Tpc(Tpc, sg=sg, H2S=H2S, CO2=CO2, N2=N2, J=J, K=K, ignore_conflict=ignore_conflict)
         self.Tr = self.T / self.Tpc
-        self.ps_props['Tr'] = self.Tr
         return self.Tr
 
     """pseudo-reduced pressure (psi)"""
+
     def calc_Pr(self, P=None, sg=None, Tpc=None, Ppc=None, H2S=None, CO2=None, N2=None, J=None, K=None, ignore_conflict=False):
-        """
-        Calculates pseudo-reduced pressure, Pr (psia)
-
-        Parameters
-        ----------
-        P : float
-            pressure of gas (psig)
-        sg : float
-            specific gravity of gas (dimensionless)
-        H2S : float
-            mole fraction of H2S (dimensionless)
-        CO2 : float
-            mole fraction of CO2 (dimensionless)
-        N2 : float
-            mole fraction of N2 (dimensionless)
-        J : float
-            SBV parameter, J, (°R/psia)
-        K : float
-            SBV parameter, K, (°R/psia^0.5)
-        ignore_conflict : bool
-            set this to True to force usage of input variables instead of calculated variables.
-
-        Returns
-        -------
-        float
-            pseudo-reduced pressure, Pr (psia)
-        """
-
         self._set_first_caller_attributes(inspect.stack()[0][3], locals())
         self._initialize_P(P)
         self._initialize_Ppc(Ppc, sg=sg, H2S=H2S, CO2=CO2, N2=N2, J=J, K=K, Tpc=Tpc, ignore_conflict=ignore_conflict)
         self.Pr = self.P / self.Ppc
-        self.ps_props['Pr'] = self.Pr
         return self.Pr
 
-    """This function is used by z_helper.py's calc_Z function to check redundant arguments for Pr and Tr"""
-    def _initialize_Tr_and_Pr(self, sg=None, P=None, T=None, Tpc=None, Ppc=None, H2S=None, CO2=None, N2=None, Tr=None, Pr=None, J=None, K=None, ignore_conflict=False):
+    """Newton-Raphson nonlinear solver"""
+    def calc_Z(self, sg=None, P=None, T=None, Tpc=None, Ppc=None, H2S=None, CO2=None, N2=None, Tr=None, Pr=None,
+               J=None, K=None, ignore_conflict=False, model='DAK', guess=0.9, newton_kwargs=None):
+
         self._set_first_caller_attributes(inspect.stack()[0][3], locals())
         self._initialize_Tr(Tr, T=T, sg=sg, Tpc=Tpc, H2S=H2S, CO2=CO2, N2=N2, J=J, K=K, ignore_conflict=ignore_conflict)
         self._initialize_Pr(Pr, P=P, sg=sg, Tpc=Tpc, Ppc=Ppc, H2S=H2S, CO2=CO2, N2=N2, J=J, K=K, ignore_conflict=ignore_conflict)
-        return self.Tr, self.Pr
+        Z = z_helper.calc_Z(Pr=self.Pr, Tr=self.Tr, zmodel=model, guess=guess)
+        self.Z = Z
+        return self.Z
 
     def _set_first_caller_attributes(self, func_name, func_kwargs):
         """
@@ -333,13 +209,9 @@ class piper(object):
             ex1) calculated_var = 'Tpc'
             ex1) calculated_var = 'J'
         """
-        args = inspect.getfullargspec(func).args[1:]  # arg[0] = 'self', args = arguments defined in "func"
+        args = inspect.getfullargspec(func).args[1:]  # arg[0] = 'self'
         for arg in args:
             if self._first_caller_kwargs[arg] is not None:
-
-                if self._first_caller_name == '_initialize_Tr_and_Pr':
-                    raise TypeError('%s() has conflicting keyword arguments "%s" and "%s"' % ('calc_Z', calculated_var, arg))
-
                 raise TypeError('%s() has conflicting keyword arguments "%s" and "%s"' % (self._first_caller_name, calculated_var, arg))
 
     def _initialize_sg(self, sg):
