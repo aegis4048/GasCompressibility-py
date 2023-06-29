@@ -253,6 +253,11 @@ latex_elements = {
 latex_show_urls = 'footnote'
 
 
+html_theme_options = {
+   "pygment_light_style": "tango",
+   "pygment_dark_style": "monokai"
+}
+
 #############################
 
 add_module_names = False
@@ -262,7 +267,7 @@ from sphinx.ext.autosummary import get_documenter
 from docutils.parsers.rst import directives
 from sphinx.util.inspect import safe_getattr
 import re
-
+"""
 from sphinx.ext.autosummary.generate import AutosummaryRenderer
 
 
@@ -281,4 +286,4 @@ def fixed_init(self, app, template_dir=None):
 
 AutosummaryRenderer.__old_init__ = AutosummaryRenderer.__init__
 AutosummaryRenderer.__init__ = fixed_init
-
+"""

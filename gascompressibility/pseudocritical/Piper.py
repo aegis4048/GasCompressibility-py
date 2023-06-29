@@ -1,5 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
 import inspect
 
 from gascompressibility.utilities.utilities import calc_Fahrenheit_to_Rankine

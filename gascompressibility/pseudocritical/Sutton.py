@@ -1,11 +1,7 @@
-import numpy as np
-from scipy import optimize
-import matplotlib.pyplot as plt
 import inspect
 
 from gascompressibility.utilities.utilities import calc_Fahrenheit_to_Rankine
 from gascompressibility.utilities.utilities import calc_psig_to_psia
-from gascompressibility.z_correlation import z_helper
 
 
 class Sutton():

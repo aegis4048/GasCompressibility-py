@@ -79,12 +79,12 @@ def calc_z(sg=None, P=None, T=None, H2S=None, CO2=None, N2=None, Pr=None, Tr=Non
 
     # Pr and Tr are NOT provided:
     if pmodel == 'Piper':
-        pc_instance = Piper.Piper()  # this import doesn't work on this file but it will work when imported from other files
+        pc_instance = Piper()
         Tr, Pr = pc_instance._initialize_Tr_and_Pr(sg=sg, P=P, T=T, Tr=Tr, Pr=Pr, H2S=H2S, CO2=CO2, N2=N2, ignore_conflict=ignore_conflict, **kwargs)
     elif pmodel == 'Sutton':
         if N2 is not None:
             raise KeyError('pmodel="Sutton" does not support N2 as input. Set N2=None')
-        pc_instance = Sutton.Sutton()
+        pc_instance = Sutton()
         Tr, Pr = pc_instance._initialize_Tr_and_Pr(sg=sg, P=P, T=T, Tr=Tr, Pr=Pr, H2S=H2S, CO2=CO2, ignore_conflict=ignore_conflict, **kwargs)
     else:
         raise KeyError(
