@@ -21,7 +21,7 @@ def classifiers():
 
 setup(
     name='gascompressibility',
-    version='0.1.2',
+    version='0.1.5',
     packages=find_packages(exclude=[
         "tutorials",
         "LICENSE",
@@ -30,7 +30,6 @@ setup(
         "misc",
         ".travis.yml",
         "notes.py",
-        "custom.svg",
         "testruns.ipynb",
         "papers",
         "docs",
@@ -44,9 +43,9 @@ setup(
     author='Eric Kim',
     author_email='aegis4048@gmail.com',
     install_requires=[
-        'numpy>=1.22',
-        'scipy>=1.9.1',
-        'matplotlib>=3.5.1',
+        'numpy>=1.14',
+        'scipy>=1.5',
+        'matplotlib>=3.2.1',
     ],
     url='https://github.com/aegis4048/GasCompressibiltiy-py/tree/main',
 )
@@ -56,3 +55,6 @@ setup(
 # python -m twine upload --skip-existing dist/*
 
 # python -m twine upload --skip-existing --repository testpypi dist/*
+# python setup.py install --user
+# pip uninstall gascompressibility
+# pip install gascompressibility
