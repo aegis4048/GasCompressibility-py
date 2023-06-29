@@ -1,7 +1,7 @@
 import os, shutil, glob
 
 """
-filename_contains = 'piper'
+filename_contains = 'Piper'
 word_to_detect = 'Bases'
 replace_to = '<dd>'
 
@@ -52,8 +52,8 @@ def exclude_private_methods(arr):
 
 
 curdir = os.getcwd()
-os.chdir("..\..\src")
-filename = "piper.py"
+os.chdir("..\\..\\gascompressibility\\pseudocritical")
+filename = "Piper.py"
 with open(filename) as file:
     node = ast.parse(file.read())
 os.chdir(curdir)
@@ -63,12 +63,12 @@ classes = [n for n in node.body if isinstance(n, ast.ClassDef)]
 a = {
     class_.name: {
         'MethodsStr': [n.name for n in class_.body if isinstance(n, ast.FunctionDef)],
-        #'ClassObj': class_,
-        #'MethodsObj': [n for n in class_.body if isinstance(n, ast.FunctionDef)],
     } for class_ in classes
 }
 
 write_dir = "functions"
+if not os.path.exists(write_dir):
+    os.makedirs(write_dir)
 os.chdir(write_dir)
 
 for key, val in a.items():
@@ -87,7 +87,7 @@ for key, val in a.items():
             content = "%s\n" \
                       "=====================================\n" \
                       "\n" \
-                      ".. automethod:: %s" % (method_w, method_w)
+                      ".. automethod:: %s" % ('.'.join(method_w.split('.')[2:]), method_w)
 
             fout.write(content)
             print('   ' + method_w)
@@ -98,13 +98,45 @@ for key, val in a.items():
 os.chdir(curdir)
 
 
+def write_class_methods_to_rst(
+        file_dir="C:\\Users\\EricKim\\Documents\\GasCompressibiltiyFactor-py\\gascompressibility\\pseudocritical",
+        file_name='Piper.py',
+        write_dir="C:\\Users\\EricKim\\Documents\\GasCompressibiltiyFactor-py\\docs\\source\\functions",
+):
 
+    curdir = os.getcwd()
+    with open(file_dir + '\\' + file_name) as file:
+        node = ast.parse(file.read())
 
+    classes = [n for n in node.body if isinstance(n, ast.ClassDef)]
 
+    class_method_dict = {
+        class_.name: {
+            'MethodsStr': [n.name for n in class_.body if isinstance(n, ast.FunctionDef)],
+        } for class_ in classes
+    }
 
+    if not os.path.exists(write_dir):
+        os.makedirs(write_dir)
+    os.chdir(write_dir)
 
+    for key, val in class_method_dict.items():
+        raw_methods = class_method_dict[key]['MethodsStr']
+        filtered_methods = exclude_builtin_methods(raw_methods)
+        filtered_methods = exclude_private_methods(filtered_methods)
 
+        for method in filtered_methods:
+            method_w = '.'.join([key, key, method])
+            with open(method_w + '.rst', 'w', encoding='utf-8') as fout:
 
+                content = "%s\n" \
+                          "=====================================\n" \
+                          "\n" \
+                          ".. automethod:: %s" % ('.'.join(method_w.split('.')[2:]), method_w)
 
+                fout.write(content)
+                print('   ' + method_w)
+
+        class_method_dict[key] = filtered_methods
 
 

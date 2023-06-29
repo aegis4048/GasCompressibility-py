@@ -8,27 +8,48 @@ from gascompressibility.utilities.utilities import calc_psig_to_psia
 from gascompressibility.z_correlation import z_helper
 
 
-class sutton:
+class Sutton():
+
+    """
+    Class object to calculate pseudo-critical properties.
+
+    Based on Sutton's specific gravity correlation [1]_ and Wichert & Aziz correction for acid gases (:math:`H_2S` and :math:`CO_2`) [2]_.
+
+    """
+
     def __init__(self):
-        self.mode = 'sutton'
-        self._check_invalid_mode(self.mode)  # prevent user modification of self.mode
 
         self.sg = None
+        """specific gravity (dimensionless)"""
         self.T_f = None
+        """temperature (°F)"""
         self.T = None
+        """temperature (°R)"""
+        self.P_g = None
+        """pressure (psig)"""
         self.P = None
+        """pressure (psia)"""
         self.H2S = None
+        """mole fraction of H2S (dimensionless)"""
         self.CO2 = None
+        """mole fraction of CO2 (dimensionless)"""
 
         self.Tpc = None
+        """pseudo-critical temperature, Tpc (°R)"""
         self.Ppc = None
+        """pseudo-critical pressure, Ppc (psia)"""
         self.A = None
         self.B = None
         self.e_correction = None
+        """temperature-correction factor for acid gases, ε (°R)"""
         self.Tpc_corrected = None
+        """corrected pseudo-critical temperature, T'pc (°R)"""
         self.Ppc_corrected = None
+        """corrected pseudo-critical pressure, P'pc (psia)"""
         self.Tr = None
+        """pseudo-reduced temperature, Tr (°R)"""
         self.Pr = None
+        """pseudo-reduced pressure, Pr (psia)"""
 
         self.ps_props = {
             'Tpc': None,
@@ -39,6 +60,7 @@ class sutton:
             'Tr': None,
             'Pr': None,
         }
+        """dictionary of pseudo-critical properties."""
 
         self._first_caller_name = None
         self._first_caller_kwargs = {}
@@ -48,7 +70,9 @@ class sutton:
         return str(self.ps_props)
 
     def __repr__(self):
-        return str(self.ps_props)
+        description = '<gascompressibility.pseudocritical.Sutton> class object with the following calculated attributes:\n{'
+        items = '\n   '.join('%s: %s' % (k, v) for k, v in self.ps_props.items())
+        return description + '\n   ' +items + '\n}'
 
     """sum of the mole fractions of CO2 and H2S in a gas mixture"""
     def _calc_A(self, H2S=None, CO2=None):
@@ -63,24 +87,62 @@ class sutton:
         self.B = self.H2S
         return self.B
 
-    """pseudo-critical temperature (°R)"""
     def calc_Tpc(self, sg=None):
+        """
+        Calculates pseudo-critical temperature, Tpc (°R)
+
+        Parameters
+        ----------
+        sg : float
+            specific gravity of gas (dimensionless)
+
+        Returns
+        -------
+        float
+            pseudo-critical temperature, Tpc (°R)
+        """
         self._set_first_caller_attributes(inspect.stack()[0][3], locals())
         self._initialize_sg(sg)
         self.Tpc = 169.2 + 349.5 * self.sg - 74.0 * self.sg ** 2
         self.ps_props['Tpc'] = self.Tpc
         return self.Tpc
 
-    """pseudo-critical pressure (psi)"""
     def calc_Ppc(self, sg=None):
+        """
+        Calculates pseudo-critical pressure, Ppc (psia)
+
+        Parameters
+        ----------
+        sg : float
+            specific gravity of gas (dimensionless)
+
+        Returns
+        -------
+        float
+            pseudo-critical pressure, Ppc (psia)
+        """
         self._set_first_caller_attributes(inspect.stack()[0][3], locals())
         self._initialize_sg(sg)
         self.Ppc = 756.8 - 131.07 * self.sg - 3.6 * self.sg ** 2
         self.ps_props['Ppc'] = self.Ppc
         return self.Ppc
 
-    """correction for CO2 and H2S (°R)"""
     def calc_e_correction(self, H2S=None, CO2=None):
+        """
+        Calculates the temperature-correction factor for acid gases, ε (°R)
+
+        Parameters
+        ----------
+        H2S : float
+            mole fraction of H2S (dimensionless)
+        CO2 : float
+            mole fraction of CO2 (dimensionless)
+
+        Returns
+        -------
+        float
+            temperature-correction factor for acid gases, ε (°R)
+        """
         self._set_first_caller_attributes(inspect.stack()[0][3], locals())
         self._initialize_A(A=None, H2S=H2S, CO2=CO2)
         self._initialize_B(B=None, H2S=H2S)
@@ -89,6 +151,30 @@ class sutton:
         return self.e_correction
 
     def calc_Tpc_corrected(self, sg=None, Tpc=None, e_correction=None, H2S=None, CO2=None, ignore_conflict=False):
+        """
+        Calculates the corrected pseudo-critical temperature, T'pc (°R)
+
+        Parameters
+        ----------
+        sg : float
+            specific gravity of gas (dimensionless)
+        Tpc : float
+            pseudo-critical temperature, Tpc (°R)
+        e_correction : float
+            temperature-correction factor for acid gases, ε (°R)
+        H2S : float
+            mole fraction of H2S (dimensionless)
+        CO2 : float
+            mole fraction of CO2 (dimensionless)
+        ignore_conflict : bool
+            set this to True to override calculated variables with input keyword arguments.
+
+        Returns
+        -------
+        float
+            corrected pseudo-critical temperature, T'pc (°R)
+
+        """
         self._set_first_caller_attributes(inspect.stack()[0][3], locals())
         self._initialize_Tpc(Tpc, sg=sg, ignore_conflict=ignore_conflict)
 
@@ -103,8 +189,34 @@ class sutton:
         self.ps_props['Tpc_corrected'] = self.Tpc_corrected
         return self.Tpc_corrected
 
-    """ corrected pseudo-critical pressure (psi)"""
     def calc_Ppc_corrected(self, sg=None, Tpc=None, Ppc=None, e_correction=None, Tpc_corrected=None, H2S=None, CO2=None, ignore_conflict=False):
+        """
+        Calculates the corrected pseudo-critical pressure, P'pc (psia)
+
+        Parameters
+        ----------
+        sg : float
+            specific gravity of gas (dimensionless)
+        Tpc : float
+            pseudo-critical temperature, Tpc (°R)
+        Ppc : float
+            pseudo-critical pressure, Ppc (psia)
+        e_correction : float
+            temperature-correction factor for acid gases, ε (°R)
+        Tpc_corrected : float
+            corrected pseudo-critical temperature, T'pc (°R)
+        H2S : float
+            mole fraction of H2S (dimensionless)
+        CO2 : float
+            mole fraction of CO2 (dimensionless)
+        ignore_conflict : bool
+            set this to True to override calculated variables with input keyword arguments.
+
+        Returns
+        -------
+        float
+            corrected pseudo-critical pressure, P'pc (psia)
+        """
         self._set_first_caller_attributes(inspect.stack()[0][3], locals())
         self._initialize_Ppc(Ppc, sg=sg, ignore_conflict=ignore_conflict)
 
@@ -122,8 +234,34 @@ class sutton:
         self.ps_props['Ppc_corrected'] = self.Ppc_corrected
         return self.Ppc_corrected
 
-    """pseudo-reduced temperature (°R)"""
     def calc_Tr(self, T=None, Tpc_corrected=None, sg=None, Tpc=None, e_correction=None, H2S=None, CO2=None, ignore_conflict=False):
+        """
+        Calculates pseudo-reduced temperature, Tr (°R)
+
+        Parameters
+        ----------
+        T : float
+            temperature of gas (°F)
+        Tpc_corrected : float
+            corrected pseudo-critical temperature, T'pc (°R)
+        sg : float
+            specific gravity of gas (dimensionless)
+        Tpc : float
+            pseudo-critical temperature, Tpc (°R)
+        e_correction : float
+            temperature-correction factor for acid gases, ε (°R)
+        H2S : float
+            mole fraction of H2S (dimensionless)
+        CO2 : float
+            mole fraction of CO2 (dimensionless)
+        ignore_conflict : bool
+            set this to True to override calculated variables with input keyword arguments.
+
+        Returns
+        -------
+        float
+            pseudo-reduced temperature, Tr (°R)
+        """
         self._set_first_caller_attributes(inspect.stack()[0][3], locals())
         self._initialize_T(T)
         self._initialize_Tpc_corrected(Tpc_corrected, sg=sg, Tpc=Tpc, e_correction=e_correction, H2S=H2S, CO2=CO2, ignore_conflict=ignore_conflict)
@@ -133,6 +271,37 @@ class sutton:
 
     """pseudo-reduced pressure (psi)"""
     def calc_Pr(self, P=None, Ppc_corrected=None, sg=None, Tpc=None, Ppc=None, e_correction=None, Tpc_corrected=None, H2S=None, CO2=None, ignore_conflict=False):
+        """
+        Calculates pseudo-reduced pressure, Pr (psia)
+
+        Parameters
+        ----------
+        P : float
+            pressure of gas (psig)
+        Ppc_corrected : float
+            corrected pseudo-critical pressure, P'pc (psia)
+        sg : float
+            specific gravity of gas (dimensionless)
+        Tpc : float
+            pseudo-critical temperature, Tpc (°R)
+        Ppc : float
+            pseudo-critical pressure, Ppc (psia)
+        e_correction : float
+            temperature-correction factor for acid gases, ε (°R)
+        Tpc_corrected : float
+            corrected pseudo-critical temperature, T'pc (°R)
+        H2S : float
+            mole fraction of H2S (dimensionless)
+        CO2 : float
+            mole fraction of CO2 (dimensionless)
+        ignore_conflict : bool
+            set this to True to override calculated variables with input keyword arguments.
+
+        Returns
+        -------
+        float
+            pseudo-reduced pressure, Pr (psia)
+        """
         self._set_first_caller_attributes(inspect.stack()[0][3], locals())
         self._initialize_P(P)
         self._initialize_Ppc_corrected(Ppc_corrected, sg=sg, Tpc=Tpc, Ppc=Ppc, e_correction=e_correction, Tpc_corrected=Tpc_corrected, H2S=H2S, CO2=CO2, ignore_conflict=ignore_conflict)
@@ -140,7 +309,7 @@ class sutton:
         self.ps_props['Pr'] = self.Pr
         return self.Pr
 
-    """This function is used by z_helper.py's calc_Z function to check redundant arguments for Pr and Tr"""
+    """This function is used by z_helper.py's calc_z function to check redundant arguments for Pr and Tr"""
     def _initialize_Tr_and_Pr(self, sg=None, P=None, T=None, Tpc=None, Ppc=None, Tpc_corrected=None, Ppc_corrected=None,
                H2S=None, CO2=None, Tr=None, Pr=None, e_correction=None, ignore_conflict=False):
         self._set_first_caller_attributes(inspect.stack()[0][3], locals())
@@ -198,7 +367,7 @@ class sutton:
             if self._first_caller_kwargs[arg] is not None:
                 # this is triggered in z_helper.py's calc_z() function
                 if self._first_caller_name == '_initialize_Tr_and_Pr':
-                    raise TypeError('%s() has conflicting keyword arguments "%s" and "%s"' % ('calc_Z', calculated_var, arg))
+                    raise TypeError('%s() has conflicting keyword arguments "%s" and "%s"' % ('calc_z', calculated_var, arg))
 
                 raise TypeError('%s() has conflicting keyword arguments "%s" and "%s"' % (self._first_caller_name, calculated_var, arg))
 
@@ -311,10 +480,6 @@ class sutton:
                 self._check_conflicting_arguments(self.calc_Tr, 'Tr')
             self.Tr = Tr
 
-    def _check_invalid_mode(self, mode):
-        if mode != 'sutton' and mode != 'piper':
-            raise TypeError("Invalid optional argument, mode (calculation method), input either 'sutton', 'piper', or None (default='sutton')")
-        self.mode = mode
 
 
 

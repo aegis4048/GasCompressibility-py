@@ -6,27 +6,33 @@ from gascompressibility.utilities.utilities import calc_Fahrenheit_to_Rankine
 from gascompressibility.utilities.utilities import calc_psig_to_psia
 
 """
-This is a piper module
+This is a Piper module
 """
 
 
-class piper(object):
+class Piper(object):
     """
     An example docstring for a class definition.
     """
 
     def __init__(self):
 
-        self.mode = 'piper'
-        self._check_invalid_mode(self.mode)  # prevent user modification of self.mode
-
         self.sg = None
+        """specific gravity (dimensionless)"""
         self.T_f = None
+        """temperature (°F)"""
         self.T = None
+        """temperature (°R)"""
+        self.P_g = None
+        """pressure (psig)"""
         self.P = None
+        """pressure (psia)"""
         self.H2S = None
+        """mole fraction of H2S (dimensionless)"""
         self.CO2 = None
+        """mole fraction of CO2 (dimensionless)"""
         self.N2 = None
+        """mole fraction of N2 (dimensionless)"""
 
         self.Pc_H2S = 1306
         self.Tc_H2S = 672.3
@@ -36,11 +42,17 @@ class piper(object):
         self.Tc_N2 = 227.16
 
         self.Tpc = None
+        """pseudo-critical temperature, Tpc (°R)"""
         self.Ppc = None
+        """pseudo-critical pressure, Ppc (psia)"""
         self.J = None
+        """Stewart-Burkhardt-VOO parameter J, (°R/psia)"""
         self.K = None
+        """Stewart-Burkhardt-VOO parameter K, (°R/psia^0.5)"""
         self.Tr = None
+        """pseudo-reduced temperature, Tr (°R)"""
         self.Pr = None
+        """pseudo-reduced pressure, Pr (psia)"""
 
         self.ps_props = {
             'Tpc': None,
@@ -50,6 +62,7 @@ class piper(object):
             'Tr': None,
             'Pr': None,
         }
+        """dictionary of pseudo-critical properties."""
 
         self._first_caller_name = None
         self._first_caller_kwargs = {}
@@ -59,7 +72,9 @@ class piper(object):
         return str(self.ps_props)
 
     def __repr__(self):
-        return str(self.ps_props)
+        description = '<gascompressibility.pseudocritical.Piper> class object with the following calculated attributes:\n{'
+        items = '\n   '.join('%s: %s' % (k, v) for k, v in self.ps_props.items())
+        return description + '\n   ' +items + '\n}'
 
     def calc_J(self, sg=None, H2S=None, CO2=None, N2=None):
         """
@@ -153,10 +168,11 @@ class piper(object):
             SBV parameter, K, (°R/psia^0.5)
         ignore_conflict : bool
             set this to True to override calculated variables with input keyword arguments.
+
         Returns
         -------
         float
-            Pseudo-critical temperature, Tpc (°R)
+            pseudo-critical temperature, Tpc (°R)
         """
         self._set_first_caller_attributes(inspect.stack()[0][3], locals())
         self._initialize_J(J, sg=sg, H2S=H2S, CO2=CO2, N2=N2, ignore_conflict=ignore_conflict)
@@ -281,7 +297,7 @@ class piper(object):
         self.ps_props['Pr'] = self.Pr
         return self.Pr
 
-    """This function is used by z_helper.py's calc_Z function to check redundant arguments for Pr and Tr"""
+    """This function is used by z_helper.py's calc_z function to check redundant arguments for Pr and Tr"""
     def _initialize_Tr_and_Pr(self, sg=None, P=None, T=None, Tpc=None, Ppc=None, H2S=None, CO2=None, N2=None, Tr=None, Pr=None, J=None, K=None, ignore_conflict=False):
         self._set_first_caller_attributes(inspect.stack()[0][3], locals())
         self._initialize_Tr(Tr, T=T, sg=sg, Tpc=Tpc, H2S=H2S, CO2=CO2, N2=N2, J=J, K=K, ignore_conflict=ignore_conflict)
@@ -334,7 +350,7 @@ class piper(object):
             if self._first_caller_kwargs[arg] is not None:
 
                 if self._first_caller_name == '_initialize_Tr_and_Pr':
-                    raise TypeError('%s() has conflicting keyword arguments "%s" and "%s"' % ('calc_Z', calculated_var, arg))
+                    raise TypeError('%s() has conflicting keyword arguments "%s" and "%s"' % ('calc_z', calculated_var, arg))
 
                 raise TypeError('%s() has conflicting keyword arguments "%s" and "%s"' % (self._first_caller_name, calculated_var, arg))
 
@@ -429,9 +445,3 @@ class piper(object):
             if ignore_conflict is False:
                 self._check_conflicting_arguments(self.calc_Tr, 'Tr')
             self.Tr = Tr
-
-    def _check_invalid_mode(self, mode):
-        if mode != 'sutton' and mode != 'piper':
-            raise TypeError("Invalid optional argument, mode (calculation method), input either 'sutton', 'piper'")
-        self.mode = mode
-

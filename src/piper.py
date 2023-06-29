@@ -6,18 +6,18 @@ from gascompressibility.utilities.utilities import calc_Fahrenheit_to_Rankine
 from gascompressibility.utilities.utilities import calc_psig_to_psia
 
 """
-This is a piper module
+This is a Piper module
 """
 
 
-class piper(object):
+class Piper(object):
     """
     An example docstring for a class definition.
     """
 
     def __init__(self):
 
-        self.mode = 'piper'
+        self.mode = 'Piper'
         self._check_invalid_mode(self.mode)  # prevent user modification of self.mode
 
         self.sg = None
@@ -283,7 +283,7 @@ class piper(object):
         self.ps_props['Pr'] = self.Pr
         return self.Pr
 
-    """This function is used by z_helper.py's calc_Z function to check redundant arguments for Pr and Tr"""
+    """This function is used by z_helper.py's calc_z function to check redundant arguments for Pr and Tr"""
     def _initialize_Tr_and_Pr(self, sg=None, P=None, T=None, Tpc=None, Ppc=None, H2S=None, CO2=None, N2=None, Tr=None, Pr=None, J=None, K=None, ignore_conflict=False):
         self._set_first_caller_attributes(inspect.stack()[0][3], locals())
         self._initialize_Tr(Tr, T=T, sg=sg, Tpc=Tpc, H2S=H2S, CO2=CO2, N2=N2, J=J, K=K, ignore_conflict=ignore_conflict)
@@ -336,7 +336,7 @@ class piper(object):
             if self._first_caller_kwargs[arg] is not None:
 
                 if self._first_caller_name == '_initialize_Tr_and_Pr':
-                    raise TypeError('%s() has conflicting keyword arguments "%s" and "%s"' % ('calc_Z', calculated_var, arg))
+                    raise TypeError('%s() has conflicting keyword arguments "%s" and "%s"' % ('calc_z', calculated_var, arg))
 
                 raise TypeError('%s() has conflicting keyword arguments "%s" and "%s"' % (self._first_caller_name, calculated_var, arg))
 
@@ -433,7 +433,7 @@ class piper(object):
             self.Tr = Tr
 
     def _check_invalid_mode(self, mode):
-        if mode != 'sutton' and mode != 'piper':
-            raise TypeError("Invalid optional argument, mode (calculation method), input either 'sutton', 'piper'")
+        if mode != 'Sutton' and mode != 'Piper':
+            raise TypeError("Invalid optional argument, mode (calculation method), input either 'Sutton', 'Piper'")
         self.mode = mode
 

@@ -6,8 +6,8 @@ from gascompressibility.z_correlation.DAK import DAK
 from gascompressibility.z_correlation.hall_yarborough import hall_yarborough
 from gascompressibility.z_correlation.londono import londono
 from gascompressibility.z_correlation.kareem import kareem
-from gascompressibility.pseudocritical import piper
-from gascompressibility.pseudocritical import sutton
+from gascompressibility.pseudocritical import Piper
+from gascompressibility.pseudocritical import Sutton
 
 
 models = {
@@ -18,7 +18,7 @@ models = {
 }
 
 zmodels_ks = '["DAK", "hall_yarborough", "londono", "kareem"]'
-pmodels_ks = '["sutton", "piper"]'
+pmodels_ks = '["Sutton", "Piper"]'
 
 
 def _get_guess_constant():
@@ -35,16 +35,16 @@ def _get_z_model(model='DAK'):
     return models[model]
 
 
-def _calc_Z_explicit_implicit_helper(Pr, Tr, zmodel_func, zmodel_str, guess, newton_kwargs, ps_props):
+def _calc_z_explicit_implicit_helper(Pr, Tr, zmodel_func, zmodel_str, guess, newton_kwargs, ps_props):
 
     maxiter = 1000
 
     # Explicit models
     if zmodel_str in ['kareem']:
         if guess != _get_guess_constant():
-            raise KeyError('calc_Z(model="%s") got an unexpected argument "guess"' % zmodel_str)
+            raise KeyError('calc_z(model="%s") got an unexpected argument "guess"' % zmodel_str)
         if newton_kwargs is not None:
-            raise KeyError('calc_Z(model="%s") got an unexpected argument "newton_kwargs"' % zmodel_str)
+            raise KeyError('calc_z(model="%s") got an unexpected argument "newton_kwargs"' % zmodel_str)
         Z = zmodel_func(Pr=Pr, Tr=Tr)
 
     # Implicit models: they require iterative convergence
@@ -61,7 +61,7 @@ def _calc_Z_explicit_implicit_helper(Pr, Tr, zmodel_func, zmodel_str, guess, new
     return Z
 
 
-def calc_Z(sg=None, P=None, T=None, H2S=None, CO2=None, N2=None, Pr=None, Tr=None, pmodel='piper', zmodel='DAK',
+def calc_z(sg=None, P=None, T=None, H2S=None, CO2=None, N2=None, Pr=None, Tr=None, pmodel='Piper', zmodel='DAK',
            guess=_get_guess_constant(), newton_kwargs=None, ps_props=False, ignore_conflict=False, **kwargs):
 
     z_model = _get_z_model(model=zmodel)
@@ -70,7 +70,7 @@ def calc_Z(sg=None, P=None, T=None, H2S=None, CO2=None, N2=None, Pr=None, Tr=Non
     if Pr is not None and Tr is not None:
 
         # Explicit models
-        Z = _calc_Z_explicit_implicit_helper(Pr, Tr, z_model, zmodel, guess, newton_kwargs, ps_props)
+        Z = _calc_z_explicit_implicit_helper(Pr, Tr, z_model, zmodel, guess, newton_kwargs, ps_props)
         if ps_props is True:
             ps_props = {'z': Z, 'Pr': Pr, 'Tr': Tr}
             return ps_props
@@ -78,20 +78,20 @@ def calc_Z(sg=None, P=None, T=None, H2S=None, CO2=None, N2=None, Pr=None, Tr=Non
             return Z
 
     # Pr and Tr are NOT provided:
-    if pmodel == 'piper':
-        pc_instance = piper.piper()  # this import doesn't work on this file but it will work when imported from other files
+    if pmodel == 'Piper':
+        pc_instance = Piper.Piper()  # this import doesn't work on this file but it will work when imported from other files
         Tr, Pr = pc_instance._initialize_Tr_and_Pr(sg=sg, P=P, T=T, Tr=Tr, Pr=Pr, H2S=H2S, CO2=CO2, N2=N2, ignore_conflict=ignore_conflict, **kwargs)
-    elif pmodel == 'sutton':
+    elif pmodel == 'Sutton':
         if N2 is not None:
-            raise KeyError('pmodel="sutton" does not support N2 as input. Set N2=None')
-        pc_instance = sutton.sutton()
+            raise KeyError('pmodel="Sutton" does not support N2 as input. Set N2=None')
+        pc_instance = Sutton.Sutton()
         Tr, Pr = pc_instance._initialize_Tr_and_Pr(sg=sg, P=P, T=T, Tr=Tr, Pr=Pr, H2S=H2S, CO2=CO2, ignore_conflict=ignore_conflict, **kwargs)
     else:
         raise KeyError(
             'Pseudo-critical model "%s" is not implemented. Choose from the list of available models: %s' % (pmodel, pmodels_ks)
         )
 
-    Z = _calc_Z_explicit_implicit_helper(Pr, Tr, z_model, zmodel, guess, newton_kwargs, ps_props)
+    Z = _calc_z_explicit_implicit_helper(Pr, Tr, z_model, zmodel, guess, newton_kwargs, ps_props)
 
     if ps_props is True:
         ps_props = {'z': Z}
@@ -117,7 +117,7 @@ def quickstart():
 
     for Tr in Trs:
         for Pr in Prs:
-            z = calc_Z(Tr=Tr, Pr=Pr)
+            z = calc_z(Tr=Tr, Pr=Pr)
             results[Tr]['Z'] = np.append(results[Tr]['Z'], [z], axis=0)
             results[Tr]['Pr'] = np.append(results[Tr]['Pr'], [Pr], axis=0)
 

@@ -23,7 +23,7 @@ from gascompressibility.utilities.utilities import calc_Fahrenheit_to_Rankine
 from gascompressibility.utilities.utilities import calc_psig_to_psia
 from gascompressibility.z_correlation import z_helper
 
-class piper(object):
+class Piper(object):
     """An example docstring for a class definition."""
 
     def __init__(
@@ -43,7 +43,7 @@ class piper(object):
             A string to assign to the `name` instance attribute.
         """
 
-        self.mode = 'piper'
+        self.mode = 'Piper'
         self._check_invalid_mode(self.mode)  # prevent user modification of self.mode
 
         self.sg = None
@@ -158,13 +158,13 @@ class piper(object):
         return self.Pr
 
     """Newton-Raphson nonlinear solver"""
-    def calc_Z(self, sg=None, P=None, T=None, Tpc=None, Ppc=None, H2S=None, CO2=None, N2=None, Tr=None, Pr=None,
+    def calc_z(self, sg=None, P=None, T=None, Tpc=None, Ppc=None, H2S=None, CO2=None, N2=None, Tr=None, Pr=None,
                J=None, K=None, ignore_conflict=False, model='DAK', guess=0.9, newton_kwargs=None):
 
         self._set_first_caller_attributes(inspect.stack()[0][3], locals())
         self._initialize_Tr(Tr, T=T, sg=sg, Tpc=Tpc, H2S=H2S, CO2=CO2, N2=N2, J=J, K=K, ignore_conflict=ignore_conflict)
         self._initialize_Pr(Pr, P=P, sg=sg, Tpc=Tpc, Ppc=Ppc, H2S=H2S, CO2=CO2, N2=N2, J=J, K=K, ignore_conflict=ignore_conflict)
-        Z = z_helper.calc_Z(Pr=self.Pr, Tr=self.Tr, zmodel=model, guess=guess)
+        Z = z_helper.calc_z(Pr=self.Pr, Tr=self.Tr, zmodel=model, guess=guess)
         self.Z = Z
         return self.Z
 
@@ -307,8 +307,8 @@ class piper(object):
             self.Tr = Tr
 
     def _check_invalid_mode(self, mode):
-        if mode != 'sutton' and mode != 'piper':
-            raise TypeError("Invalid optional argument, mode (calculation method), input either 'sutton', 'piper'")
+        if mode != 'Sutton' and mode != 'Piper':
+            raise TypeError("Invalid optional argument, mode (calculation method), input either 'Sutton', 'Piper'")
         self.mode = mode
 
     def quickstart(self):
@@ -326,8 +326,8 @@ class piper(object):
 
         for Tr in Trs:
             for Pr in Prs:
-                z_obj = piper()
-                z = z_obj.calc_Z(Tr=Tr, Pr=Pr, **{'maxiter': 1000})
+                z_obj = Piper()
+                z = z_obj.calc_z(Tr=Tr, Pr=Pr, **{'maxiter': 1000})
                 results[Tr]['Z'] = np.append(results[Tr]['Z'], [z], axis=0)
                 results[Tr]['Pr'] = np.append(results[Tr]['Pr'], [Pr], axis=0)
 

@@ -1,3 +1,3 @@
-from .sutton import sutton
-from .piper import piper
+from .Sutton import Sutton
+from .Piper import Piper
 

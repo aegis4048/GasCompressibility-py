@@ -38,8 +38,48 @@ def copy_misc_to_static():
     os.chdir(curdir)
 
 
+def exclude_builtin_methods(arr):
+    return [item for item in arr if '__' not in item]
 
 
+def exclude_private_methods(arr):
+    return [item for item in arr if not item.startswith('_')]
+
+
+def write_class_methods_to_rst(file_dir=None, write_dir=None, file_name=None,):
+
+    with open(file_dir + '\\' + file_name) as file:
+        node = ast.parse(file.read())
+
+    classes = [n for n in node.body if isinstance(n, ast.ClassDef)]
+
+    class_method_dict = {
+        class_.name: {
+            'MethodsStr': [n.name for n in class_.body if isinstance(n, ast.FunctionDef)],
+        } for class_ in classes
+    }
+
+    if not os.path.exists(write_dir):
+        os.makedirs(write_dir)
+    os.chdir(write_dir)
+
+    for key, val in class_method_dict.items():
+        raw_methods = class_method_dict[key]['MethodsStr']
+        filtered_methods = exclude_builtin_methods(raw_methods)
+        filtered_methods = exclude_private_methods(filtered_methods)
+
+        for method in filtered_methods:
+            method_w = '.'.join([key, key, method])
+            with open(method_w + '.rst', 'w', encoding='utf-8') as fout:
+                content = "%s\n" \
+                          "=====================================\n" \
+                          "\n" \
+                          ".. automethod:: %s" % ('.'.join(method_w.split('.')[2:]), method_w)
+
+                fout.write(content)
+                print('   ~' + method_w)
+
+        class_method_dict[key] = filtered_methods
 
 # -- Path setup --------------------------------------------------------------
 
@@ -47,14 +87,21 @@ def copy_misc_to_static():
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# https://stackoverflow.com/questions/53668052/sphinx-cannot-find-my-python-files-says-no-module-named
 # https://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_numpy.html
-sys.path.insert(0, os.path.abspath(os.path.join('..', '..', 'src')))
+#sys.path.insert(0, os.path.abspath(os.path.join('..', '..', 'src')))
+
+sys.path.insert(0, os.path.abspath(os.path.join('..', '..', 'gascompressibility\\pseudocritical')))
+sys.path.insert(0, os.path.abspath(os.path.join('..', '..', 'gascompressibility\\z_correlation')))
 
 copy_misc_to_static()
 
 # auto-generation codes
-# GasComressibility-py/docs> sphinx-apidoc -f -o ./source ../src
+# GasComressibility-py/docs> sphinx-apidoc -f -o ./source ../gascompressibility/pseudocritical
+
+
+# sphinx-apidoc -f -o ./source ../src
+
+
 # sphinx-apidoc -SPHINX_APIDOC_OPTIONS ['members', 'undoc-members']  -o ./source ../src
 
 # -- Project information -----------------------------------------------------
@@ -86,10 +133,6 @@ extensions = [
     'myst_parser',  # git install myst_parser
 ]
 
-# Autosummary article:
-# https://stackoverflow.com/questions/2701998/automatically-document-all-modules-recursively-with-sphinx-autodoc/62613202#62613202
-# https://romanvm.pythonanywhere.com/post/autodocumenting-your-python-code-sphinx-part-ii-6/
-
 
 ################## Run "html make" with True once, and then change to False and run again ########################
 
@@ -99,21 +142,48 @@ try:
     curdir = os.getcwd()
     os.chdir("..")
     shutil.rmtree(os.getcwd() + '\\build\\html')
+    print('+++++++++++++++++++++++++++++++++++++++++++++++')
     print('\\build\\html remove succeeded')
+    print('+++++++++++++++++++++++++++++++++++++++++++++++')
 except:
+    print('+++++++++++++++++++++++++++++++++++++++++++++++')
     print('\\build\\html remove FAILED')
+    print('+++++++++++++++++++++++++++++++++++++++++++++++')
 
 if generate_rsts:
     autosummary_generate = True
 
     try:
-        shutil.rmtree(os.getcwd() + '\\docs\\source\\functions')
-        print('\\docs\\source\\functions remove succeeded')
+        shutil.rmtree(os.getcwd() + '\\source\\functions')
+        print('+++++++++++++++++++++++++++++++++++++++++++++++')
+        print('\\source\\functions remove succeeded')
+        print('+++++++++++++++++++++++++++++++++++++++++++++++')
     except:
-        print('\\docs\\source\\functions remove FAILED')
+        print(os.getcwd())
+        print('+++++++++++++++++++++++++++++++++++++++++++++++')
+        print('\\source\\functions remove FAILED')
+        print('+++++++++++++++++++++++++++++++++++++++++++++++')
 
 else:
     autosummary_generate = False
+
+    try:
+        shutil.rmtree(os.getcwd() + '\\source\\functions')
+        print('+++++++++++++++++++++++++++++++++++++++++++++++')
+        print('\\source\\functions remove succeeded')
+        print('+++++++++++++++++++++++++++++++++++++++++++++++')
+    except:
+        print(os.getcwd())
+        print('+++++++++++++++++++++++++++++++++++++++++++++++')
+        print('\\source\\functions remove FAILED')
+        print('+++++++++++++++++++++++++++++++++++++++++++++++')
+
+    filedir = "C:\\Users\\EricKim\\Documents\\GasCompressibiltiyFactor-py\\gascompressibility\\pseudocritical"
+    writedir = "C:\\Users\\EricKim\\Documents\\GasCompressibiltiyFactor-py\\docs\\source\\functions"
+
+    write_class_methods_to_rst(file_dir=filedir, write_dir=writedir, file_name='Piper.py')
+    write_class_methods_to_rst(file_dir=filedir, write_dir=writedir, file_name='Sutton.py')
+
     #replace_line(w_detect='__init__', w_replace='', f_loc="..\\source\\functions")
     #replace_line(w_detect='.. autosummary::', w_replace='   .. autosummary::\n      :nosignatures:\n',
     #             f_loc="..\\source\\functions")
@@ -122,8 +192,6 @@ else:
 
 
 #################################################################################
-
-#autoclass_content = "class"
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -145,6 +213,9 @@ html_theme = "pydata_sphinx_theme"
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
+html_css_files = [
+    'custom.css',
+]
 
 
 
@@ -184,6 +255,30 @@ latex_show_urls = 'footnote'
 
 #############################
 
+add_module_names = False
+
+from sphinx.ext.autosummary import Autosummary
+from sphinx.ext.autosummary import get_documenter
+from docutils.parsers.rst import directives
+from sphinx.util.inspect import safe_getattr
+import re
+
+from sphinx.ext.autosummary.generate import AutosummaryRenderer
 
 
+def smart_fullname(fullname):
+    parts = fullname.split(".")
+    print('-------------------')
+    print(parts)
+    return ".".join(parts[1:])
+
+
+def fixed_init(self, app, template_dir=None):
+    print('=====================')
+    AutosummaryRenderer.__old_init__(self, app, template_dir)
+    self.env.filters["smart_fullname"] = smart_fullname
+
+
+AutosummaryRenderer.__old_init__ = AutosummaryRenderer.__init__
+AutosummaryRenderer.__init__ = fixed_init
 

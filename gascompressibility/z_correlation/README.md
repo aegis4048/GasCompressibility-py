@@ -18,7 +18,7 @@ The goal of all existing z-factor correlation models is to numerically represent
 
 
 ## 2. Implicit vs Explicit models
-**Implicit** models require iterative convergence to find the root of non-linear equations. From the Python point of view, this means that they use `scipy.optimize.newton()` method. These models are computationally much more expensive than explicit models. However, providing a good initial guess for the z-factor can significantly reduce computational cost. Initial guess of $Z = 0.9$ is a good starting point for most applications in the oil field. This can be done by setting `calc_Z(guess=0.9)` in this library. 
+**Implicit** models require iterative convergence to find the root of non-linear equations. From the Python point of view, this means that they use `scipy.optimize.newton()` method. These models are computationally much more expensive than explicit models. However, providing a good initial guess for the z-factor can significantly reduce computational cost. Initial guess of $Z = 0.9$ is a good starting point for most applications in the oil field. This can be done by setting `calc_z(guess=0.9)` in this library. 
 
 *Models implemented:*
 
@@ -72,7 +72,7 @@ This method is widely used in the petroleum industry<sup>[[5]](#ref-5)</sup>.
 **Code usage example:**
 ```python
 >>> import gascompressibility as gascomp
->>> gascomp.calc_Z(Pr=3.1995, Tr=1.5006, guess=0.95)  # default: model='DAK', guess=0.9
+>>> gascomp.calc_z(Pr=3.1995, Tr=1.5006, guess=0.95)  # default: model='DAK', guess=0.9
 0.7730934971021097
 ```
 
@@ -109,7 +109,7 @@ This method has received great application in the natural gas industry<sup>[[6]]
 **Code usage example:**
 ```python
 >>> import gascompressibility as gascomp
->>> gascomp.calc_Z(model='hall_yarborough', Pr=3.1995, Tr=1.5006, guess=0.95)  
+>>> gascomp.calc_z(model='hall_yarborough', Pr=3.1995, Tr=1.5006, guess=0.95)  
 0.7714000268437691
 ```
 
@@ -130,7 +130,7 @@ The original paper does not mention any tested working ranges of $P_{r}$ and $T_
 **Code usage example:**
 ```python
 >>> import gascompressibility as gascomp
->>> gascomp.calc_Z(model='londono', Pr=3.1995, Tr=1.5006, guess=0.95)   
+>>> gascomp.calc_z(model='londono', Pr=3.1995, Tr=1.5006, guess=0.95)   
 0.7754849921456451
 ```
 
@@ -181,7 +181,7 @@ The model's tested working ranges are: $1.15 < T_{r} \leq 3$ and $0.2 \leq P_{r}
 **Code usage example:**
 ```python
 >>> import gascompressibility as gascomp
->>> gascomp.calc_Z(model='kareem', Pr=3.1995, Tr=1.5006)
+>>> gascomp.calc_z(model='kareem', Pr=3.1995, Tr=1.5006)
 0.7667583024871576
 ```
 
@@ -219,20 +219,20 @@ The table dictates that **Sutton's pseudo-critical property model with Londono's
 
 ## 5. Code Usage
 
-`calc_Z` method takes two required keyword arguments (`Tr` and  `Pr`) and three optional keyword arguments with pre-set default values (`model='DAK'`, `guess=0.9123676532`, and `newton_kwargs=None`).
+`calc_z` method takes two required keyword arguments (`Tr` and  `Pr`) and three optional keyword arguments with pre-set default values (`model='DAK'`, `guess=0.9123676532`, and `newton_kwargs=None`).
 
 All models take 2 required inputs: `Tr` and `Pr`. These inputs can be passed in a form of keyword arguments:
 
 ```python
->>> gascomp.calc_Z(Pr=3.1995, Tr=1.5006)  # default model='DAK'
+>>> gascomp.calc_z(Pr=3.1995, Tr=1.5006)  # default model='DAK'
 ```
 Or just arguments:
 ```python
->>> gascomp.calc_Z(3.1995, 1.5006)
+>>> gascomp.calc_z(3.1995, 1.5006)
 ```
 You can pick the model of your choice by setting the `model` parameter.
 ```python
->>> gascomp.calc_Z(Pr=3.1995, Tr=1.5006, model='hall-yarborough')
+>>> gascomp.calc_z(Pr=3.1995, Tr=1.5006, model='hall-yarborough')
 ```
 Currently `model` accepts four string inputs: `'DAK'`, `'hall_yarborough'`, `'londono'` and `'kareem'`.
 
@@ -243,7 +243,7 @@ Implicit models `DAK`, `hall_yarborough`, and `londono` internally uses `scipy.o
 For example, if you want to pass `x0=0.9, maxiter=100, rtol=0.1` to `scipy.optimize.newton`:
 
 ```python
->>> gascomp.calc_Z(Pr=3.1995, Tr=1.5006, guess=0.9, newton_kwargs={'maxiter': 100, 'rtol': 0.1})
+>>> gascomp.calc_z(Pr=3.1995, Tr=1.5006, guess=0.9, newton_kwargs={'maxiter': 100, 'rtol': 0.1})
 ```
 
 For more examples, refer to the tutorial jupyter notebook (coming soon).

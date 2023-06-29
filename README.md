@@ -32,9 +32,9 @@ results, fig, ax = z_obj.quickstart()
 ```python
 import gascompressibility as gascomp
  
-z_obj = gascomp.zfactor()  # default mode = 'sutton'
+z_obj = gascomp.zfactor()  # default mode = 'Sutton'
 
-Z = z_obj.calc_Z(sg=0.7, P=2010, T=75, H2S=0.07, CO2=0.1)
+Z = z_obj.calc_z(sg=0.7, P=2010, T=75, H2S=0.07, CO2=0.1)
 
 print('Z =', round(Z, 2))
 ```
@@ -48,14 +48,14 @@ Z = 0.77
 
 ### 4.1. Accessing "middle-step variables"
 
-The 'middle step variables' created during the calculation steps can be accessed in a form of class object attributes. For example, `z_obj` class object is instantiated. Executing `.calc_Z()` function on `z_obj` computes middle step variables that are required for `Z` calculation, and saves them as class attributes. For example, the reduced temperature, $`T_{r}`$, and the reduced pressure, $`P_{r}`$, can be access by `z_obj.Tr` and `z_obj.Pr`. For the list and descriptions of all middle step variables, check [below](#middlestep-list).
+The 'middle step variables' created during the calculation steps can be accessed in a form of class object attributes. For example, `z_obj` class object is instantiated. Executing `.calc_z()` function on `z_obj` computes middle step variables that are required for `Z` calculation, and saves them as class attributes. For example, the reduced temperature, $`T_{r}`$, and the reduced pressure, $`P_{r}`$, can be access by `z_obj.Tr` and `z_obj.Pr`. For the list and descriptions of all middle step variables, check [below](#middlestep-list).
 
 ```python
 import gascompressibility as gascomp
  
-z_obj = gascomp.zfactor()  # default mode = 'sutton'
+z_obj = gascomp.zfactor()  # default mode = 'Sutton'
 
-Z = z_obj.calc_Z(sg=0.7, P=2010, T=75, H2S=0.07, CO2=0.1)
+Z = z_obj.calc_z(sg=0.7, P=2010, T=75, H2S=0.07, CO2=0.1)
 
 print('Z             =', z_obj.Z)
 print('Ppc           =', z_obj.Ppc)
@@ -82,33 +82,33 @@ Tr            = 1.5005661019949397
 
 The package currently supports 2 ways to compute pseudo-critical properties:
 
-* `zfactor(mode='sutton)` : Sutton's gas specific gravity correlation<sup>[[1]](#ref-1)</sup> and Wichert-Aziz correction for $`H_{2}S`$ and $`CO_{2}`$ fractions<sup>[[2]](#ref-2)</sup> (default mode)
+* `zfactor(mode='Sutton)` : Sutton's gas specific gravity correlation<sup>[[1]](#ref-1)</sup> and Wichert-Aziz correction for $`H_{2}S`$ and $`CO_{2}`$ fractions<sup>[[2]](#ref-2)</sup> (default mode)
 
-* `zfactor(mode='piper')` : Piper's gas specific gravity correlation for naturally occuring petroleum gases with  $`H_{2}S`$, $`CO_{2}`$ and $`N_{2}`$ fractions<sup>[[3]](#ref-3)</sup>
+* `zfactor(mode='Piper')` : Piper's gas specific gravity correlation for naturally occuring petroleum gases with  $`H_{2}S`$, $`CO_{2}`$ and $`N_{2}`$ fractions<sup>[[3]](#ref-3)</sup>
 
 These two modes can be specified with the keyward argument `mode=` when instantiating the class object `zfactor()`.
 
 ```python
-z_obj_sutton = gascomp.zfactor('sutton')  # mode='sutton', default
-z_obj_piper = gascomp.zfactor('piper')    # mode='piper'
+z_obj_Sutton = gascomp.zfactor('Sutton')  # mode='Sutton', default
+z_obj_Piper = gascomp.zfactor('Piper')    # mode='Piper'
 ```
 
-Different calculation modes involve different inputs and middle step variables. Piper's method additionally considers nitrogen gas fraction whereas Sutton's method doesn't. All input variables can be provided in a form of keyward arguments (ex: `z_obj.calc_Z(sg=0.7, P=2010, T=75)`). All middle-step variables can be accessed in a form of class attributes (ex: `z_obj.Ppc_corrected`).
+Different calculation modes involve different inputs and middle step variables. Piper's method additionally considers nitrogen gas fraction whereas Sutton's method doesn't. All input variables can be provided in a form of keyward arguments (ex: `z_obj.calc_z(sg=0.7, P=2010, T=75)`). All middle-step variables can be accessed in a form of class attributes (ex: `z_obj.Ppc_corrected`).
 
 **Inputs:**
-- `zfactor(mode='sutton)` 
+- `zfactor(mode='Sutton)` 
 	- `sg`: gas specific gravity, $`\gamma_{g}`$ (dimensionless)
 	- `P`: gas pressure, $`P`$ (psia)
 	- `T`: gas temperature,  $`T`$ (°F)
 	- `H2S`: $`H_{2}S`$ gas fraction (dimensionless)
 	- `CO2`: $`CO_{2}`$ gas fraction (dimensionless)
-- `zfactor(mode='piper')`
+- `zfactor(mode='Piper')`
 	- `sg`, `P`, `T`, `H2S`, and `CO2`
 	- `N2`: $`N_{2}`$ gas fraction (dimensionless)
 
 <a name="middlestep-list"></a>
 **Middle-step variables:**
-- `zfactor(mode='sutton)` 
+- `zfactor(mode='Sutton)` 
 	- `Ppc`: pseudo-critical pressure, $`P_{pc}`$ (psia)
 	- `Tpc`: pseudo-critical temperature, $`T_{pc}`$ (°R)
 	- `e_correction`: DAK deviation parameter, $`\epsilon`$ (°R)
@@ -117,7 +117,7 @@ Different calculation modes involve different inputs and middle step variables. 
 	- `Pr`: reduced pressure, $`P_{r}`$ (psia)
 	- `Tr`: reduced temperature, $`T_{r}`$ (°R)
 	- `Z`: gas compressibility factor, $`Z`$ (dimensionless)
-- `zfactor(mode='piper')`
+- `zfactor(mode='Piper')`
 	- `Ppc`, `Tpc`, `Pr`, `Tr`, and `Z`
 	- `J`: Sutton-Burkhardt-VOO (SBV) parameter, $`J`$ (°R/psia)
 	- `K`: SBV parameter, $`K`$ (°R/psia^0.5)
@@ -150,9 +150,9 @@ The below is the list of the additional functions supported:
 * `gascompressibility.zfactor.calc_K()`
 * `gascompressibility.zfactor.calc_Tr()`
 * `gascompressibility.zfactor.calc_Pr()`
-* `gascompressibility.zfactor.calc_Z()`
+* `gascompressibility.zfactor.calc_z()`
 
-Each function takes different inputs in a form of keyword arguments. For more detailed information about input types for each function, refer to the documentation (work in progress). Also note that some functions aren't supported depending on whether if its `zfactor(mode='sutton')` or `zfactor(mode='piper')`.
+Each function takes different inputs in a form of keyword arguments. For more detailed information about input types for each function, refer to the documentation (work in progress). Also note that some functions aren't supported depending on whether if its `zfactor(mode='Sutton')` or `zfactor(mode='Piper')`.
 
 
 ### 4.4. "Alternative" calculations

@@ -1,8 +1,7 @@
-src
-===
+API Reference
+==============
 
 .. toctree::
    :maxdepth: 4
 
-   main
-   piper
+   pseudocritical

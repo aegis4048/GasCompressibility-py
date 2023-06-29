@@ -59,9 +59,9 @@ If you are a chemical or petroleum engineer who doesn’t know what
 
    import gascompressibility as gascomp
 
-   z_obj = gascomp.zfactor()  # default mode = 'sutton'
+   z_obj = gascomp.zfactor()  # default mode = 'Sutton'
 
-   Z = z_obj.calc_Z(sg=0.7, P=2010, T=75, H2S=0.07, CO2=0.1)
+   Z = z_obj.calc_z(sg=0.7, P=2010, T=75, H2S=0.07, CO2=0.1)
 
    print('Z =', round(Z, 2))
 

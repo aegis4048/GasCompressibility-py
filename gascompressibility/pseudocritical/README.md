@@ -5,8 +5,8 @@
 
 This section explains the equations used for each correlation models implemented in the following files:
 
-* piper.py
-* sutton.py
+* Piper.py
+* Sutton.py
 
 ## 1. Basic Theory
 
@@ -46,13 +46,13 @@ Sutton's method (1985)<sup>[[2]](#ref-2)</sup> can apply correction for $H_{2}S$
 ```python
 >>> import gascompressibility as gascomp
 
->>> gascomp.sutton().calc_Tr(sg=0.7, T=75, CO2=0.1, H2S=0.07) 
+>>> gascomp.Sutton().calc_Tr(sg=0.7, T=75, CO2=0.1, H2S=0.07) 
 1.5005661019949397
 ```
 
 Piper's method (1993)<sup>[[3]](#ref-3)</sup> can apply correction for $H_{2}S$, $CO_2$, and $N_2$:
 ```python
->>> gascomp.piper().calc_Tr(sg=0.7, T=75, CO2=0.1, H2S=0.07, N2=0.1)  
+>>> gascomp.Piper().calc_Tr(sg=0.7, T=75, CO2=0.1, H2S=0.07, N2=0.1)  
 1.5483056093175225
 ```
 
@@ -105,9 +105,9 @@ The correction correlation is applicable to concentration ranges of $CO_2 < 54.4
 ```python
 import gascompressibility as gascomp
  
-instance = gascomp.sutton() 
+instance = gascomp.Sutton() 
 
-z = instance.calc_Z(sg=0.7, CO2=0.1, H2S=0.07, T=75, P=2010)   # Input: T[°F], P[psig]
+z = instance.calc_z(sg=0.7, CO2=0.1, H2S=0.07, T=75, P=2010)   # Input: T[°F], P[psig]
 
 print('Z             =', round(instance.Z, 2), '   [dimensionless]')
 print('Tpc           =', round(instance.Tpc, 2), ' [°R]')
@@ -134,16 +134,16 @@ Alternatively:
 ```python
 >>> import gascompressibility as gascomp
 
->>> gascomp.sutton().calc_Z(sg=0.7, CO2=0.1, H2S=0.07, P=2010, T=75)  # Input: T[°F],  P[psig]
+>>> gascomp.Sutton().calc_z(sg=0.7, CO2=0.1, H2S=0.07, P=2010, T=75)  # Input: T[°F],  P[psig]
 0.7727976174884119
 
->>> gascomp.sutton().calc_Tpc(sg=0.7) 
+>>> gascomp.Sutton().calc_Tpc(sg=0.7) 
 377.59
 
->>> gascomp.sutton().calc_Tpc_corrected(sg=0.7, CO2=0.1, H2S=0.07) 
+>>> gascomp.Sutton().calc_Tpc_corrected(sg=0.7, CO2=0.1, H2S=0.07) 
 356.31219397078127
 
->>> gascomp.sutton().calc_Tr(sg=0.7, CO2=0.1, H2S=0.07, T=75) # Input: T[°F]
+>>> gascomp.Sutton().calc_Tr(sg=0.7, CO2=0.1, H2S=0.07, T=75) # Input: T[°F]
 1.5005661019949397
 ```
 
@@ -192,9 +192,9 @@ Piper's correction for non-hydrocarbon impurities have working ranges of $H_2S <
 ```python
 import gascompressibility as gascomp
  
-instance = gascomp.piper() 
+instance = gascomp.Piper() 
 
-z = instance.calc_Z(sg=0.7, CO2=0.1, H2S=0.07, N2=0.1, T=75, P=2010)   # Input: T[°F], P[psig]
+z = instance.calc_z(sg=0.7, CO2=0.1, H2S=0.07, N2=0.1, T=75, P=2010)   # Input: T[°F], P[psig]
 
 print('Z   =', round(instance.Z, 2), '   [dimensionless]')
 print('J   =', round(instance.J, 2), '   [°R/psia]')
@@ -219,13 +219,13 @@ Alternatively,
 ```python
 >>> import gascompressibility as gascomp
 
->>> gascomp.piper().calc_Z(sg=0.7, CO2=0.1, H2S=0.07, N2=0.1, P=2010, T=75)  # Input: T[°F],  P[psig]
+>>> gascomp.Piper().calc_z(sg=0.7, CO2=0.1, H2S=0.07, N2=0.1, P=2010, T=75)  # Input: T[°F],  P[psig]
 0.8086927073843273
 
->>> gascomp.piper().calc_Tpc(sg=0.7, CO2=0.1, H2S=0.07, N2=0.1)  # Input: T[°F],  P[psig]
+>>> gascomp.Piper().calc_Tpc(sg=0.7, CO2=0.1, H2S=0.07, N2=0.1)  # Input: T[°F],  P[psig]
 345.325881907563
 
->>> gascomp.piper().calc_Tr(sg=0.7, CO2=0.1, H2S=0.07, N2=0.1, T=75)  # Input: T[°F],  P[psig]
+>>> gascomp.Piper().calc_Tr(sg=0.7, CO2=0.1, H2S=0.07, N2=0.1, T=75)  # Input: T[°F],  P[psig]
 1.5483056093175225
 ```
 
