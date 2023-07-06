@@ -1,4 +1,4 @@
 calc_Pr
 =====================================
 
-.. automethod:: Sutton.Sutton.calc_Pr
+.. automethod:: sutton.Sutton.calc_Pr

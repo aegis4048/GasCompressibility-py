@@ -1,4 +1,4 @@
 calc_Tr
 =====================================
 
-.. automethod:: Piper.Piper.calc_Tr
+.. automethod:: piper.Piper.calc_Tr

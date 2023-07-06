@@ -6,12 +6,13 @@
 
 .. image:: /_static/intro_image.png
 
-Welcome to GasCompressibility-py documentation!
+GasCompressibility-py
 =================================================
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents
+   :hidden:
 
    modules
    Temp<API/api_index>
@@ -37,6 +38,12 @@ remotely install it with the ``pip`` command:
 ::
 
    pip install gascompressibility
+
+To download the most recent version:
+
+::
+
+   pip install gascompressibility --upgrade
 
 If you are a chemical or petroleum engineer who doesn’t know what
 ``pip`` is, read `below <#pip>`__.

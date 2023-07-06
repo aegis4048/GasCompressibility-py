@@ -1,4 +1,4 @@
 calc_K
 =====================================
 
-.. automethod:: Piper.Piper.calc_K
+.. automethod:: piper.Piper.calc_K

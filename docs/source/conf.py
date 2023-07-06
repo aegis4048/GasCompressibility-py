@@ -69,7 +69,7 @@ def write_class_methods_to_rst(file_dir=None, write_dir=None, file_name=None,):
         filtered_methods = exclude_private_methods(filtered_methods)
 
         for method in filtered_methods:
-            method_w = '.'.join([key, key, method])
+            method_w = '.'.join([key.lower(), key, method])
             with open(method_w + '.rst', 'w', encoding='utf-8') as fout:
                 content = "%s\n" \
                           "=====================================\n" \
@@ -92,6 +92,8 @@ def write_class_methods_to_rst(file_dir=None, write_dir=None, file_name=None,):
 
 sys.path.insert(0, os.path.abspath(os.path.join('..', '..', 'gascompressibility\\pseudocritical')))
 sys.path.insert(0, os.path.abspath(os.path.join('..', '..', 'gascompressibility\\z_correlation')))
+
+#sys.path.insert(0, os.path.abspath(os.path.join('..')))
 
 copy_misc_to_static()
 
@@ -128,6 +130,8 @@ extensions = [
     'sphinx.ext.doctest',
     'sphinx.ext.viewcode',  # adds [source] link next to each methods
     'sphinx.ext.autosummary',
+    'sphinx.ext.intersphinx',
+#    'sphinx.ext.autosectionlabel',
 #    'numpydoc',
 #    'sphinx_automodapi.automodapi',
     'myst_parser',  # git install myst_parser

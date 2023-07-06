@@ -1,7 +1,7 @@
 gascompressibility.pseudocritical.Sutton
 ======================================================
 
-.. autoclass:: Sutton.Sutton
+.. autoclass:: sutton.Sutton
    :undoc-members:
    :show-inheritance:
 
@@ -13,7 +13,7 @@ Examples
 
 **Import**
 
->>> import gascompressibility.pseudocritical.Sutton
+>>> from gascompressibility.pseudocritical import Sutton
 
 **Direct calculation**
 
@@ -27,7 +27,7 @@ Examples
 >>> obj.Pr
 3.2070266223893724
 
-:code:`.ps_props` **attribute: Retrieve all associated calculated pseudo-critical properties**
+:code:`.ps_props` **attribute to retrieve all associated calculated pseudo-critical properties**
 
 >>> obj = Sutton()
 >>> _ = obj.calc_Pr(sg=0.7, P=2000, H2S=0.07, CO2=0.1)
@@ -71,13 +71,13 @@ Methods
    :nosignatures:
    :toctree: functions/
 
-   ~Sutton.Sutton.calc_Tpc
-   ~Sutton.Sutton.calc_Ppc
-   ~Sutton.Sutton.calc_e_correction
-   ~Sutton.Sutton.calc_Tpc_corrected
-   ~Sutton.Sutton.calc_Ppc_corrected
-   ~Sutton.Sutton.calc_Tr
-   ~Sutton.Sutton.calc_Pr
+   ~sutton.Sutton.calc_Tpc
+   ~sutton.Sutton.calc_Ppc
+   ~sutton.Sutton.calc_e_correction
+   ~sutton.Sutton.calc_Tpc_corrected
+   ~sutton.Sutton.calc_Ppc_corrected
+   ~sutton.Sutton.calc_Tr
+   ~sutton.Sutton.calc_Pr
 
 Attributes
 -----------
@@ -88,20 +88,20 @@ Attributes
 .. rubric:: Attributes
 
 .. autosummary::
-   ~Sutton.Sutton.sg
-   ~Sutton.Sutton.T_f
-   ~Sutton.Sutton.T
-   ~Sutton.Sutton.P_g
-   ~Sutton.Sutton.P
-   ~Sutton.Sutton.H2S
-   ~Sutton.Sutton.CO2
-   ~Sutton.Sutton.Tpc
-   ~Sutton.Sutton.Ppc
-   ~Sutton.Sutton.Tpc_corrected
-   ~Sutton.Sutton.Ppc_corrected
-   ~Sutton.Sutton.Tr
-   ~Sutton.Sutton.Pr
-   ~Sutton.Sutton.ps_props
+   ~sutton.Sutton.sg
+   ~sutton.Sutton.T_f
+   ~sutton.Sutton.T
+   ~sutton.Sutton.P_g
+   ~sutton.Sutton.P
+   ~sutton.Sutton.H2S
+   ~sutton.Sutton.CO2
+   ~sutton.Sutton.Tpc
+   ~sutton.Sutton.Ppc
+   ~sutton.Sutton.Tpc_corrected
+   ~sutton.Sutton.Ppc_corrected
+   ~sutton.Sutton.Tr
+   ~sutton.Sutton.Pr
+   ~sutton.Sutton.ps_props
 
 References
 -----------

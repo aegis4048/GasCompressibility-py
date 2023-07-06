@@ -6,8 +6,8 @@ Pseudo-Critical Models
    <hr class="gascomp-methods mb3">
 
 .. autosummary::
-   ~Sutton.Sutton
-   ~Piper.Piper
+   ~sutton.Sutton
+   ~piper.Piper
 
 .. toctree::
    :maxdepth: 1

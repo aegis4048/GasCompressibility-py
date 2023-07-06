@@ -1,4 +1,4 @@
 calc_Pr
 =====================================
 
-.. automethod:: Piper.Piper.calc_Pr
+.. automethod:: piper.Piper.calc_Pr

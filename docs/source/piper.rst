@@ -1,7 +1,7 @@
 gascompressibility.pseudocritical.Piper
 ======================================================
 
-.. autoclass:: Piper.Piper
+.. autoclass:: piper.Piper
    :undoc-members:
    :show-inheritance:
 
@@ -16,12 +16,12 @@ Methods
    :nosignatures:
    :toctree: functions/
 
-   ~Piper.Piper.calc_J
-   ~Piper.Piper.calc_K
-   ~Piper.Piper.calc_Tpc
-   ~Piper.Piper.calc_Ppc
-   ~Piper.Piper.calc_Tr
-   ~Piper.Piper.calc_Pr
+   ~piper.Piper.calc_J
+   ~piper.Piper.calc_K
+   ~piper.Piper.calc_Tpc
+   ~piper.Piper.calc_Ppc
+   ~piper.Piper.calc_Tr
+   ~piper.Piper.calc_Pr
 
 Attributes
 -----------
@@ -32,21 +32,21 @@ Attributes
 .. rubric:: Attributes
 
 .. autosummary::
-   ~Piper.Piper.sg
-   ~Piper.Piper.T_f
-   ~Piper.Piper.T
-   ~Piper.Piper.P_g
-   ~Piper.Piper.P
-   ~Piper.Piper.H2S
-   ~Piper.Piper.CO2
-   ~Piper.Piper.N2
-   ~Piper.Piper.Tpc
-   ~Piper.Piper.Ppc
-   ~Piper.Piper.J
-   ~Piper.Piper.K
-   ~Piper.Piper.Tr
-   ~Piper.Piper.Pr
-   ~Piper.Piper.ps_props
+   ~piper.Piper.sg
+   ~piper.Piper.T_f
+   ~piper.Piper.T
+   ~piper.Piper.P_g
+   ~piper.Piper.P
+   ~piper.Piper.H2S
+   ~piper.Piper.CO2
+   ~piper.Piper.N2
+   ~piper.Piper.Tpc
+   ~piper.Piper.Ppc
+   ~piper.Piper.J
+   ~piper.Piper.K
+   ~piper.Piper.Tr
+   ~piper.Piper.Pr
+   ~piper.Piper.ps_props
 
 References
 -----------

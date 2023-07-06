@@ -63,7 +63,103 @@ def _calc_z_explicit_implicit_helper(Pr, Tr, zmodel_func, zmodel_str, guess, new
 
 def calc_z(sg=None, P=None, T=None, H2S=None, CO2=None, N2=None, Pr=None, Tr=None, pmodel='Piper', zmodel='DAK',
            guess=_get_guess_constant(), newton_kwargs=None, ps_props=False, ignore_conflict=False, **kwargs):
+    """
+    Calculates the gas compressibility factor, :math:`Z`.
 
+    **Basic (most common) usage:**
+
+    >>> import gascompressibility as gc
+    >>>
+    >>> gc.calc_z(sg=0.7, T=75, P=2010)
+    0.7366562810878984
+
+
+    **In presence of significant non-hydrocarbon impurities:**
+
+    >>> gc.calc_z(sg=0.7, T=75, P=2010, CO2=0.1, H2S=0.07, N2=0.05)
+    0.7765149771306533
+
+    **When pseudo-critical properties are known (not common):**
+
+    >>> gc.calc_z(Pr=1.5, Tr=1.5)
+    0.859314380561347
+
+    **Picking correlation models of your choice**
+
+    >>> gc.calc_z(sg=0.7, T=75, P=2010, zmodel='kareem', pmodel='Sutton')
+    0.7150183342641309
+
+    **Returning all associated pseudo-critical properties computed**
+
+    >>> gc.calc_z(sg=0.7, T=75, P=2010, ps_props=True)
+    {'z': 0.7366562810878984, 'Tpc': 371.4335560823552, 'Ppc': 660.6569792741872, 'J': 0.56221847, 'K': 14.450840999999999, 'Tr': 1.4394768357478496, 'Pr': 3.0646766226921294}
+
+
+
+    Parameters
+    ----------
+    sg : float
+        specific gravity of gas (dimensionless)
+    P : float
+        pressure of gas (psig)
+    T : float
+        temperature of gas (°F)
+    H2S : float
+        mole fraction of H2S (dimensionless)
+    CO2 : float
+        mole fraction of CO2 (dimensionless)
+    N2 : float
+        mole fraction of N2 (dimensionless). Available only when ``pmodel='Piper'`` (default)
+    Pr : float
+        pseudo-reduced pressure, Pr (psia)
+    Tr : float
+        pseudo-reduced temperature, Tr (°R)
+    pmodel : str
+        choice of a pseudo-critical model. Accepted inputs are: ``'Sutton'`` and ``'Piper'``.
+
+        See Also
+        --------
+        :doc:`pseudocritical`
+        Sutton.Sutton
+        Piper.Piper
+
+    zmodel : str
+        choice of a z-correlation model. Accepted inputs are: ``'DAK'``, ``'hall_yarborough'``, ``'londono'``, and ``'kareem'``
+    guess : float
+        initial guess of z-value for z-correlation models using iterative convergence (``'DAK'``, ``'hall_yarborough'``,
+        and ``'londono'``).
+    newton_kwargs
+    ps_props
+    ignore_conflict
+    kwargs
+
+    Returns
+    -------
+    bool
+        True if successful, False otherwise.
+
+        The return type is not optional. The ``Returns`` section may span
+        multiple lines and paragraphs. Following lines should be indented to
+        match the first line of the description.
+
+        The ``Returns`` section supports any reStructuredText formatting,
+        including literal blocks::
+
+            {
+                'param1': param1,
+                'param2': param2
+            }
+
+    Raises
+    ------
+    AttributeError
+        The ``Raises`` section is a list of all exceptions
+        that are relevant to the interface.
+    ValueError
+        If `param2` is equal to `param1`.
+
+
+    """
     z_model = _get_z_model(model=zmodel)
 
     # Pr and Tr are already provided:
@@ -160,3 +256,5 @@ def quickstart():
     fig.tight_layout()
 
     return results, fig, ax
+
+quickstart()

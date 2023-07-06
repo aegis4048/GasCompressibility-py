@@ -1,4 +1,4 @@
 calc_Ppc
 =====================================
 
-.. automethod:: Sutton.Sutton.calc_Ppc
+.. automethod:: sutton.Sutton.calc_Ppc

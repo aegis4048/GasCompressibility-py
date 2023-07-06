@@ -1,4 +1,4 @@
 calc_Tpc
 =====================================
 
-.. automethod:: Piper.Piper.calc_Tpc
+.. automethod:: piper.Piper.calc_Tpc
