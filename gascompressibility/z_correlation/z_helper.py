@@ -256,5 +256,3 @@ def quickstart():
     fig.tight_layout()
 
     return results, fig, ax
-
-quickstart()
