@@ -125,7 +125,7 @@ class Sutton():
 
     def calc_e_correction(self, H2S=None, CO2=None):
         """
-        Calculates the temperature-correction factor for acid gases, ε (°R)
+        Calculates temperature-correction factor for acid gases, ε (°R)
 
         Parameters
         ----------
@@ -148,7 +148,7 @@ class Sutton():
 
     def calc_Tpc_corrected(self, sg=None, Tpc=None, e_correction=None, H2S=None, CO2=None, ignore_conflict=False):
         """
-        Calculates the corrected pseudo-critical temperature, T'pc (°R)
+        Calculates corrected pseudo-critical temperature, T'pc (°R)
 
         Parameters
         ----------
@@ -187,7 +187,7 @@ class Sutton():
 
     def calc_Ppc_corrected(self, sg=None, Tpc=None, Ppc=None, e_correction=None, Tpc_corrected=None, H2S=None, CO2=None, ignore_conflict=False):
         """
-        Calculates the corrected pseudo-critical pressure, P'pc (psia)
+        Calculates corrected pseudo-critical pressure, P'pc (psia)
 
         Parameters
         ----------

@@ -12,6 +12,7 @@ Pseudo-Critical Models
 .. toctree::
    :maxdepth: 1
    :titlesonly:
+   :hidden:
 
    sutton
    piper

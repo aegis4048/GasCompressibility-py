@@ -1,3 +1,5 @@
+.. _Sutton.calc_Ppc_corrected:
+
 calc_Ppc_corrected
 =====================================
 

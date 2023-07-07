@@ -7,6 +7,10 @@ hr.gascomp-methods {
 p.rubric {
     display: None;
 }
+.field-list.simple {
+    display: block !important;
+}
+
 .mt1 {
     margin-top: 5px !important;
 }

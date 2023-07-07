@@ -35,9 +35,10 @@ def _get_z_model(model='DAK'):
     return models[model]
 
 
-def _calc_z_explicit_implicit_helper(Pr, Tr, zmodel_func, zmodel_str, guess, newton_kwargs, ps_props):
+def _calc_z_explicit_implicit_helper(Pr, Tr, zmodel_func, zmodel_str, guess, newton_kwargs):
 
     maxiter = 1000
+    Z = None
 
     # Explicit models
     if zmodel_str in ['kareem']:
@@ -49,16 +50,28 @@ def _calc_z_explicit_implicit_helper(Pr, Tr, zmodel_func, zmodel_str, guess, new
 
     # Implicit models: they require iterative convergence
     else:
-        if newton_kwargs is None:
-            Z = optimize.newton(zmodel_func, guess, args=(Pr, Tr), maxiter=maxiter)
-        else:
-            # work around to set default maxiter = 1000, unless use specifies it
-            if newton_kwargs.pop('maxiter', None) is None:
-                Z = optimize.newton(zmodel_func, guess, args=(Pr, Tr), maxiter=1000, **newton_kwargs)
-            else:
-                Z = optimize.newton(zmodel_func, guess, args=(Pr, Tr), **newton_kwargs)
+        worked = False
+        for guess in [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]:
+            try:
+                if newton_kwargs is None:  # apply default value of max iteration if newton_kwargs is not provided
+                    Z = optimize.newton(zmodel_func, guess, args=(Pr, Tr), maxiter=maxiter)
+                else:
+                    if 'maxiter' in newton_kwargs:
+                        Z = optimize.newton(zmodel_func, guess, args=(Pr, Tr), **newton_kwargs)
+                    else:
+                        newton_kwargs.pop('maxiter', None)
+                        Z = optimize.newton(zmodel_func, guess, args=(Pr, Tr), maxiter=maxiter, **newton_kwargs)
+                worked = True
+            except:
+                pass
+            if worked:
+                break
+
+        if not worked:
+            raise RuntimeError("Failed to converge")
 
     return Z
+
 
 
 def calc_z(sg=None, P=None, T=None, H2S=None, CO2=None, N2=None, Pr=None, Tr=None, pmodel='Piper', zmodel='DAK',
@@ -115,58 +128,63 @@ def calc_z(sg=None, P=None, T=None, H2S=None, CO2=None, N2=None, Pr=None, Tr=Non
     Tr : float
         pseudo-reduced temperature, Tr (°R)
     pmodel : str
-        choice of a pseudo-critical model. Accepted inputs are: ``'Sutton'`` and ``'Piper'``.
+        choice of a pseudo-critical model. Accepted inputs: ``'Sutton'`` | ``'Piper'``.
 
         See Also
         --------
         :doc:`pseudocritical`
-        Sutton.Sutton
-        Piper.Piper
+        ~sutton.Sutton
+        ~piper.Piper
 
     zmodel : str
-        choice of a z-correlation model. Accepted inputs are: ``'DAK'``, ``'hall_yarborough'``, ``'londono'``, and ``'kareem'``
+        choice of a z-correlation model. Accepted inputs are: ``'DAK'`` | ``'hall_yarborough'`` | ``'londono'`` |``'kareem'``
     guess : float
-        initial guess of z-value for z-correlation models using iterative convergence (``'DAK'``, ``'hall_yarborough'``,
-        and ``'londono'``).
-    newton_kwargs
-    ps_props
-    ignore_conflict
-    kwargs
+        initial guess of z-value for z-correlation models using iterative convergence (``'DAK'`` | ``'hall_yarborough'`` | ``'londono'``).
+    newton_kwargs :dict
+        dictonary of keyword-arguments used by ``scipy.optimize.newton`` method for z-correlation models that use
+        iterative convergence (``'DAK'`` | ``'hall_yarborough'`` | ``'londono'``).
+
+        >>> gc.calc_z(sg=0.7, P=2010, T=75, newton_kwargs={'maxiter': 10000})
+        0.7366562810878984
+
+        See Also
+        ----------
+        `scipy.optimize.newton <https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.newton.html>`_.
+
+    ps_props : bool
+        set this to `True` to return a dictionary of all associated pseudo-critical properties computed during calculation
+        of the z-factor.
+    ignore_conflict : bool
+        set this to True to override calculated variables with input keyword arguments.
+    **kwargs
+        optional kwargs used by psueodo-critical models (``'Sutton'`` | ``'Piper'``) that allow direct calculation of
+        z-factor from pseudo-critical properties instead of specific gravity correlation. Consider the below code example
+        that uses ``pmodel='Sutton'``:
+
+        >>> gc.calc_z(Ppc=663, e_correction=21, Tpc=377.59, P=2010, T=75, pmodel='Sutton', ignore_conflict=True)
+        0.7720015496503527
+
+        ``Ppc``, ``e_correction``, ``Tpc`` aren't default parameters defined in ``gascompressibility.calc_z``,
+        but they can be optionally passed into Sutton's :ref:`calc_Pr <Sutton.calc_Pr>` and :ref:`calc_Tr <Sutton.calc_Tr>`
+        methods if you already know these values (not common) and would like to compute the z-factor from these instead
+        of using specific gravity correlation.
+
+        Danger
+        -------
+        It is not recommended to the pass optional ``**kwargs`` unless you really know what you are doing. 99.9% of the users
+        should not be using this feature.
 
     Returns
     -------
-    bool
-        True if successful, False otherwise.
-
-        The return type is not optional. The ``Returns`` section may span
-        multiple lines and paragraphs. Following lines should be indented to
-        match the first line of the description.
-
-        The ``Returns`` section supports any reStructuredText formatting,
-        including literal blocks::
-
-            {
-                'param1': param1,
-                'param2': param2
-            }
-
-    Raises
-    ------
-    AttributeError
-        The ``Raises`` section is a list of all exceptions
-        that are relevant to the interface.
-    ValueError
-        If `param2` is equal to `param1`.
-
+    float
+        gas compressibility factor, :math:`Z` (dimensionless)
 
     """
     z_model = _get_z_model(model=zmodel)
 
     # Pr and Tr are already provided:
     if Pr is not None and Tr is not None:
-
-        # Explicit models
-        Z = _calc_z_explicit_implicit_helper(Pr, Tr, z_model, zmodel, guess, newton_kwargs, ps_props)
+        Z = _calc_z_explicit_implicit_helper(Pr, Tr, z_model, zmodel, guess, newton_kwargs)
         if ps_props is True:
             ps_props = {'z': Z, 'Pr': Pr, 'Tr': Tr}
             return ps_props
@@ -187,7 +205,7 @@ def calc_z(sg=None, P=None, T=None, H2S=None, CO2=None, N2=None, Pr=None, Tr=Non
             'Pseudo-critical model "%s" is not implemented. Choose from the list of available models: %s' % (pmodel, pmodels_ks)
         )
 
-    Z = _calc_z_explicit_implicit_helper(Pr, Tr, z_model, zmodel, guess, newton_kwargs, ps_props)
+    Z = _calc_z_explicit_implicit_helper(Pr, Tr, z_model, zmodel, guess, newton_kwargs)
 
     if ps_props is True:
         ps_props = {'z': Z}
@@ -198,10 +216,22 @@ def calc_z(sg=None, P=None, T=None, H2S=None, CO2=None, N2=None, Pr=None, Tr=Non
     else:
         return Z
 
-def quickstart():
+
+def quickstart(zmodel='DAK'):
+
+    """
+    Generates a plot
+
+    Returns
+    -------
+    fig : `Figure <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.subplots.html>`_
+        Matplotlib figure object
+    ax : `Axis <https://matplotlib.org/stable/api/axis_api.html#axis-objects>`_
+
+    """
 
     xmax = 8
-    Prs = np.linspace(0, xmax, xmax * 10 + 1)
+    Prs = np.linspace(0.1, xmax, xmax * 10 + 1)
     Prs = np.array([round(Pr, 1) for Pr in Prs])
 
     Trs = np.array([1.05, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.2, 2.4, 2.6, 2.8, 3.0])
@@ -213,7 +243,10 @@ def quickstart():
 
     for Tr in Trs:
         for Pr in Prs:
-            z = calc_z(Tr=Tr, Pr=Pr)
+            if zmodel == 'kareem':
+                z = calc_z(Tr=Tr, Pr=Pr, zmodel=zmodel)
+            else:
+                z = calc_z(Tr=Tr, Pr=Pr, zmodel=zmodel, newton_kwargs={'maxiter': 100000})
             results[Tr]['Z'] = np.append(results[Tr]['Z'], [z], axis=0)
             results[Tr]['Pr'] = np.append(results[Tr]['Pr'], [Pr], axis=0)
 
@@ -256,3 +289,6 @@ def quickstart():
     fig.tight_layout()
 
     return results, fig, ax
+
+
+#  gc.calc_z(Pr=2.1, Tr=1.05, zmodel='londono', newton_kwargs={'maxiter': 100000}, guess=0.5)

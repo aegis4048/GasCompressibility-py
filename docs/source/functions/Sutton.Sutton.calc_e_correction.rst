@@ -1,3 +1,5 @@
+.. _Sutton.calc_e_correction:
+
 calc_e_correction
 =====================================
 

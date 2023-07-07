@@ -71,10 +71,12 @@ def write_class_methods_to_rst(file_dir=None, write_dir=None, file_name=None,):
         for method in filtered_methods:
             method_w = '.'.join([key.lower(), key, method])
             with open(method_w + '.rst', 'w', encoding='utf-8') as fout:
-                content = "%s\n" \
+                content = ".. _%s:\n" \
+                          "\n" \
+                          "%s\n" \
                           "=====================================\n" \
                           "\n" \
-                          ".. automethod:: %s" % ('.'.join(method_w.split('.')[2:]), method_w)
+                          ".. automethod:: %s" % ('.'.join(method_w.split('.')[1:]), '.'.join(method_w.split('.')[2:]), method_w)
 
                 fout.write(content)
                 print('   ~' + method_w)
@@ -233,7 +235,11 @@ import re
 
 #############################################
 
-source_suffix = ['.rst', '.md']
+source_suffix = {
+    '.rst': 'restructuredtext',
+    '.txt': 'markdown',
+    '.md': 'markdown',
+}
 
 # http://www.pythondoc.com/sphinx/ext/math.html
 
@@ -260,6 +266,13 @@ latex_show_urls = 'footnote'
 html_theme_options = {
    "pygment_light_style": "tango",
    "pygment_dark_style": "monokai"
+}
+
+intersphinx_mapping = {
+    'python': ('http://docs.python.org/2', None),
+    'numpy': ('http://docs.scipy.org/doc/numpy', None),
+    'scipy': ('https://docs.scipy.org/doc/scipy/', None),
+    'matplotlib': ('http://matplotlib.org/stable', None)
 }
 
 #############################
