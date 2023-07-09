@@ -10,7 +10,7 @@ This section explains the equations used for each correlation models implemented
 
 ## 1. Basic Theory
 
-The goal of all existing z-factor correlation models is to numerically represent the famous Standing-Katz (SK) chart, correlating the pseudo-critical properties, reduced pressure ($P_{r}$) and reduced temperature ($T_{r}$), to the real gas compressibility factor $Z$. The calculation of the z-factor requires values of $P_{r}$ and $T_{r}$. If these aren't available, they should first be derived from pseudo-critical property models such as Sutton (2016)<sup>[[7]](#ref-1)</sup> or Piper et al (1993)<sup>[[9]](#ref-1)</sup>.
+The goal of all existing z-factor correlation models is to numerically represent the famous Standing-Katz (SK) chart, correlating the pseudo-critical properties, reduced pressure (:math:`P_{r}`) and reduced temperature (:math:`T_{r}`), to the real gas compressibility factor :math:`Z`. The calculation of the z-factor requires values of :math:`P_{r}` and :math:`T_{r}`. If these aren't available, they should first be derived from pseudo-critical property models such as Sutton (2016)<sup>[[7]](#ref-1)</sup> or Piper et al (1993)<sup>[[9]](#ref-1)</sup>.
 
 <img src="https://raw.githubusercontent.com/aegis4048/GasCompressibiltiy-py/progress/misc/SK_chart_comparison.png" alt="Alt text" title="Optional title">
 
@@ -18,15 +18,15 @@ The goal of all existing z-factor correlation models is to numerically represent
 
 
 ## 2. Implicit vs Explicit models
-**Implicit** models require iterative convergence to find the root of non-linear equations. From the Python point of view, this means that they use `scipy.optimize.newton()` method. These models are computationally much more expensive than explicit models. However, providing a good initial guess for the z-factor can significantly reduce computational cost. Initial guess of $Z = 0.9$ is a good starting point for most applications in the oil field. This can be done by setting `calc_Z(guess=0.9)` in this library. 
+**Implicit** models require iterative convergence to find the root of non-linear equations. From the Python point of view, this means that they use `scipy.optimize.newton()` method. These models are computationally much more expensive than explicit models. However, providing a good initial guess for the z-factor can significantly reduce computational cost. Initial guess of :math:`Z = 0.9` is a good starting point for most applications in the oil field. This can be done by setting `calc_Z(guess=0.9)` in this library. 
 
 *Models implemented:*
 
-* DAK (1975)<sup>[[1]](#ref-1)</sup>
-* Hall-Yarborough (1973)<sup>[[2]](#ref-2)</sup>
-* Londono (2005)<sup>[[3]](#ref-3)</sup>
+* DAK (1975)[1]_
+* Hall-Yarborough (1973)[2]_
+* Londono (2005)[3]_
 
-**Explicit** models require only 1 iteration. They are fast. These models tend to be restricted by smaller applicable $P_{r}$ and $T_{r}$ ranges and be less accurate than implicit models. It is important to check the working ranges of the parameters before implementing these models. 
+**Explicit** models require only 1 iteration. They are fast. These models tend to be restricted by smaller applicable :math:`P_{r}` and :math:`T_{r}` ranges and be less accurate than implicit models. It is important to check the working ranges of the parameters before implementing these models. 
 
 *Models implemented:*
 
@@ -39,33 +39,33 @@ This section shows the equations used for each z-factor correlation models.
 
 ### 3.1. DAK (1975)<sup>[[1]](#ref-1)</sup>
 
-This method requires iterative converge. The z-factor is computed by setting $z$ as the root of the following non-linear equations:
+This method requires iterative converge. The z-factor is computed by setting :math:`z` as the root of the following non-linear equations:
 
-$$
+:math:``
 \begin{align}
 0 &= 1 + \left( A_{1} + \frac{A_{2}}{T_{r}} +  \frac{A_{3}}{T_{r}^{3}} + \frac{A_{4}}{T_{r}^{4}} + \frac{A_{5}}{T_{r}^{5}}\right)\rho_{r} + \left( A_{6} + \frac{A_{7}}{T_{r}} + \frac{A_{8}}{T_{r}^{2}}\right)\rho_{r}^{2} \\
 & ~~~~-A_{9}\left( \frac{A_{7}}{T_{r}} + \frac{A_{8}}{T_{r}^{2}}\right) \rho_{r}^{5} + A_{10}\left( 1 + A_{11}\rho_{r}^{2}\right)\left( \frac{\rho_{r}^{2}}{T_{r}^{3}}\right)exp(-A_{11}\rho_{r}^{2}) - z \\
 \end{align}
-$$
+:math:``
 
 and 
 
-$$
+:math:``
 \rho_{r} = \frac{0.27P_{r}}{zT_{r}}
-$$
+:math:``
 
 where:
 
-$A_{1} = 0.3265 ~~~~~~~~~ A_{2} = -1.0700 ~~~~~~~~~ A_{3} = -0.5339$
+:math:`A_{1} = 0.3265 ~~~~~~~~~ A_{2} = -1.0700 ~~~~~~~~~ A_{3} = -0.5339`
    
-$A_{4}= 0.01569 ~~~~~~~ A_{5} = -0.05165 ~~~~~~~ A_{6} = 0.5475$
+:math:`A_{4}= 0.01569 ~~~~~~~ A_{5} = -0.05165 ~~~~~~~ A_{6} = 0.5475`
    
-$A_{7} = -0.7361 ~~~~~~ A_{8} = 0.1844 ~~~~~~~~~~~~ A_{9} = 0.1056$
+:math:`A_{7} = -0.7361 ~~~~~~ A_{8} = 0.1844 ~~~~~~~~~~~~ A_{9} = 0.1056`
    
-$A_{10} = 0.6134 ~~~~~~~~ A_{11} = 0.7210$ 
+:math:`A_{10} = 0.6134 ~~~~~~~~ A_{11} = 0.7210` 
 
 
-The model's tested working ranges are: $1 \leq T_{r} \leq 3$ and $0.2 \leq P_{r} \leq 30$. The regression coefficients were fitted on 1500 points. An average absolute error of 0.468% is reported in the original paper. 
+The model's tested working ranges are: :math:`1 \leq T_{r} \leq 3` and :math:`0.2 \leq P_{r} \leq 30`. The regression coefficients were fitted on 1500 points. An average absolute error of 0.468% is reported in the original paper. 
 
 This method is widely used in the petroleum industry<sup>[[5]](#ref-5)</sup>.
 
@@ -78,31 +78,31 @@ This method is widely used in the petroleum industry<sup>[[5]](#ref-5)</sup>.
 
 ### 3.2. Hall-Yarborough (1973)<sup>[[2]](#ref-2)</sup>
 
-This method requires iterative converge. The z-factor is computed by setting $z$ as the root of the following non-linear equations: 
+This method requires iterative converge. The z-factor is computed by setting :math:`z` as the root of the following non-linear equations: 
 
-$$
+:math:``
 0 = -A_{1}P_{r} + \frac{\rho_{r} + \rho_{r}^{2} + \rho_{r}^{3} - \rho_{r}^{4}}{(1 - \rho_{r})^{3}} - A_{2}\rho_{r}^{2} + A_{3}\rho_{r}^{A_{4}}
-$$
+:math:``
 
 and 
 
-$$
+:math:``
 \rho_{r} = \frac{A_{1}P_{r}}{z}
-$$
+:math:``
 
 where:
 
-$A_{1} = 0.06125te^{-1.2(1-t)^{2}}$
+:math:`A_{1} = 0.06125te^{-1.2(1-t)^{2}}`
 
-$A_{2}=14.76t - 9.76t^{2} + 4.58t^{3}$
+:math:`A_{2}=14.76t - 9.76t^{2} + 4.58t^{3}`
 
-$A_{3} = 90.7t - 242.2t^{2} + 42.4t^{3}$
+:math:`A_{3} = 90.7t - 242.2t^{2} + 42.4t^{3}`
 
-$A_{4} = 2.18 + 2.82t,$
+:math:`A_{4} = 2.18 + 2.82t,`
 
-$t = 1 / T_{r}$, 
+:math:`t = 1 / T_{r}`, 
 
-The model's tested working ranges are: $1.15 < T_{r} \leq 3$ and $0 < P_{r} \leq 20.5$. The regression coefficients were fitted with 289 points. An average absolute error of 1.21% is reported in the original paper. 
+The model's tested working ranges are: :math:`1.15 < T_{r} \leq 3` and :math:`0 < P_{r} \leq 20.5`. The regression coefficients were fitted with 289 points. An average absolute error of 1.21% is reported in the original paper. 
 
 This method has received great application in the natural gas industry<sup>[[6]](#ref-6)</sup>.
 
@@ -117,15 +117,15 @@ This method has received great application in the natural gas industry<sup>[[6]]
 
 Londono's method is exactly the same as the DAK method, and requires iterative converge. The only difference is that Londono further optimized the eleven regression coefficients by using more data points. DAK used 1500 points. Londono used 5960 points. The new regression coefficients are as follows:
 
-$A_{1} = 0.3024696 ~~~~~~~~~~ A_{2} = -1.046964 ~~~~~~~~~~ A_{3} = -0.1078916$
+:math:`A_{1} = 0.3024696 ~~~~~~~~~~ A_{2} = -1.046964 ~~~~~~~~~~ A_{3} = -0.1078916`
    
-$A_{4}= -0.7694186 ~~~~~~~ A_{5} = 0.1965439 ~~~~~~~~~~~ A_{6} =0.6527819$
+:math:`A_{4}= -0.7694186 ~~~~~~~ A_{5} = 0.1965439 ~~~~~~~~~~~ A_{6} =0.6527819`
    
-$A_{7} = -1.118884 ~~~~~~~~~ A_{8} = 0.3951957 ~~~~~~~~~~~ A_{9} = 0.09313593$
+:math:`A_{7} = -1.118884 ~~~~~~~~~ A_{8} = 0.3951957 ~~~~~~~~~~~ A_{9} = 0.09313593`
    
-$A_{10} = 0.8483081 ~~~~~~~~~ A_{11} = 0.7880011$ 
+:math:`A_{10} = 0.8483081 ~~~~~~~~~ A_{11} = 0.7880011` 
 
-The original paper does not mention any tested working ranges of $P_{r}$ and $T_{r}$. However, it is logical to assume it's working ranges to be the same as the those of the DAK method, $1 \leq T_{r} \leq 3$ and $0.2 \leq P_{r} \leq 30$, since the underlying math is the same. An average absolute error of 0.412% is reported in the original paper. 
+The original paper does not mention any tested working ranges of :math:`P_{r}` and :math:`T_{r}`. However, it is logical to assume it's working ranges to be the same as the those of the DAK method, :math:`1 \leq T_{r} \leq 3` and :math:`0.2 \leq P_{r} \leq 30`, since the underlying math is the same. An average absolute error of 0.412% is reported in the original paper. 
 
 **Code usage example:**
 ```python
@@ -138,44 +138,44 @@ The original paper does not mention any tested working ranges of $P_{r}$ and $T_
 
 This method is an adapted form of the Hall-Yarborough method. This method DOES NOT require iterative convergence.  The z-factor can be calculated by:
 
-$$
+:math:``
 z = \frac{DP_{r}(1 + \rho_{r} + \rho_{r}^{2} -  \rho_{r}^{3})}{(DP_{r} + E \rho_{r}^{2} - F \rho_{r}^{G})(1- \rho_{r})^{3}}
-$$
+:math:``
 
 and
 
-$$
+:math:``
 \rho_{r} = \frac{DP_{r}}{\left(\frac{1 + A^{2}}{C} -\frac{A^{2}B}{C^{3}} \right)}
-$$
+:math:``
 
 where:
 
-$A = a_{1}te^{a_{2}(1-t)^{2}}P_{r}$
+:math:`A = a_{1}te^{a_{2}(1-t)^{2}}P_{r}`
 
-$B = a_{3}t + a_{4}t^{2} + a_{5}t^{6}P_{r}^{6}$
+:math:`B = a_{3}t + a_{4}t^{2} + a_{5}t^{6}P_{r}^{6}`
 
-$C = a_{9} + a_{8}tP_{r} + a_{7}t^{2}P_{r}^{2} + a_{6}t^{3}P_{r}^{3}$
+:math:`C = a_{9} + a_{8}tP_{r} + a_{7}t^{2}P_{r}^{2} + a_{6}t^{3}P_{r}^{3}`
 
-$D = a_{10}te^{a_{11}(1-t)^{2}}$
+:math:`D = a_{10}te^{a_{11}(1-t)^{2}}`
 
-$E = a_{12}t + a_{13}t^{2} + a_{14}t^{3}$
+:math:`E = a_{12}t + a_{13}t^{2} + a_{14}t^{3}`
 
-$F = a_{15}t + a_{16}t^{2} + a_{17}t^{3}$
+:math:`F = a_{15}t + a_{16}t^{2} + a_{17}t^{3}`
 
-$G = a_{18} + a_{19}t$
+:math:`G = a_{18} + a_{19}t`
 
-$t = \frac{1}{T_{r}}$
+:math:`t = \frac{1}{T_{r}}`
 
-$A_{1} = 0.317842 ~~~~~~~~~~~~~~ A_{2} = 0.382216 ~~~~~~~~~~ A_{3} = -7.76835 ~~~~~~~~~A_{4}= 14.2905 ~~~~~~~~~ A_{5} = 0.00000218363$
+:math:`A_{1} = 0.317842 ~~~~~~~~~~~~~~ A_{2} = 0.382216 ~~~~~~~~~~ A_{3} = -7.76835 ~~~~~~~~~A_{4}= 14.2905 ~~~~~~~~~ A_{5} = 0.00000218363`
    
-$A_{6} = -0.00469257 ~~~~~~~ A_{7} = 0.0962541 ~~~~~~~~ A_{8} = 0.16672 ~~~~~~~~~~~~A_{9}= 0.96691 ~~~~~~~~~ A_{10} = 0.063069$
+:math:`A_{6} = -0.00469257 ~~~~~~~ A_{7} = 0.0962541 ~~~~~~~~ A_{8} = 0.16672 ~~~~~~~~~~~~A_{9}= 0.96691 ~~~~~~~~~ A_{10} = 0.063069`
 
-$A_{11} = -1.966847 ~~~~~~~~~ A_{12} = 21.0581 ~~~~~~~~~~~ A_{13} = -27.0246 ~~~~~~~~A_{14}= 16.23 ~~~~~~~~~~~ A_{15} = 207.783$
+:math:`A_{11} = -1.966847 ~~~~~~~~~ A_{12} = 21.0581 ~~~~~~~~~~~ A_{13} = -27.0246 ~~~~~~~~A_{14}= 16.23 ~~~~~~~~~~~ A_{15} = 207.783`
 
-$A_{16} = -488.161 ~~~~~~~~~~~ A_{17} =   176.29 ~~~~~~~~~~~~~ A_{18} = 1.88453 ~~~~~~~~~~~A_{19}= 3.05921$
+:math:`A_{16} = -488.161 ~~~~~~~~~~~ A_{17} =   176.29 ~~~~~~~~~~~~~ A_{18} = 1.88453 ~~~~~~~~~~~A_{19}= 3.05921`
 
 
-The model's tested working ranges are: $1.15 < T_{r} \leq 3$ and $0.2 \leq P_{r} \leq 15$. The regression coefficients were fitted with 5346 points. An average absolute error of 0.4379% is reported in the original paper. For the range outside the coverage of this correlation, the authors recommend using implicit correlations. However, this explicit correlation can be used to provide an initial guess to speed up the iteration process.
+The model's tested working ranges are: :math:`1.15 < T_{r} \leq 3` and :math:`0.2 \leq P_{r} \leq 15`. The regression coefficients were fitted with 5346 points. An average absolute error of 0.4379% is reported in the original paper. For the range outside the coverage of this correlation, the authors recommend using implicit correlations. However, this explicit correlation can be used to provide an initial guess to speed up the iteration process.
 
 
 **Code usage example:**
@@ -192,22 +192,22 @@ An answer to this question needs to consider the following three criteria.
 
 ### 4.1. Computational cost is a big concern
 
-Use the method of Kareem et al (2016)<sup>[[4]](#ref-4)</sup>. This is an explicit model that does not require iterative convergence. Note that the model's working ranges are $1.15 < T_{r} \leq 3$ and $0.2 \leq P_{r} \leq 15$. 
+Use the method of Kareem et al (2016)<sup>[[4]](#ref-4)</sup>. This is an explicit model that does not require iterative convergence. Note that the model's working ranges are :math:`1.15 < T_{r} \leq 3` and :math:`0.2 \leq P_{r} \leq 15`. 
 
-### 4.2. You know $P_{r}$ and $T_{r}$
+### 4.2. You know :math:`P_{r}` and :math:`T_{r}`
 
 If you already know your substance's pseudo-critical properties, 
 
 * **DAK** has been the most widely used model in the petroleum industry for the past 40+ years. **You can't go wrong with this model.**
 * If you really care about small accuracy improvement, go with Londono's method. The underlying math is exactly the same as DAK, except Londono's coefficients are better than those of the DAK's because it used more 4x more data points. Personally, I would use this model.
-* I don't recommend using Hall-Yarborough model. It is older than DAK, used less data points, has bigger average absolute error, and has narrower working ranges for $P_{r}$ and $T_{r}$. But if you do have a reason to use this model, go head. Note that this model is still robust enough for practical usage in the oil field.
+* I don't recommend using Hall-Yarborough model. It is older than DAK, used less data points, has bigger average absolute error, and has narrower working ranges for :math:`P_{r}` and :math:`T_{r}`. But if you do have a reason to use this model, go head. Note that this model is still robust enough for practical usage in the oil field.
 
-### 4.3. You don't know $P_{r}$ and $T_{r}$
+### 4.3. You don't know :math:`P_{r}` and :math:`T_{r}`
 
-Numerical representation of the SK chart from the z-factor correlation models require $P_{r}$ and $T_{r}$ as inputs. If you don't have these values, you need to first derive them using one of the pseudo-critical property correlation models. *GasCompressibility-py* currently supports two pseudo-critical models:
+Numerical representation of the SK chart from the z-factor correlation models require :math:`P_{r}` and :math:`T_{r}` as inputs. If you don't have these values, you need to first derive them using one of the pseudo-critical property correlation models. *GasCompressibility-py* currently supports two pseudo-critical models:
 
-* Sutton's gas specific gravity correlation<sup>[[7]](#ref-7)</sup> in conjunction with Wichert-Aziz correction for gases with $H_{2}S$ and $CO_{2}$ fractions<sup>[[8]](#ref-8)</sup>
-* Piper's gas specific gravity correlation for gases with  $H_{2}S$, $CO_{2}$ and $N_{2}$ fractions<sup>[[9]](#ref-9)</sup>
+* Sutton's gas specific gravity correlation<sup>[[7]](#ref-7)</sup> in conjunction with Wichert-Aziz correction for gases with :math:`H_{2}S` and :math:`CO_{2}` fractions<sup>[[8]](#ref-8)</sup>
+* Piper's gas specific gravity correlation for gases with  :math:`H_{2}S`, :math:`CO_{2}` and :math:`N_{2}` fractions<sup>[[9]](#ref-9)</sup>
 
 Which combination of pseudo-critical model should you use with which z-factor correlation model? The below table presented in Elsharkawy and Elsharkawy (2020)<sup><a href="#ref-10">[10]</sup> may shed light on determining which combination should be used:
 
@@ -215,7 +215,7 @@ Which combination of pseudo-critical model should you use with which z-factor co
 
 <p align=center>Table 1:  Performance evaluation of various pseudo-critical property models in conjunction with various z-factor correlation models<sup><a href="#ref-10">[10]</sup>.</p>
 
-The table dictates that **Sutton's pseudo-critical property model with Londono's z-factor correlation model yields the highest coefficient of determination ($R^{2}$) of 0.974.** However, so long as the models implemented in this package are concerned, you can use any combination you want. They all have $R^{2} \geq 0.957$, which is good enough for practical usage in real life applications.
+The table dictates that **Sutton's pseudo-critical property model with Londono's z-factor correlation model yields the highest coefficient of determination (:math:`R^{2}`) of 0.974.** However, so long as the models implemented in this package are concerned, you can use any combination you want. They all have :math:`R^{2} \geq 0.957`, which is good enough for practical usage in real life applications.
 
 ## 5. Code Usage
 

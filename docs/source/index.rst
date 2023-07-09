@@ -11,7 +11,6 @@ GasCompressibility-py
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents
    :hidden:
 
    modules

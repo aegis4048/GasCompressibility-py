@@ -16,6 +16,34 @@ models = {
     'londono': londono,
     'kareem': kareem,
 }
+MODEL_RANGES = {
+    'DAK': {
+        'Tr': (1, 3),
+        'Pr': (0.2, 30)
+    },
+    'hall_yarborough': {
+        'Tr': (1, 3),
+        'Pr': (0.2, 20.5)
+    },
+    'londono': {
+        'Tr': (1, 3),
+        'Pr': (0.2, 30)
+    },
+    'kareem': {
+        'Tr': (1, 3),
+        'Pr': (0.2, 15)
+    },
+}
+
+
+def _check_working_Pr_Tr_range(Pr, Tr, zmodel_str):
+    Pr_is_in_range = np.logical_and(Pr >= MODEL_RANGES[zmodel_str]['Pr'][0], Pr <= MODEL_RANGES[zmodel_str]['Pr'][1]).all()
+    Tr_is_in_range = np.logical_and(Tr >= MODEL_RANGES[zmodel_str]['Tr'][0], Tr <= MODEL_RANGES[zmodel_str]['Tr'][1]).all()
+
+    #print(Pr >= MODEL_RANGES[zmodel_str]['Pr'][0], Pr <= MODEL_RANGES[zmodel_str]['Pr'][1])
+
+    return Pr_is_in_range and Tr_is_in_range
+
 
 zmodels_ks = '["DAK", "hall_yarborough", "londono", "kareem"]'
 pmodels_ks = '["Sutton", "Piper"]'
@@ -35,32 +63,64 @@ def _get_z_model(model='DAK'):
     return models[model]
 
 
-def _calc_z_explicit_implicit_helper(Pr, Tr, zmodel_func, zmodel_str, guess, newton_kwargs):
+def _construct_guess_list_order(guess):
+    """reorder t in an order closest to the provided guess"""
+    t = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
 
-    maxiter = 1000
+    reordered = [guess]
+    count = 0
+    while len(t) > 0:
+        match = min(t, key=lambda x: abs(x - guess))
+        t.pop(t.index(match))
+        reordered.append(match)
+        count += 1
+    return list(set(reordered))
+
+def _calc_z_explicit_implicit_helper(Pr, Tr, zmodel_func, zmodel_str, guess, newton_kwargs, smart_guess):
+
+    if guess is None:
+        if Pr < 15:
+            guess = 0.9
+        else:
+            # Todo: z-factor after Pr shows linear trend. So fit a linear regression model for each TR and get better estimate of initial guess for Pr range greater than 15, which is the working range of the explicit "kareem" model
+            guess = 2
+
+    maxiter = 50
     Z = None
+    smart_guess_model = 'kareem'
 
     # Explicit models
     if zmodel_str in ['kareem']:
-        if guess != _get_guess_constant():
-            raise KeyError('calc_z(model="%s") got an unexpected argument "guess"' % zmodel_str)
-        if newton_kwargs is not None:
-            raise KeyError('calc_z(model="%s") got an unexpected argument "newton_kwargs"' % zmodel_str)
         Z = zmodel_func(Pr=Pr, Tr=Tr)
 
     # Implicit models: they require iterative convergence
     else:
+
         worked = False
-        for guess in [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]:
+
+        if smart_guess:
+            if _check_working_Pr_Tr_range(Pr, Tr, smart_guess_model):
+                guess_zmodel_func = _get_z_model(model=smart_guess_model)
+                guess_ = guess_zmodel_func(Pr=Pr, Tr=Tr)
+                guesses = [guess_] + [guess] + _construct_guess_list_order(guess)
+            else:
+                guesses = [guess] + _construct_guess_list_order(guess)
+                #print('Pr=', Pr, 'Tr=', Tr)
+                #print(guesses)
+
+        else:
+            guesses = _construct_guess_list_order(guess)
+
+        for guess_ in guesses:
             try:
                 if newton_kwargs is None:  # apply default value of max iteration if newton_kwargs is not provided
-                    Z = optimize.newton(zmodel_func, guess, args=(Pr, Tr), maxiter=maxiter)
+                    Z = optimize.newton(zmodel_func, guess_, args=(Pr, Tr), maxiter=maxiter)
                 else:
                     if 'maxiter' in newton_kwargs:
-                        Z = optimize.newton(zmodel_func, guess, args=(Pr, Tr), **newton_kwargs)
+                        Z = optimize.newton(zmodel_func, guess_, args=(Pr, Tr), **newton_kwargs)
                     else:
                         newton_kwargs.pop('maxiter', None)
-                        Z = optimize.newton(zmodel_func, guess, args=(Pr, Tr), maxiter=maxiter, **newton_kwargs)
+                        Z = optimize.newton(zmodel_func, guess_, args=(Pr, Tr), maxiter=maxiter, **newton_kwargs)
                 worked = True
             except:
                 pass
@@ -75,7 +135,7 @@ def _calc_z_explicit_implicit_helper(Pr, Tr, zmodel_func, zmodel_str, guess, new
 
 
 def calc_z(sg=None, P=None, T=None, H2S=None, CO2=None, N2=None, Pr=None, Tr=None, pmodel='Piper', zmodel='DAK',
-           guess=_get_guess_constant(), newton_kwargs=None, ps_props=False, ignore_conflict=False, **kwargs):
+           guess=None, newton_kwargs=None, smart_guess=None, ps_props=False, ignore_conflict=False, **kwargs):
     """
     Calculates the gas compressibility factor, :math:`Z`.
 
@@ -180,11 +240,29 @@ def calc_z(sg=None, P=None, T=None, H2S=None, CO2=None, N2=None, Pr=None, Tr=Non
         gas compressibility factor, :math:`Z` (dimensionless)
 
     """
+
+    if zmodel in ['kareem']:
+        if guess is not None:
+            raise KeyError('calc_z(model="%s") got an unexpected argument "guess"' % zmodel)
+        if newton_kwargs is not None:
+            raise KeyError('calc_z(model="%s") got an unexpected argument "newton_kwargs"' % zmodel)
+        if smart_guess is not None:
+            raise KeyError('calc_z(model="%s") got an unexpected argument "smart_guess"' % zmodel)
+    else:
+        if guess is None:
+            if Pr < 15:
+                guess = 0.9
+            else:
+                # Todo: z-factor after Pr shows linear trend. So fit a linear regression model for each TR and get better estimate of initial guess for Pr range greater than 15, which is the working range of the explicit "kareem" model
+                guess = 2
+        if smart_guess is None:
+            smart_guess = True
+
     z_model = _get_z_model(model=zmodel)
 
     # Pr and Tr are already provided:
     if Pr is not None and Tr is not None:
-        Z = _calc_z_explicit_implicit_helper(Pr, Tr, z_model, zmodel, guess, newton_kwargs)
+        Z = _calc_z_explicit_implicit_helper(Pr, Tr, z_model, zmodel, guess, newton_kwargs, smart_guess)
         if ps_props is True:
             ps_props = {'z': Z, 'Pr': Pr, 'Tr': Tr}
             return ps_props
@@ -205,7 +283,7 @@ def calc_z(sg=None, P=None, T=None, H2S=None, CO2=None, N2=None, Pr=None, Tr=Non
             'Pseudo-critical model "%s" is not implemented. Choose from the list of available models: %s' % (pmodel, pmodels_ks)
         )
 
-    Z = _calc_z_explicit_implicit_helper(Pr, Tr, z_model, zmodel, guess, newton_kwargs)
+    Z = _calc_z_explicit_implicit_helper(Pr, Tr, z_model, zmodel, guess, newton_kwargs, smart_guess)
 
     if ps_props is True:
         ps_props = {'z': Z}
@@ -217,7 +295,7 @@ def calc_z(sg=None, P=None, T=None, H2S=None, CO2=None, N2=None, Pr=None, Tr=Non
         return Z
 
 
-def quickstart(zmodel='DAK'):
+def quickstart(zmodel='DAK', xmax=30, smart_guess=None, guess=None):
 
     """
     Generates a plot
@@ -230,7 +308,7 @@ def quickstart(zmodel='DAK'):
 
     """
 
-    xmax = 8
+    xmax = xmax
     Prs = np.linspace(0.1, xmax, xmax * 10 + 1)
     Prs = np.array([round(Pr, 1) for Pr in Prs])
 
@@ -244,9 +322,9 @@ def quickstart(zmodel='DAK'):
     for Tr in Trs:
         for Pr in Prs:
             if zmodel == 'kareem':
-                z = calc_z(Tr=Tr, Pr=Pr, zmodel=zmodel)
+                z = calc_z(Tr=Tr, Pr=Pr, zmodel=zmodel, smart_guess=smart_guess, guess=guess)
             else:
-                z = calc_z(Tr=Tr, Pr=Pr, zmodel=zmodel, newton_kwargs={'maxiter': 100000})
+                z = calc_z(Tr=Tr, Pr=Pr, zmodel=zmodel, newton_kwargs={'maxiter': 50}, smart_guess=smart_guess, guess=guess)
             results[Tr]['Z'] = np.append(results[Tr]['Z'], [z], axis=0)
             results[Tr]['Pr'] = np.append(results[Tr]['Pr'], [Pr], axis=0)
 
@@ -260,13 +338,14 @@ def quickstart(zmodel='DAK'):
 
         p = ax.plot(Prs, Zs)
         if Tr == 1.05:
-            t = ax.text(Prs[idx_min] - 0.5, min(Zs) - 0.005, '$T_{r}$ = 1.2', color=p[0].get_color())
+            t = ax.text(Prs[idx_min] - 0.5, min(Zs) - 0.005, '$T_{r}$ = 1.05', color=p[0].get_color())
             t.set_bbox(dict(facecolor='white', alpha=0.9, edgecolor='white', pad=1))
         else:
             t = ax.text(Prs[idx_min] - 0.2, min(Zs) - 0.005, Tr, color=p[0].get_color())
             t.set_bbox(dict(facecolor='white', alpha=0.9, edgecolor='white', pad=1))
 
     ax.set_xlim(0, xmax)
+    #ax.set_ylim(0, 2.5)
     ax.minorticks_on()
     ax.grid(alpha=0.5)
     ax.grid(visible=True, which='minor', alpha=0.1)
@@ -277,6 +356,8 @@ def quickstart(zmodel='DAK'):
     ax.set_xlabel('Pseudo-Reduced Pressure, $P_{r}$', fontsize=label_fontsize)
     ax.text(0.57, 0.08, '$T_{r}$ = Pseudo-Reduced Temperature', fontsize=11, transform=ax.transAxes,
             bbox=dict(facecolor='white'))
+    ax.text(0.05, 0.9, "zmodel = '%s'" % zmodel, fontsize=11, transform=ax.transAxes,
+            bbox=dict(facecolor='white'), va='center', ha='left')
 
     def setbold(txt):
         return ' '.join([r"$\bf{" + item + "}$" for item in txt.split(' ')])

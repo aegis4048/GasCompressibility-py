@@ -1,3 +1,19 @@
+.display_none {
+    display: none !important
+}
+.underline {
+    text-decoration: underline !important;
+}
+.italic {
+    font-style: italic !important;
+}
+.underline-italic {
+    text-decoration: underline !important;
+    font-style: italic !important;
+}
+mjx-container[jax="CHTML"][display="true"] {
+        margin: 0.9em 0 !important;
+}
 hr.gascomp-methods {
     margin-top: -10px;
     border-bottom: 1px solid black;

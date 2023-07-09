@@ -265,7 +265,9 @@ latex_show_urls = 'footnote'
 
 html_theme_options = {
    "pygment_light_style": "tango",
-   "pygment_dark_style": "monokai"
+   "pygment_dark_style": "monokai",
+    "show_nav_level": 4,
+    "navigation_depth": 4
 }
 
 intersphinx_mapping = {
