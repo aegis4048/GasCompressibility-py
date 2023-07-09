@@ -78,13 +78,6 @@ def _construct_guess_list_order(guess):
 
 def _calc_z_explicit_implicit_helper(Pr, Tr, zmodel_func, zmodel_str, guess, newton_kwargs, smart_guess):
 
-    if guess is None:
-        if Pr < 15:
-            guess = 0.9
-        else:
-            # Todo: z-factor after Pr shows linear trend. So fit a linear regression model for each TR and get better estimate of initial guess for Pr range greater than 15, which is the working range of the explicit "kareem" model
-            guess = 2
-
     maxiter = 50
     Z = None
     smart_guess_model = 'kareem'
@@ -95,6 +88,17 @@ def _calc_z_explicit_implicit_helper(Pr, Tr, zmodel_func, zmodel_str, guess, new
 
     # Implicit models: they require iterative convergence
     else:
+
+        if guess is None:
+            if Pr < 15:
+                guess = 0.9
+            else:
+                # Todo: z-factor after Pr shows linear trend. So fit a linear regression model for each TR and get
+                #  better estimate of initial guess for Pr range greater than 15, which is the working bound of the
+                #  explicit "kareem" model. But for now, guess = 2 gets the job done
+                guess = 2
+        if smart_guess is None:
+            smart_guess = True
 
         worked = False
 
@@ -248,15 +252,6 @@ def calc_z(sg=None, P=None, T=None, H2S=None, CO2=None, N2=None, Pr=None, Tr=Non
             raise KeyError('calc_z(model="%s") got an unexpected argument "newton_kwargs"' % zmodel)
         if smart_guess is not None:
             raise KeyError('calc_z(model="%s") got an unexpected argument "smart_guess"' % zmodel)
-    else:
-        if guess is None:
-            if Pr < 15:
-                guess = 0.9
-            else:
-                # Todo: z-factor after Pr shows linear trend. So fit a linear regression model for each TR and get better estimate of initial guess for Pr range greater than 15, which is the working range of the explicit "kareem" model
-                guess = 2
-        if smart_guess is None:
-            smart_guess = True
 
     z_model = _get_z_model(model=zmodel)
 
