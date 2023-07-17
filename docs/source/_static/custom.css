@@ -1,3 +1,44 @@
+.reference.internal:has(> span.doc) {
+    font-family: var(--pst-font-family-monospace);
+    color: var(--pst-color-link);
+    background-color: var(--pst-color-surface);
+    border: 1px solid var(--pst-color-on-surface);
+    border-radius: 0.25rem;
+    padding: 0.1rem 0.25rem;
+    font-size: .875em;
+    font-weight: 800;
+}
+.reference.internal:has(> span.doc):hover {
+    color: var(--pst-color-link-hover);
+    text-decoration: underline;
+}
+
+.reference.internal:has(> span.std-ref) {
+    font-family: var(--pst-font-family-monospace);
+    color: var(--pst-color-link);
+    background-color: var(--pst-color-surface);
+    border: 1px solid var(--pst-color-on-surface);
+    border-radius: 0.25rem;
+    padding: 0.1rem 0.25rem;
+    font-size: .875em;
+    font-weight: 800;
+}
+.reference.internal:has(> span.std-ref):hover {
+    color: var(--pst-color-link-hover);
+    text-decoration: underline;
+}
+
+
+
+.table {
+    margin-bottom: 30px !important;
+}
+.vertical-spaceholder {
+    display: None !important;
+}
+.sd-tab-set.docutils{
+    margin-top: -20px;
+}
 .display_none {
     display: none !important
 }
@@ -98,4 +139,42 @@ p.rubric {
 }
 .mr6 {
     margin-right: 30px !important;
+}
+.width-100 {
+    width: 100% !important;
+}
+.width-90 {
+    width: 90% !important;
+}
+.width-80 {
+    width: 80% !important;
+}
+.width-70 {
+    width: 70% !important;
+}
+.width-70 {
+    width: 70% !important;
+}
+.width-60 {
+    width: 60% !important;
+}
+.width-50 {
+    width: 50% !important;
+}
+.width-40 {
+    width: 40% !important;
+}
+.width-30 {
+    width: 30% !important;
+}
+.width-20 {
+    width: 20% !important;
+}
+.width-10 {
+    width: 10% !important;
+}
+@media only screen and (max-width: 959px) {
+    .responsive-full-width {
+        width: 100% !important;
+    }
 }

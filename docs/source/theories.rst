@@ -7,8 +7,11 @@
 .. role:: display_none
     :class: display_none
 
+.. role:: vertical_spaceholder
+    :class: vertical_spaceholder
+
 Theories
-=================================================
+----------------------------------
 
 
 The goal of all existing z-factor correlation models is to numerically
@@ -20,7 +23,7 @@ values of** :math:`P_{r}` **and** :math:`T_{r}`.
 
 In real life applications, no one knows the exact :math:`P_{r}` and
 :math:`T_{r}` values of his gas mixture. This is where pseudo-critical
-property models, such as Sutton (1985)[1] and Piper et al (1993)[2],
+property models, such as Sutton (1985) [1]_ and Piper et al (1993) [2]_,
 comes in handy by approximating them from gas specific gravity
 (:math:`\gamma_g`), which is relatively easy to obtain from lab sample
 analysis.
@@ -33,7 +36,7 @@ z-factor correlation from the computed :math:`P_{r}` and :math:`T_{r}`.
 
 Figure 1: Left is the original SK chart, and the right is the numerical
 representation of the SK chart using the Dranchuk and Abu-Kassem (DAK)
-model[1].
+model [3]_.
 
 .. raw:: html
 
@@ -62,7 +65,7 @@ temperature divided by the mixture’s pseudo-critical pressure
 
    P_{r} = \frac{P}{P_{pc}}, ~~~~~~~ T_{r} = \frac{T}{T_{pc}}
 
-Kay (1936)[1] stated that :math:`P_{pc}` and :math:`T_{pc}` of a gas
+Kay (1936) [4]_ stated that :math:`P_{pc}` and :math:`T_{pc}` of a gas
 mixture can be expressed as the mole fraction (:math:`x`) weighted
 average of the critical pressure (:math:`P_c`) and temperature
 (:math:`T_c`) of the mixture’s individual component (:math:`i`):
@@ -87,7 +90,7 @@ corresponding :math:`P_{pc}` and :math:`T_{pc}`.
 1.1. Sutton (1985)
 ~~~~~~~~~~~~~~~~~~
 
-Sutton (1985) fitted the following regression model for a gas mixture
+Sutton (1985) [1]_ fitted the following regression model for a gas mixture
 with unknown component composition that that take :math:`\gamma_{g}` as
 input:
 
@@ -103,7 +106,7 @@ input:
 
 The above correlations are valid over the ranges of specific gravities
 with which Sutton worked: :math:`0.57 < \gamma_{g} < 1.68`. He also
-recommends to apply Wichert-Aziz\ `[4] <#ref-4>`__\  correction for
+recommends to apply Wichert-Aziz [5]_ correction for
 significant :math:`H_2S` and :math:`CO_2` fractions:
 
 .. math::
@@ -138,14 +141,14 @@ in the gas mixture [dimensionless]
 The correction correlation is applicable to concentration ranges of
 :math:`CO_2 < 54.4 \space mol`\ **%** and
 :math:`H_2S < 73.8 \space mol`\ **%**. Using the Dranchuk and Abu-Kassem
-(DAK) method\ `[5] <#ref-5>`__\  as a z-factor correlation model,
+(DAK) method [3]_  as a z-factor correlation model,
 Sutton’s correlation model reported an average absolute error of 1.418%.
 The regression coefficients were fitted with 289 points.
 
-1.2. Piper et al. (1993)
+1.2. Piper et al. (1993)
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-Piper et al. (1993) adapted the method of Stewart et al. (1959) to
+Piper et al. (1993) [2]_ adapted the method of Stewart et al. (1959) [6]_ to
 calculate the pseudo-critical properties of gas mixtures with nitrogen
 (:math:`N_2`), :math:`CO_2`, and :math:`H_2S` fractions:
 
@@ -184,7 +187,7 @@ where:
 Piper’s correction for non-hydrocarbon impurities have working ranges of
 :math:`H_2S < 51.37 \space mol`\ **%**,
 :math:`CO_2 < 67.16 \space mol`\ **%**, and
-:math:`N_2 < 15.68 \space mol`\ **%**. Using the DAK method as a
+:math:`N_2 < 15.68 \space mol`\ **%**. Using the DAK method [3]_ as a
 z-factor correlation model, Piper’s crrelation model reported an average
 absolute error of 1.304%. The regression coefficients were fitted with
 896 points.
@@ -201,13 +204,13 @@ will be limited by the range of the data points used to fit the
 coefficients. All pseudo-critical models (that I know of) are developed
 using only the naturally occurring gas samples. Therefore, it is not
 recommended to use these models for synthetic gases. If you are dealing
-with synthetic gases, I recommend using Kay’s (1936)\ `[1] <#ref-1>`__\
+with synthetic gases, I recommend using Kay’s (1936) [4]_
 method.
 
 **2) Correction is necessary in presence of significant impurities
 fractions**
 
-Sutton’s method (1985)\ `[2] <#ref-2>`__\  can apply correction for
+Sutton’s method (1985) [1]_  can apply correction for
 :math:`H_{2}S` and :math:`CO_2`:
 
 .. code:: python
@@ -217,7 +220,7 @@ Sutton’s method (1985)\ `[2] <#ref-2>`__\  can apply correction for
    >>> Sutton().calc_Tr(sg=0.7, T=75, CO2=0.1, H2S=0.07)
    1.5005661019949397
 
-Piper’s method (1993)\ `[3] <#ref-3>`__\  can apply correction for
+Piper’s method (1993) [2]_  can apply correction for
 :math:`H_{2}S`, :math:`CO_2`, and :math:`N_2`:
 
 .. code:: python
@@ -231,7 +234,7 @@ Piper’s method (1993)\ `[3] <#ref-3>`__\  can apply correction for
 ------------------------------
 
 There are two kinds of models for z-factor correlation: **Implicit
-vs. Explicit models**
+vs. Explicit models**
 
 **Implicit** models require iterative convergence to find the root of
 non-linear equations. From the Python point of view, this means that
@@ -240,14 +243,14 @@ computationally much more expensive than explicit models. However,
 providing a good initial guess for the z-factor can significantly reduce
 computational cost. Initial guess of :math:`Z = 0.9` is a good starting
 point for most applications in the oil field. This can be done by
-setting ``calc_z(guess=0.9)`` in this library.
+setting ``calc_z(guess=0.9)`` in this library (however, this is unnecessary if you set
+``smart_guess=True``).
 
 :underline_italic:`Models implemented:`
 
--  DAK (1975)\ `[1] <#ref-1>`__\
--  Hall-Yarborough (1973)\ `[2] <#ref-2>`__\
--  Londono (2005)\ `[3] <#ref-3>`__\
-
+-  DAK (1975) [3]_
+-  Hall-Yarborough (1973) [7]_
+-  Londono (2005) [8]_
 
 **Explicit** models require only 1 iteration. They are fast. These
 models tend to be restricted by smaller applicable :math:`P_{r}` and
@@ -257,7 +260,7 @@ implementing these models.
 
 :underline_italic:`Models implemented:`
 
--  Kareem, Iwalewa, and Marhoun (2016)\ `[4] <#ref-4>`__\
+-  Kareem, Iwalewa, and Marhoun (2016) [9]_
 
 2.1. DAK (1975)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -295,8 +298,7 @@ The model’s tested working ranges are: :math:`1 \leq T_{r} \leq 3` and
 on 1500 points. An average absolute error of 0.468% is reported in the
 original paper.
 
-This method is widely used in the petroleum
-industry\ `[5] <#ref-5>`__\ .
+This method is widely used in the petroleum industry [10]_.
 
 **Code usage example:**
 
@@ -342,7 +344,7 @@ with 289 points. An average absolute error of 1.21% is reported in the
 original paper.
 
 This method has received great application in the natural gas
-industry\ `[6] <#ref-6>`__\ .
+industry [11]_.
 
 **Code usage example:**
 
@@ -445,139 +447,434 @@ speed up the iteration process.
    >>> gc.calc_z(zmodel='kareem', Pr=3.1995, Tr=1.5006)
    0.7667583024871576
 
-2.5. Performance Comparison
+2.5. Output Comparison
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+**For 0.2 <** :math:`P_{r}` **< 15:**
 
+.. tab-set::
+
+    .. tab-item:: DAK
+
+        .. figure:: _static/DAK-15.png
+           :class: width-80 responsive-full-width
+           :align: center
+        .. code-block:: python
+
+           import gascompressibility as gc
+
+           results, fig, ax = gc.quickstart(zmodel='hall_yarborough', prmin=0.2, prmax=15, figsize=(8, 5))
+           ax.set_ylim(0.2, 1.8)
+
+
+    .. tab-item:: Londono
+
+        .. figure:: _static/londono-15.png
+           :class: width-80 responsive-full-width
+           :align: center
+        .. code-block:: python
+
+           import gascompressibility as gc
+
+           results, fig, ax = gc.quickstart(zmodel='londono', prmin=0.2, prmax=15, figsize=(8, 5))
+           ax.set_ylim(0.2, 1.8)
+
+    .. tab-item:: Hall-Yarborough
+
+        .. figure:: _static/hall_yarborough-15.png
+           :class: width-80 responsive-full-width
+           :align: center
+        .. code-block:: python
+
+           import gascompressibility as gc
+
+           results, fig, ax = gc.quickstart(zmodel='hall_yarborough', prmin=0.2, prmax=15, figsize=(8, 5))
+           ax.set_ylim(0.2, 1.8)
+
+    .. tab-item:: Kareem
+
+        .. figure:: _static/kareem-15.png
+           :class: width-80 responsive-full-width
+           :align: center
+        .. code-block:: python
+
+           import gascompressibility as gc
+
+           results, fig, ax = gc.quickstart(zmodel='kareem', prmin=0.2, prmax=15, figsize=(8, 5))
+           ax.set_ylim(0.2, 1.8)
+
+**For 0.2 <** :math:`P_{r}` **< 30:**
+
+.. tab-set::
+
+    .. tab-item:: DAK
+
+        .. figure:: _static/DAK-30.png
+           :class: width-80 responsive-full-width
+           :align: center
+        .. code-block:: python
+
+           import gascompressibility as gc
+
+           results, fig, ax = gc.quickstart(zmodel='DAK', prmin=0.2, prmax=30, figsize=(8, 5))
+           ax.set_ylim(0.2, 3.5)
+
+
+    .. tab-item:: Londono
+
+        .. figure:: _static/londono-30.png
+           :class: width-80 responsive-full-width
+           :align: center
+        .. code-block:: python
+
+           import gascompressibility as gc
+
+           results, fig, ax = gc.quickstart(zmodel='londono', prmin=0.2, prmax=30, figsize=(8, 5))
+           ax.set_ylim(0.2, 3.5)
+
+    .. tab-item:: Hall-Yarborough
+
+        .. figure:: _static/hall_yarborough-30.png
+           :class: width-80 responsive-full-width
+           :align: center
+        .. code-block:: python
+
+           import gascompressibility as gc
+
+           results, fig, ax = gc.quickstart(zmodel='hall_yarborough', prmin=0.2, prmax=30, figsize=(8, 5), guess=2)
+           ax.set_ylim(0.2, 3.5)
+
+    .. tab-item:: Kareem
+
+        .. figure:: _static/kareem-30.png
+           :class: width-80 responsive-full-width
+           :align: center
+        .. code-block:: python
+
+           import gascompressibility as gc
+
+           results, fig, ax = gc.quickstart(zmodel=kareem, prmin=0.2, prmax=30, figsize=(8, 5), disable_tr_annotation=True)
+           ax.set_ylim(0.2, 3.5)
+
+
+2.6. Caveats
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Z-factor correlation models that rely on iterative convergence share issues of their optimization methods - the result
+depends on the quality of the initial guess. Most times this issues is restricted only to the speed, but sometimes it has
+direct impact on the final values computed.
+
+Consider the following example when ``Pr=2.8`` and ``Tr=1.1``:
+
+   >>> import gascompressibility as gc
+   >>>
+   >>> gc.calc_z(Pr=2.8, Tr=1.1, zmodel='hall_yarborough', smart_guess=False, guess=0.9)
+   0.6001600275325583
+   >>>
+   >>> gc.calc_z(Pr=2.8, Tr=1.1, zmodel='hall_yarborough', smart_guess=False, guess=0.1)
+   0.44138121739974145
+
+When ``smart_guess`` is turned off, the computed z value for the ``hall_yarborough`` model returns different results despite the same ``Pr`` and ``Tr`` input
+values. The only differences are the ``guess`` values. Comparing with the other z-models, we know that the true solution sits around ~0.44.
+
+
+   >>> gc.calc_z(Pr=2.8, Tr=1.1, zmodel='DAK', smart_guess=False, guess=0.9)
+   0.44245159219674585
+   >>>
+   >>> gc.calc_z(Pr=2.8, Tr=1.1, zmodel='kareem')
+   0.42052851684415665
+
+This discrepancy happens because the iterative z-models implemented in *GasCompressibility-py* (``'DAK'`` | ``'hall_yarborough'`` | ``'londono'``)
+rely on ``scipy.optimize.newton`` method to find  a root, and as the official scipy documentation states,
+*"there is no guarantee that a root has been found. Consequently, the result should be verified."*
+
+Fortunately, *GasCompressibility-py* has a built-in feature that prevents these rare corner cases by setting ``smart_guess=True``
+(default). Observe that the ``'hall_yarborough'`` model is able to converge to the ~0.44 z-factor solution when smart guess is activated:
+
+    >>> gc.calc_z(Pr=2.8, Tr=1.1, zmodel='hall_yarborough', smart_guess=True)
+    0.44138121739974157
+
+The below figure demonstrates some corner cases in which scipy fails converge to the right solution when
+``smart_guess=False``.
+
+.. tab-set::
+
+    .. tab-item:: Example 1
+
+        .. figure:: _static/corner_cases_example_1.png
+           :class: width-80 responsive-full-width
+           :align: center
+
+        .. dropdown:: Figure source code
+            :color: primary
+            :icon: unlock
+
+            .. code-block:: python
+
+                import gascompressibility as gc
+
+                results, fig, ax, = gc.quickstart(zmodel='londono', prmin=0.2, prmax=10, smart_guess=False)
+
+
+    .. tab-item:: Example 2
+
+        .. figure:: _static/corner_cases_example_2.png
+           :class: width-80 responsive-full-width
+           :align: center
+
+        .. dropdown:: Figure source code
+            :color: primary
+            :icon: unlock
+
+            .. code-block:: python
+
+                import gascompressibility as gc
+
+                results, fig, ax = gc.quickstart(zmodel='hall_yarborough', prmin=0.2, prmax=10, smart_guess=False)
+
+    .. tab-item:: Example 3
+
+        .. figure:: _static/corner_cases_example_3.png
+           :class: width-80 responsive-full-width
+           :align: center
+
+        .. dropdown:: Figure source code
+            :color: primary
+            :icon: unlock
+
+            .. code-block:: python
+
+                import gascompressibility as gc
+
+                results, fig, ax = gc.quickstart(zmodel='hall_yarborough', prmin=15, prmax=30, smart_guess=False)
+
+.. admonition:: About ``smart_guess``
+    :class: note
+
+    ``smart_guess`` is a built-in feature activated by default (``True``) in  the
+    :doc:`gascompressibility.calc_z <calc_z>` function. It provides *"smart"* initial guess for the z-factor by using
+    Kareem's z-model for :math:`P_r < 15` (working range of the model). This has two advantages.
+
+    1) Faster because less iterations are needed. Kareem's model uses an explicit method that doesn't need iterative convergence.
+    2) It's guaranteed to converge to the correct solution since the guess provided by Kareem's method should be VERY close to the true solution
+
+    For :math:`P_r > 15`, I found that a guess value of ``guess=2`` (default when Pr > 15) works very well. So far I did not observe any cases in which the function converges to a false solution.
+
+.. seealso::
+
+   `scipy.optimize.newton <https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.newton.html>`_
 
 3. What models should I use?
----------------------------
+------------------------------
 
-An answer to this question needs to consider the following three
-criteria.
+**Short Answer:** For z-correlation model, use ``zmodel='londono'``. But if computational cost is a big concern,
+use ``zmodel='kareem'`` for :math:`P_r < 15`. For pseudo-critical property model, use ``pmodel='sutton'``. If you have
+significant nitrogen fractions, use ``pmodel='piper'``.
 
-3.1. Computational cost is a big concern
+
+3.1. Working Ranges of Z-Models
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Use the method of Kareem et al (2016)\ `[4] <#ref-4>`__\ . This is an
-explicit model that does not require iterative convergence. Note that
-the model’s working ranges are :math:`1.15 < T_{r} \leq 3` and
-:math:`0.2 \leq P_{r} \leq 15`.
+The below table summarizes the working :math:`P_r` and :math:`T_r` ranges of each model, according to it's own original
+paper.
 
-3.2. You know :math:`P_{r}` and :math:`T_{r}`
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++-----------------+------------+------------+
+| Model           | :math:`P_r`| :math:`T_r`|
++=================+============+============+
+| DAK             | [1, 3]     | [0.2, 30]  |
++-----------------+------------+------------+
+| Hall-Yarborough | [1.15, 3]  | (0, 20.5]  |
++-----------------+------------+------------+
+| Londono         | [1, 3]     | [0.2, 30]  |
++-----------------+------------+------------+
+| Kareem          | [1.15, 3]  | [0.2, 15]  |
++-----------------+------------+------------+
 
-If you already know your substance’s pseudo-critical properties,
+:vertical_spaceholder:`something`
 
--  **DAK** has been the most widely used model in the petroleum industry
-   for the past 40+ years. **You can’t go wrong with this model.**
--  If you really care about small accuracy improvement, go with
-   Londono’s method. The underlying math is exactly the same as DAK,
-   except Londono’s coefficients are better than those of the DAK’s
-   because it used more 4x more data points. Personally, I would use
-   this model.
--  I don’t recommend using Hall-Yarborough model. It is older than DAK,
-   used less data points, has bigger average absolute error, and has
-   narrower working ranges for :math:`P_{r}` and :math:`T_{r}`. But if
-   you do have a reason to use this model, go head. Note that this model
-   is still robust enough for practical usage in the oil field.
+However, normally we don't know the :math:`P_r` and :math:`T_r` values of a given mixture. The below figure summarizes
+the corresponding :math:`P_r` and :math:`T_r` (computed with Sutton's method) for each of specific gravity, temperature, and pressure ranges. For
+example, assuming :math:`\gamma_{g}` = 0.9 (green lines), z-factor correlation can't be used for extreme conditions like
+:math:`P` > 19,000 psia, or :math:`T` > 800 °F. If Kareem's method (``zmodel='kareem'``) is used for speed, you can't
+use it for :math:`P` > 11,500 psia.
 
-3.3. You don’t know :math:`P_{r}` and :math:`T_{r}`
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. figure:: _static/zmodels_working_ranges.png
+   :align: center
 
-Numerical representation of the SK chart from the z-factor correlation
-models require :math:`P_{r}` and :math:`T_{r}` as inputs. If you don’t
-have these values, you need to first derive them using one of the
-pseudo-critical property correlation models. *GasCompressibility-py*
-currently supports two pseudo-critical models:
+.. dropdown:: Figure source code
+    :color: primary
+    :icon: unlock
 
--  Sutton’s gas specific gravity correlation\ `[7] <#ref-7>`__\  in
-   conjunction with Wichert-Aziz correction for gases with
-   :math:`H_{2}S` and :math:`CO_{2}` fractions\ `[8] <#ref-8>`__\
--  Piper’s gas specific gravity correlation for gases with
-   :math:`H_{2}S`, :math:`CO_{2}` and :math:`N_{2}`
-   fractions\ `[9] <#ref-9>`__\
+    .. code-block:: python
 
-Which combination of pseudo-critical model should you use with which
-z-factor correlation model? The below table presented in Elsharkawy and
-Elsharkawy (2020)[10] may shed light on determining which combination
-should be used:
+        import matplotlib.pyplot as plt
+        import numpy as np
+        from gascompressibility.pseudocritical import Sutton
 
-.. raw:: html
+        pmin = 0
+        pmax = 25000
+        Ps = np.linspace(pmin, pmax, 100)
+        Ps = np.array([round(P, 1) for P in Ps])
 
-   <p align="center">
+        tmin = -459
+        tmax = 1500
+        Ts = np.linspace(tmin, tmax, 100)
+        Ts = np.array([round(T, 1) for T in Ts])
 
-Table 1: Performance evaluation of various pseudo-critical property
-models in conjunction with various z-factor correlation models[10].
+        sgs = np.arange(0.1, 2.6, 0.4)
+        sgs = np.array([round(sg, 1) for sg in sgs])
 
-.. raw:: html
+        results = {sg: {
+            'Pr': np.array([]),
+            'P': np.array([]),
+            'Tr': np.array([]),
+            'T': np.array([]),
+        } for sg in sgs}
 
-   </p>
+        for sg in sgs:
+            for P in Ps:
+                Pr = Sutton().calc_Pr(sg=sg, P=P)
+                results[sg]['P'] = np.append(results[sg]['P'], [P], axis=0)
+                results[sg]['Pr'] = np.append(results[sg]['Pr'], [Pr], axis=0)
+            for T in Ts:
+                Tr = Sutton().calc_Tr(sg=sg, T=T)
+                results[sg]['T'] = np.append(results[sg]['T'], [T], axis=0)
+                results[sg]['Tr'] = np.append(results[sg]['Tr'], [Tr], axis=0)
 
-The table dictates that **Sutton’s pseudo-critical property model with
-Londono’s z-factor correlation model yields the highest coefficient of
-determination (:math:`R^{2}`) of 0.974.** However, so long as the models
-implemented in this package are concerned, you can use any combination
-you want. They all have :math:`R^{2} \geq 0.957`, which is good enough
-for practical usage in real life applications.
+        fig, axes = plt.subplots(1, 2, figsize=(9, 4))
+        for i, ax in enumerate(axes):
+            if i == 0:
+                for sg in sgs:
+                    Prs = results[sg]['Pr']
+                    Ps = results[sg]['P']
 
-4. Code Usage
+                    p = ax.plot(Ps, Prs, label=sg)
+
+                    t = ax.text(Ps[-10], max(Prs) - 3, 'sg = ' + str(sg), color=p[0].get_color())
+                    t.set_bbox(dict(facecolor='white', alpha=0.7, edgecolor='white', pad=1))
+
+                ax.text(0.06, 0.9, '$P_{r}$  approximation', fontsize=9, transform=ax.transAxes,
+                    bbox=dict(facecolor='white'))
+                ax.set_ylabel('$P_r$', fontsize=11)
+                ax.set_xlabel('Pressure (psia)')
+                ymax = 60
+                ax.hlines(y=30, xmin=pmin, xmax=pmax, color='k', linestyle='--', linewidth=0.8, alpha=0.7)
+                ax.text(100, 31.3, '$P_r$ = 30.0', alpha=0.7)
+                ax.hlines(y=15, xmin=pmin, xmax=pmax, color='k', linestyle='--', linewidth=0.8, alpha=0.7)
+                ax.text(100, 16, '$P_r$ = 15.0', alpha=0.7)
+                ax.hlines(y=1, xmin=pmin, xmax=pmax, color='k', linestyle='--', linewidth=0.8, alpha=0.7)
+                ax.text(100, 2, '$P_r$ = 1.0', alpha=0.7)
+                ax.fill_between(x=Ps, y1=1, y2=30, color='green', interpolate=True, alpha=0.1, zorder=-99)
+
+            else:
+                for sg in sgs:
+                    Trs = results[sg]['Tr']
+                    Ts = results[sg]['T']
+
+                    p = ax.plot(Ts, Trs, label=sg)
+
+                    t = ax.text(Ts[-1], max(Trs), 'sg = ' + str(sg), color=p[0].get_color())
+                    t.set_bbox(dict(facecolor='white', alpha=0.7, edgecolor='white', pad=1))
+
+                ax.text(0.06, 0.9, '$T_{r}$  approximation', fontsize=9, transform=ax.transAxes,
+                    bbox=dict(facecolor='white'))
+                ax.set_ylabel('$T_r$', fontsize=11)
+                ax.set_xlabel('Temperature (°F)')
+                ymax = 10
+                ax.hlines(y=3, xmin=tmin, xmax=tmax, color='k', linestyle='--', linewidth=0.8, alpha=0.7)
+                ax.text(tmin, 3.2, '$T_r$ = 3.0', alpha=0.7)
+                ax.hlines(y=0.2, xmin=tmin, xmax=tmax, color='k', linestyle='--', linewidth=0.8, alpha=0.7)
+                ax.text(tmin, 0.5, '$T_r$ = 0.2', alpha=0.7)
+                ax.fill_between(x=Ts, y1=0.2, y2=3, color='green', interpolate=True, alpha=0.1, zorder=-99)
+
+
+            ymin = 0 - 0.05 * ymax
+            ax.set_ylim(ymin, ymax)
+
+            ax.minorticks_on()
+            ax.grid(alpha=0.5)
+            ax.grid(visible=True, which='minor', alpha=0.1)
+            ax.spines.top.set_visible(False)
+            ax.spines.right.set_visible(False)
+
+
+            def setbold(txt):
+                return ' '.join([r"$\bf{" + item + "}$" for item in txt.split(' ')])
+
+            bold_txt = setbold('Working Ranges of Z Models')
+            plain_txt = ',  for each of specific gravity, pressure, and  temperature ranges'
+
+            fig.suptitle(bold_txt + plain_txt,
+                         verticalalignment='top', x=0, horizontalalignment='left', fontsize=11)
+            yloc = 0.9
+            ax.annotate('', xy=(0.01, yloc), xycoords='figure fraction', xytext=(1.02, yloc),
+                        arrowprops=dict(arrowstyle="-", color='k', lw=0.7))
+            ax.text(0.95, 0.1, 'GasCompressibility-Py', fontsize=9, ha='right', va='center',
+                    transform=ax.transAxes, color='grey', alpha=0.5)
+
+        fig.tight_layout()
+
+
+3.2. Compatibilities
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+*GasCompressibility-py* currently supports two pseudo-critical models (``'sutton'`` | ``'piper'``) and four z-factor
+correlation models (``'DAK'`` | ``'hall_yarborough'`` | ``'londono'`` | ``'kareem'``). Which combination of
+pseudo-critical model should you use with which z-factor correlation model? The below table presented in Elsharkawy and
+Elsharkawy (2020) [12]_ may shed light on determining which combination should be used:
+
+.. figure:: _static/elsharkawy_table.png
+   :align: center
+
+The table dictates that **Sutton's pseudo-critical property model with Londono's z-factor correlation model yields the highest coefficient of determination** (:math:`R^2`) **of 0.974.**
+However, so long as the models implemented in this package
+are concerned, you can use any combination you want. They all have :math:`R^2 \geq 0.957`, which is more than good enough for
+practical usage in real life applications.
+
+.. admonition:: Notes
+
+    Unfortunately this performance evaluation table does not include any explicit (fast) z-factor correlation models.
+    Therefore, my recommendation is to avoid Kareem's method unless computation speed is very important, since there's
+    no 3rd party paper (that I know of) that evaluates Kareem's method other than himself.
+
+3.3. Brief Of Each Models
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:underline_italic:`Pseudo-critical models:`
+
+- **Sutton (1985):** Makes corrections for acid fractions: :math:`H_2S` and :math:`CO_2`
+- **Piper (1993):** Improved version of Piper. Additionally supports corrections for :math:`N_2` along with :math:`H_2S` and :math:`CO_2`
+
+:underline_italic:`Z-factor models:`
+
+- **DAK (1975):** The most widely used z-factor model in the oil and gas industry for the past 40 years. You can't go wrong with this model
+- **Hall-Yarborough (1973):** Not recommended.
+- **Londono (2005):** Improved version of DAK. Math is exactly the same, but regression coefficients are fitted with 4x more data points.
+- **Kareem (2016):** Fast, but have shorter working ranges (:math:`P_r < 15`)
+
+4. References
 -------------
 
-For more examples, refer to the tutorial jupyter notebook (coming soon).
+.. [1] Sutton, R.P.: “Compressibility Factor for High-Molecular Weight Reservoir Gases,” paper SPE 14265 (1985). `(link) <https://onepetro.org/SPEATCE/proceedings-abstract/85SPE/All-85SPE/SPE-14265-MS/61651>`__
 
-5. References
--------------
+.. [2] Piper, L.D., McCain Jr., W.D., and Corredor J.H.: “Compressibility Factors for Naturally Occurring Petroleum Gases,” paper SPE 26668 (1993). `(link) <https://onepetro.org/SPEATCE/proceedings/93SPE/All-93SPE/SPE-26668-MS/55401>`__
 
-[1] Dranchuk, P.M., and Abou-Kassem, J.H.: “Calculation of z-Factors for
-Natural Gases Using Equations of State,” *Journal of Canadian Petroleum
-Technology* (1975).
-`(link) <https://onepetro.org/JCPT/article-abstract/doi/10.2118/75-03-03>`__
+.. [3] Dranchuk, P.M., and Abou-Kassem, J.H.: “Calculation of z-Factors for Natural Gases Using Equations of State,” *Journal of Canadian Petroleum Technology* (1975). `(link) <https://onepetro.org/JCPT/article-abstract/doi/10.2118/75-03-03>`__
 
-[2] Hall, K.R., and Yarborough, L.: “A new equation of state for
-Z-factor calculations,” *Oil and Gas Journal* (1973).
-`(link) <https://www.researchgate.net/publication/284299884_A_new_equation_of_state_for_Z-factor_calculations>`__
+.. [4] Kay, W.B: "Density of Hydrocarbon Gases and Vapors at High Temperature and Pressure," Industrial Engineering Chemistry (1936)
 
-[3] Londono, F.E., Archer, R.A., and Blasingame, T.A.: “Simplified
-Correlations for Hydrocarbon Gas Viscosity and Gas Density — Validation
-and Correlation of Behavior Using a Large-Scale Database,” paper SPE
-75721 (2005).
-`(link) <https://onepetro.org/SPEGTS/proceedings/02GTS/All-02GTS/SPE-75721-MS/135705>`__
+.. [5] Wichert, E.: “Compressibility Factor of Sour Natural Gases,” MEng Thesis, The University of Calgary, Alberta (1970)
 
-[4] Kareem, L.A., Iwalewa, T.M., and Marhoun, M.al-.: “New explicit
-correlation for the compressibility factor of natural gas: linearized
-z-factor isotherms,” *Journal of Petroleum Exploration and Production
-Technology* (2016).
-`(link) <https://link.springer.com/article/10.1007/s13202-015-0209-3>`__
+.. [6] Stewart, W.F., Burkhardt, S.F., and Voo, D.: "Prediction of Pseudocritical Parameters for Mixtures," paper presented at the AIChE Meeting, Kansas City, MO (May 18, 1959).
 
-[5] Elsharkawy, A.M., Aladwani, F., Alostad, N.: “Uncertainty in sour
-gas viscosity estimation and its impact on inflow performance and
-production forecasting,” *Journal of Natural Gas Science and
-Engineering* (2015).
-`(link) <https://link.springer.com/article/10.1007/s13202-015-0209-3>`__
+.. [7] Hall, K.R., and Yarborough, L.: “A new equation of state for Z-factor calculations,” *Oil and Gas Journal* (1973). `(link) <https://www.researchgate.net/publication/284299884_A_new_equation_of_state_for_Z-factor_calculations>`__
 
-[6] Elsharkawy, A.M.: “Predicting the Properties of Sour Gases and
-Condensates: Equations of State and Empirical Correlations,” paper SPE
-74369 (2002).
-`(link) <https://onepetro.org/SPEIOCEM/proceedings-abstract/02IPCEM/All-02IPCEM/SPE-74369-MS/136841>`__
+.. [8] Londono, F.E., Archer, R.A., and Blasingame, T.A.: “Simplified Correlations for Hydrocarbon Gas Viscosity and Gas Density — Validation and Correlation of Behavior Using a Large-Scale Database,” paper SPE 75721 (2005). `(link) <https://onepetro.org/SPEGTS/proceedings/02GTS/All-02GTS/SPE-75721-MS/135705>`__
 
-[7] Sutton, R.P.: “Compressibility Factor for High-Molecular Weight
-Reservoir Gases,” paper SPE 14265 (1985).
-`(link) <https://onepetro.org/SPEATCE/proceedings-abstract/85SPE/All-85SPE/SPE-14265-MS/61651>`__
+.. [9] Kareem, L.A., Iwalewa, T.M., and Marhoun, M.al-.: “New explicit correlation for the compressibility factor of natural gas: linearized z-factor isotherms,” *Journal of Petroleum Exploration and Production Technology* (2016). `(link) <https://link.springer.com/article/10.1007/s13202-015-0209-3>`__
 
-[8] Wichert, E.: “Compressibility Factor of Sour Natural Gases,” MEng
-Thesis, The University of Calgary, Alberta (1970)
+.. [10] Elsharkawy, A.M., Aladwani, F., Alostad, N.: “Uncertainty in sour gas viscosity estimation and its impact on inflow performance and production forecasting,” *Journal of Natural Gas Science and Engineering* (2015). `(link) <https://link.springer.com/article/10.1007/s13202-015-0209-3>`__
 
-[9] Piper, L.D., McCain Jr., W.D., and Corredor J.H.: “Compressibility
-Factors for Naturally Occurring Petroleum Gases,” paper SPE 26668
-(1993).
-`(link) <https://onepetro.org/SPEATCE/proceedings/93SPE/All-93SPE/SPE-26668-MS/55401>`__
+.. [11] Elsharkawy, A.M.: “Predicting the Properties of Sour Gases and Condensates: Equations of State and Empirical Correlations,” paper SPE 74369 (2002). `(link) <https://onepetro.org/SPEIOCEM/proceedings-abstract/02IPCEM/All-02IPCEM/SPE-74369-MS/136841>`__
 
-[1] Kay, W.B: “Density of Hydrocarbon Gases and Vapors at High
-Temperature and Pressure,” *Industrial Engineering Chemistry* (1936)
-
-[10] Elsharkawy, A.M., and Elsharkawy, L.: “Predicting the
-compressibility factor of natural gases containing various amounts of
-CO2 at high temperatures and pressures,” *Journal of Petroleum and Gas
-Engineering* (2020).
-`(link) <https://www.researchgate.net/publication/343309900_Predicting_the_compressibility_factor_of_natural_gases_containing_various_amounts_of_CO2_at_high_temperatures_and_pressures>`__
+.. [12] Elsharkawy, A.M., and Elsharkawy, L.: “Predicting the compressibility factor of natural gases containing various amounts of CO2 at high temperatures and pressures,” *Journal of Petroleum and Gas Engineering* (2020). `(link) <https://www.researchgate.net/publication/343309900_Predicting_the_compressibility_factor_of_natural_gases_containing_various_amounts_of_CO2_at_high_temperatures_and_pressures>`__

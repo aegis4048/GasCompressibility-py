@@ -46,7 +46,7 @@ def _check_working_Pr_Tr_range(Pr, Tr, zmodel_str):
 
 
 zmodels_ks = '["DAK", "hall_yarborough", "londono", "kareem"]'
-pmodels_ks = '["Sutton", "Piper"]'
+pmodels_ks = '["sutton", "piper"]'
 
 
 def _get_guess_constant():
@@ -103,6 +103,7 @@ def _calc_z_explicit_implicit_helper(Pr, Tr, zmodel_func, zmodel_str, guess, new
         worked = False
 
         if smart_guess:
+            # if Pr and Tr is in the range of the "smart_guess_model" (explicit z-model), use that to make first guess
             if _check_working_Pr_Tr_range(Pr, Tr, smart_guess_model):
                 guess_zmodel_func = _get_z_model(model=smart_guess_model)
                 guess_ = guess_zmodel_func(Pr=Pr, Tr=Tr)
@@ -138,7 +139,7 @@ def _calc_z_explicit_implicit_helper(Pr, Tr, zmodel_func, zmodel_str, guess, new
 
 
 
-def calc_z(sg=None, P=None, T=None, H2S=None, CO2=None, N2=None, Pr=None, Tr=None, pmodel='Piper', zmodel='DAK',
+def calc_z(sg=None, P=None, T=None, H2S=None, CO2=None, N2=None, Pr=None, Tr=None, pmodel='piper', zmodel='DAK',
            guess=None, newton_kwargs=None, smart_guess=None, ps_props=False, ignore_conflict=False, **kwargs):
     """
     Calculates the gas compressibility factor, :math:`Z`.
@@ -163,7 +164,7 @@ def calc_z(sg=None, P=None, T=None, H2S=None, CO2=None, N2=None, Pr=None, Tr=Non
 
     **Picking correlation models of your choice**
 
-    >>> gc.calc_z(sg=0.7, T=75, P=2010, zmodel='kareem', pmodel='Sutton')
+    >>> gc.calc_z(sg=0.7, T=75, P=2010, zmodel='kareem', pmodel='sutton')
     0.7150183342641309
 
     **Returning all associated pseudo-critical properties computed**
@@ -186,13 +187,13 @@ def calc_z(sg=None, P=None, T=None, H2S=None, CO2=None, N2=None, Pr=None, Tr=Non
     CO2 : float
         mole fraction of CO2 (dimensionless)
     N2 : float
-        mole fraction of N2 (dimensionless). Available only when ``pmodel='Piper'`` (default)
+        mole fraction of N2 (dimensionless). Available only when ``pmodel='piper'`` (default)
     Pr : float
         pseudo-reduced pressure, Pr (psia)
     Tr : float
         pseudo-reduced temperature, Tr (°R)
     pmodel : str
-        choice of a pseudo-critical model. Accepted inputs: ``'Sutton'`` | ``'Piper'``.
+        choice of a pseudo-critical model. Accepted inputs: ``'sutton'`` | ``'piper'``.
 
         See Also
         --------
@@ -204,6 +205,9 @@ def calc_z(sg=None, P=None, T=None, H2S=None, CO2=None, N2=None, Pr=None, Tr=Non
         choice of a z-correlation model. Accepted inputs are: ``'DAK'`` | ``'hall_yarborough'`` | ``'londono'`` |``'kareem'``
     guess : float
         initial guess of z-value for z-correlation models using iterative convergence (``'DAK'`` | ``'hall_yarborough'`` | ``'londono'``).
+        NOT RECOMMENDED to manually set this parameter unless the computed :math:`P_r` exceeds 15. If so a default ``guess=2`` is applied, which
+        is a good estimate for high-pressure scenarios. Otherwise for :math:`P_r < 15`, the built-in ``smart_guess`` takes over to
+        automatically provide a good initial guess that's fast and accurate.
     newton_kwargs :dict
         dictonary of keyword-arguments used by ``scipy.optimize.newton`` method for z-correlation models that use
         iterative convergence (``'DAK'`` | ``'hall_yarborough'`` | ``'londono'``).
@@ -214,24 +218,26 @@ def calc_z(sg=None, P=None, T=None, H2S=None, CO2=None, N2=None, Pr=None, Tr=Non
         See Also
         ----------
         `scipy.optimize.newton <https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.newton.html>`_.
-
+    smart_guess : bool
+        set to `True` by default. Prevents rare corner cases where :doc:`test <pseudocritical>` :ref:`Theories 2.6: Caveats <theories:2.6. Caveats>`
     ps_props : bool
         set this to `True` to return a dictionary of all associated pseudo-critical properties computed during calculation
         of the z-factor.
     ignore_conflict : bool
         set this to True to override calculated variables with input keyword arguments.
-    **kwargs
-        optional kwargs used by psueodo-critical models (``'Sutton'`` | ``'Piper'``) that allow direct calculation of
+    kwargs : dict
+        optional kwargs used by pseudo-critical models (:doc:`Sutton <sutton>` | :doc:`Piper <piper>`) that allow direct calculation of
         z-factor from pseudo-critical properties instead of specific gravity correlation. Consider the below code example
-        that uses ``pmodel='Sutton'``:
+        that uses ``pmodel='sutton'``:
 
-        >>> gc.calc_z(Ppc=663, e_correction=21, Tpc=377.59, P=2010, T=75, pmodel='Sutton', ignore_conflict=True)
+        >>> gc.calc_z(Ppc=663, e_correction=21, Tpc=377.59, P=2010, T=75, pmodel='sutton', ignore_conflict=True)
         0.7720015496503527
 
         ``Ppc``, ``e_correction``, ``Tpc`` aren't default parameters defined in ``gascompressibility.calc_z``,
-        but they can be optionally passed into Sutton's :ref:`calc_Pr <Sutton.calc_Pr>` and :ref:`calc_Tr <Sutton.calc_Tr>`
+        but they can be optionally passed into Sutton's :ref:`Sutton.calc_Pr <Sutton.calc_Pr>` and :ref:`Sutton.calc_Tr <Sutton.calc_Tr>`
         methods if you already know these values (not common) and would like to compute the z-factor from these instead
         of using specific gravity correlation.
+
 
         Danger
         -------
@@ -265,12 +271,12 @@ def calc_z(sg=None, P=None, T=None, H2S=None, CO2=None, N2=None, Pr=None, Tr=Non
             return Z
 
     # Pr and Tr are NOT provided:
-    if pmodel == 'Piper':
+    if pmodel == 'piper':
         pc_instance = Piper()
         Tr, Pr = pc_instance._initialize_Tr_and_Pr(sg=sg, P=P, T=T, Tr=Tr, Pr=Pr, H2S=H2S, CO2=CO2, N2=N2, ignore_conflict=ignore_conflict, **kwargs)
-    elif pmodel == 'Sutton':
+    elif pmodel == 'sutton':
         if N2 is not None:
-            raise KeyError('pmodel="Sutton" does not support N2 as input. Set N2=None')
+            raise KeyError('pmodel="sutton" does not support N2 as input. Set N2=None')
         pc_instance = Sutton()
         Tr, Pr = pc_instance._initialize_Tr_and_Pr(sg=sg, P=P, T=T, Tr=Tr, Pr=Pr, H2S=H2S, CO2=CO2, ignore_conflict=ignore_conflict, **kwargs)
     else:
@@ -290,13 +296,24 @@ def calc_z(sg=None, P=None, T=None, H2S=None, CO2=None, N2=None, Pr=None, Tr=Non
         return Z
 
 
-def quickstart(prmin=0.2, prmax=30, figsize=(8, 5), title_bold=None, title_plain=None, title_underline_loc=0.91, **kwargs):
+def quickstart(
+        prmin=0.2,
+        prmax=30,
+        figsize=(8, 5),
+        title_bold=None,
+        title_plain=None,
+        title_underline_loc=0.93,
+        disable_tr_annotation=False,
+        **kwargs
+):
 
     """
     Generates a plot
 
     Returns
     -------
+    results: dict
+        Test
     fig : `Figure <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.subplots.html>`_
         Matplotlib figure object
     ax : `Axis <https://matplotlib.org/stable/api/axis_api.html#axis-objects>`_
@@ -305,7 +322,7 @@ def quickstart(prmin=0.2, prmax=30, figsize=(8, 5), title_bold=None, title_plain
     if prmin <= 0:
         raise TypeError("Value of prmin must be greater than 0. Try prmin=0.1")
 
-    Prs = np.linspace(prmin, prmax, prmax * 10 + 1)
+    Prs = np.linspace(prmin, prmax, round(prmax * 10 + 1))
     Prs = np.array([round(Pr, 1) for Pr in Prs])
 
     Trs = np.array([1.05, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0, 2.2, 2.4, 2.6, 2.8, 3.0])
@@ -338,14 +355,15 @@ def quickstart(prmin=0.2, prmax=30, figsize=(8, 5), title_bold=None, title_plain
 
         p = ax.plot(Prs, Zs)
 
-        if Tr == 1.05:
-            t = ax.text(Prs[idx_min] - 0.5, min(Zs) - 0.005, '$T_{r}$ = 1.05', color=p[0].get_color())
-            t.set_bbox(dict(facecolor='white', alpha=0.9, edgecolor='white', pad=1))
-            pass
-        else:
-            t = ax.text(Prs[idx_min] - 0.2, min(Zs) - 0.005, Tr, color=p[0].get_color())
-            t.set_bbox(dict(facecolor='white', alpha=0.9, edgecolor='white', pad=1))
-            pass
+        if not disable_tr_annotation:
+            if Tr == 1.05:
+                t = ax.text(Prs[idx_min] - 0.5, min(Zs) - 0.005, '$T_{r}$ = 1.05', color=p[0].get_color())
+                t.set_bbox(dict(facecolor='white', alpha=0.9, edgecolor='white', pad=1))
+                pass
+            else:
+                t = ax.text(Prs[idx_min] - 0.2, min(Zs) - 0.005, Tr, color=p[0].get_color())
+                t.set_bbox(dict(facecolor='white', alpha=0.9, edgecolor='white', pad=1))
+                pass
 
     ax.set_xlim(prmin, prmax)
 

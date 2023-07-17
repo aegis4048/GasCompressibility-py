@@ -115,7 +115,7 @@ copyright = '2023, Eric Kim'
 author = 'Eric Kim'
 
 # The full version, including alpha/beta/rc tags
-release = '0.1.2'
+release = '0.1.8'
 
 
 # -- General configuration ---------------------------------------------------
@@ -133,12 +133,14 @@ extensions = [
     'sphinx.ext.viewcode',  # adds [source] link next to each methods
     'sphinx.ext.autosummary',
     'sphinx.ext.intersphinx',
-#    'sphinx.ext.autosectionlabel',
+    'sphinx.ext.autosectionlabel',
 #    'numpydoc',
 #    'sphinx_automodapi.automodapi',
     'myst_parser',  # git install myst_parser
+    'sphinx_design',
 ]
-
+myst_enable_extensions = ["colon_fence"]
+autosectionlabel_prefix_document = True
 
 ################## Run "html make" with True once, and then change to False and run again ########################
 

@@ -530,7 +530,7 @@ class Test_Sutton(unittest.TestCase):
 
     def test_calc_z(self):
 
-        ps_props = calc_z(P=1995.3, T=75, CO2=0.1, H2S=0.07, sg=0.7, ps_props=True, zmodel='DAK', pmodel='Sutton')
+        ps_props = calc_z(P=1995.3, T=75, CO2=0.1, H2S=0.07, sg=0.7, ps_props=True, zmodel='DAK', pmodel='sutton')
 
         self.assertAlmostEqual(ps_props['z'], 0.7730, places=3)
         self.assertAlmostEqual(ps_props['e_correction'], 21.2778, places=3)
@@ -541,7 +541,7 @@ class Test_Sutton(unittest.TestCase):
         self.assertAlmostEqual(ps_props['Pr'], 3.1995, places=3)
         self.assertAlmostEqual(ps_props['Tr'], 1.5006, places=3)
 
-        ps_props = calc_z(P=1995.3, T=75, Ppc=747.9, Tpc=373.6, ps_props=True, zmodel='DAK', pmodel='Sutton')
+        ps_props = calc_z(P=1995.3, T=75, Ppc=747.9, Tpc=373.6, ps_props=True, zmodel='DAK', pmodel='sutton')
 
         self.assertAlmostEqual(ps_props['z'], 0.7418, places=3)
         self.assertEqual(ps_props['Ppc'], None)
@@ -552,13 +552,13 @@ class Test_Sutton(unittest.TestCase):
         self.assertAlmostEqual(ps_props['Pr'], 2.6875, places=3)
         self.assertAlmostEqual(ps_props['Tr'], 1.4311, places=3)
 
-        ps_props = calc_z(Pr=3.1995, T=75, Tpc=377.59, e_correction=21.278, ignore_conflict=True, ps_props=True, zmodel='DAK', pmodel='Sutton')
+        ps_props = calc_z(Pr=3.1995, T=75, Tpc=377.59, e_correction=21.278, ignore_conflict=True, ps_props=True, zmodel='DAK', pmodel='sutton')
 
         self.assertAlmostEqual(ps_props['z'], 0.7730, places=3)
         self.assertAlmostEqual(ps_props['Tpc_corrected'], 356.312, places=3)
         self.assertAlmostEqual(ps_props['Tr'], 1.5006, places=3)
 
-        ps_props = calc_z(Tpc_corrected=356.31, sg=0.7, P=1995.3, T=75, H2S=0.07, CO2=0.1, ignore_conflict=True, ps_props=True, zmodel='DAK', pmodel='Sutton')
+        ps_props = calc_z(Tpc_corrected=356.31, sg=0.7, P=1995.3, T=75, H2S=0.07, CO2=0.1, ignore_conflict=True, ps_props=True, zmodel='DAK', pmodel='sutton')
 
         self.assertAlmostEqual(ps_props['z'], 0.7730, places=3)
         self.assertAlmostEqual(ps_props['e_correction'], 21.2778, places=3)
@@ -570,7 +570,7 @@ class Test_Sutton(unittest.TestCase):
 
         print('calc_z passed (mode="Sutton")')
 
-        ps_props = calc_z(P=1995.3, T=75, sg=0.7, H2S=0.07, CO2=0.1, N2=0, ps_props=True, zmodel='DAK', pmodel='Piper')
+        ps_props = calc_z(P=1995.3, T=75, sg=0.7, H2S=0.07, CO2=0.1, N2=0, ps_props=True, zmodel='DAK', pmodel='piper')
 
         self.assertAlmostEqual(ps_props['z'], 0.7418, places=3)
         self.assertAlmostEqual(ps_props['J'], 0.4995, places=3)
@@ -580,7 +580,7 @@ class Test_Sutton(unittest.TestCase):
         self.assertAlmostEqual(ps_props['Pr'], 2.6874, places=3)
         self.assertAlmostEqual(ps_props['Tr'], 1.4311, places=3)
 
-        ps_props = calc_z(P=1995.3, T=75, sg=0.7, H2S=0.07, CO2=0.1, N2=0.1, ps_props=True, zmodel='DAK', pmodel='Piper')
+        ps_props = calc_z(P=1995.3, T=75, sg=0.7, H2S=0.07, CO2=0.1, N2=0.1, ps_props=True, zmodel='DAK', pmodel='piper')
 
         self.assertAlmostEqual(ps_props['z'], 0.8093, places=3)
         self.assertAlmostEqual(ps_props['J'], 0.4691, places=3)
@@ -590,7 +590,7 @@ class Test_Sutton(unittest.TestCase):
         self.assertAlmostEqual(ps_props['Pr'], 2.7302, places=3)
         self.assertAlmostEqual(ps_props['Tr'], 1.5483, places=3)
 
-        ps_props = calc_z(P=1995.3, T=75, K=13.661, J=0.4995, ps_props=True, zmodel='DAK', pmodel='Piper')
+        ps_props = calc_z(P=1995.3, T=75, K=13.661, J=0.4995, ps_props=True, zmodel='DAK', pmodel='piper')
 
         self.assertAlmostEqual(ps_props['z'], 0.7418, places=3)
         self.assertAlmostEqual(ps_props['Ppc'], 747.9869, places=3)
@@ -598,20 +598,20 @@ class Test_Sutton(unittest.TestCase):
         self.assertAlmostEqual(ps_props['Pr'], 2.6872, places=3)
         self.assertAlmostEqual(ps_props['Tr'], 1.4311, places=3)
 
-        ps_props = calc_z(P=1995.3, T=75, Tpc=373.6, J=0.4995, ignore_conflict=True, ps_props=True, zmodel='DAK', pmodel='Piper')
+        ps_props = calc_z(P=1995.3, T=75, Tpc=373.6, J=0.4995, ignore_conflict=True, ps_props=True, zmodel='DAK', pmodel='piper')
 
         self.assertAlmostEqual(ps_props['z'], 0.7418, places=3)
         self.assertAlmostEqual(ps_props['Ppc'], 747.9479, places=3)
         self.assertAlmostEqual(ps_props['Pr'], 2.6874, places=3)
         self.assertAlmostEqual(ps_props['Tr'], 1.4311, places=3)
 
-        ps_props = calc_z(T=75, Pr=2.687, K=13.661, J=0.4995, ignore_conflict=True, ps_props=True, zmodel='DAK', pmodel='Piper')
+        ps_props = calc_z(T=75, Pr=2.687, K=13.661, J=0.4995, ignore_conflict=True, ps_props=True, zmodel='DAK', pmodel='piper')
 
         self.assertAlmostEqual(ps_props['z'], 0.7418, places=3)
         self.assertAlmostEqual(ps_props['Tpc'], 373.6195, places=3)
         self.assertAlmostEqual(ps_props['Tr'], 1.4311, places=3)
 
-        ps_props = calc_z(P=1995.3, T=75, Ppc=663.28, Tpc=377.59, ignore_conflict=True, ps_props=True, zmodel='DAK', pmodel='Piper')
+        ps_props = calc_z(P=1995.3, T=75, Ppc=663.28, Tpc=377.59, ignore_conflict=True, ps_props=True, zmodel='DAK', pmodel='piper')
 
         self.assertAlmostEqual(ps_props['z'], 0.7207, places=3)
         self.assertAlmostEqual(ps_props['Pr'], 3.0304, places=3)
@@ -637,26 +637,26 @@ class Test_Sutton(unittest.TestCase):
         self.assertAlmostEqual(result, 0.7667, places=3)
         print('calc_z_models passed (model="kareem")')
 
-        result = calc_z(sg=0.7, H2S=0.07, CO2=0.1, P=2010-14.7, T=75, guess=0.9, zmodel='DAK', pmodel='Sutton')
+        result = calc_z(sg=0.7, H2S=0.07, CO2=0.1, P=2010-14.7, T=75, guess=0.9, zmodel='DAK', pmodel='sutton')
         self.assertAlmostEqual(result, 0.7730, places=3)
 
-        result = calc_z(sg=0.7, H2S=0.07, CO2=0.1, N2=0.1, P=2010-14.7, guess=0.9, T=75, zmodel='DAK', pmodel='Piper')
+        result = calc_z(sg=0.7, H2S=0.07, CO2=0.1, N2=0.1, P=2010-14.7, guess=0.9, T=75, zmodel='DAK', pmodel='piper')
         self.assertAlmostEqual(result, 0.8093, places=3)
 
-        result = calc_z(sg=0.7, H2S=0.07, CO2=0.1, P=2010-14.7, T=75, zmodel='kareem', pmodel='Piper')
+        result = calc_z(sg=0.7, H2S=0.07, CO2=0.1, P=2010-14.7, T=75, zmodel='kareem', pmodel='piper')
         self.assertAlmostEqual(result, 0.7319, places=3)
 
-        result = calc_z(sg=0.7, H2S=0.07, CO2=0.1, P=2010-14.7, T=75, N2=0.1, zmodel='hall_yarborough', pmodel='Piper')
+        result = calc_z(sg=0.7, H2S=0.07, CO2=0.1, P=2010-14.7, T=75, N2=0.1, zmodel='hall_yarborough', pmodel='piper')
         self.assertAlmostEqual(result, 0.8084, places=3)
 
         with self.assertRaises(TypeError):
-            calc_z(sg=0.7, H2S=0.07, CO2=0.1, P=2010 - 14.7, Ppc=135, T=75, zmodel='DAK', pmodel='Piper')
+            calc_z(sg=0.7, H2S=0.07, CO2=0.1, P=2010 - 14.7, Ppc=135, T=75, zmodel='DAK', pmodel='piper')
 
         with self.assertRaises(TypeError):
-            calc_z(sg=0.7, H2S=0.07, CO2=0.1, P=2010 - 14.7, Pr=1.5, T=75, zmodel='DAK', pmodel='Sutton')
+            calc_z(sg=0.7, H2S=0.07, CO2=0.1, P=2010 - 14.7, Pr=1.5, T=75, zmodel='DAK', pmodel='sutton')
 
         with self.assertRaises(KeyError):
-            calc_z(sg=0.7, H2S=0.07, CO2=0.1, N2=0.1, P=2010 - 14.7, T=75, guess=0.9, zmodel='kareem', pmodel='Piper')
+            calc_z(sg=0.7, H2S=0.07, CO2=0.1, N2=0.1, P=2010 - 14.7, T=75, guess=0.9, zmodel='kareem', pmodel='piper')
 
 
 
