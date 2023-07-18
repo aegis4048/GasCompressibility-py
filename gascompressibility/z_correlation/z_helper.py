@@ -110,8 +110,6 @@ def _calc_z_explicit_implicit_helper(Pr, Tr, zmodel_func, zmodel_str, guess, new
                 guesses = [guess_] + [guess] + _construct_guess_list_order(guess)
             else:
                 guesses = [guess] + _construct_guess_list_order(guess)
-                #print('Pr=', Pr, 'Tr=', Tr)
-                #print(guesses)
 
         else:
             guesses = _construct_guess_list_order(guess)
@@ -193,22 +191,25 @@ def calc_z(sg=None, P=None, T=None, H2S=None, CO2=None, N2=None, Pr=None, Tr=Non
     Tr : float
         pseudo-reduced temperature, Tr (°R)
     pmodel : str
-        choice of a pseudo-critical model. Accepted inputs: ``'sutton'`` | ``'piper'``.
+        choice of a pseudo-critical model.
+        Check :ref:`Theories 1: Pseudo-Critical Property Models <theories:1. Pseudo-Critical Property Models>` for more information.
+        Accepted inputs: ``'sutton'`` | ``'piper'``
 
         See Also
         --------
-        :doc:`pseudocritical`
         ~sutton.Sutton
         ~piper.Piper
 
     zmodel : str
-        choice of a z-correlation model. Accepted inputs are: ``'DAK'`` | ``'hall_yarborough'`` | ``'londono'`` |``'kareem'``
+        choice of a z-correlation model.
+        Check :ref:`Theories 2: Z-Factor Correlation Models <theories:2. Z-Factor Correlation Models>` for more information.
+        Accepted inputs: ``'DAK'`` | ``'hall_yarborough'`` | ``'londono'`` |``'kareem'``
     guess : float
         initial guess of z-value for z-correlation models using iterative convergence (``'DAK'`` | ``'hall_yarborough'`` | ``'londono'``).
         NOT RECOMMENDED to manually set this parameter unless the computed :math:`P_r` exceeds 15. If so a default ``guess=2`` is applied, which
         is a good estimate for high-pressure scenarios. Otherwise for :math:`P_r < 15`, the built-in ``smart_guess`` takes over to
         automatically provide a good initial guess that's fast and accurate.
-    newton_kwargs :dict
+    newton_kwargs : dict
         dictonary of keyword-arguments used by ``scipy.optimize.newton`` method for z-correlation models that use
         iterative convergence (``'DAK'`` | ``'hall_yarborough'`` | ``'londono'``).
 
@@ -219,7 +220,10 @@ def calc_z(sg=None, P=None, T=None, H2S=None, CO2=None, N2=None, Pr=None, Tr=Non
         ----------
         `scipy.optimize.newton <https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.newton.html>`_.
     smart_guess : bool
-        set to `True` by default. Prevents rare corner cases where :doc:`test <pseudocritical>` :ref:`Theories 2.6: Caveats <theories:2.6. Caveats>`
+        ``True`` by default. Prevents rare corner cases where ``scipy.optimize.newton`` fails to converge to a true
+        solution, and improves speed. It provides *"smart"* initial guess with explicit z-models (like ``zmodel='kareem'``)
+        for :math:`P_r < 15`. For :math:`P_r > 15`, smart guess is turned off and uses a fixed value of ``guess=2``,
+        which is shown to work well. Check :ref:`Theories 2.6: Caveats <theories:2.6. Caveats>` for more information.
     ps_props : bool
         set this to `True` to return a dictionary of all associated pseudo-critical properties computed during calculation
         of the z-factor.
@@ -233,7 +237,7 @@ def calc_z(sg=None, P=None, T=None, H2S=None, CO2=None, N2=None, Pr=None, Tr=Non
         >>> gc.calc_z(Ppc=663, e_correction=21, Tpc=377.59, P=2010, T=75, pmodel='sutton', ignore_conflict=True)
         0.7720015496503527
 
-        ``Ppc``, ``e_correction``, ``Tpc`` aren't default parameters defined in ``gascompressibility.calc_z``,
+        ``Ppc``, ``e_correction``, ``Tpc`` aren't default parameters defined in this function,
         but they can be optionally passed into Sutton's :ref:`Sutton.calc_Pr <Sutton.calc_Pr>` and :ref:`Sutton.calc_Tr <Sutton.calc_Tr>`
         methods if you already know these values (not common) and would like to compute the z-factor from these instead
         of using specific gravity correlation.
@@ -297,6 +301,7 @@ def calc_z(sg=None, P=None, T=None, H2S=None, CO2=None, N2=None, Pr=None, Tr=Non
 
 
 def quickstart(
+        zmodel='DAK',
         prmin=0.2,
         prmax=30,
         figsize=(8, 5),
@@ -306,18 +311,114 @@ def quickstart(
         disable_tr_annotation=False,
         **kwargs
 ):
-
     """
-    Generates a plot
+    Quick plot generation tool for those who don't wish to write a full-blown matplotlib script. It generates a
+    z-factor correlation plot against :math:`P_r` and :math:`T_r` ranges.
 
+    **Basic usage**
+
+    >>> import gascompressibility as gc
+    >>>
+    >>> result, fig, ax = gc.quickstart()
+
+    .. figure:: _static/quickstart_1.png
+        :align: center
+
+    **Built-In Parameter Tweaks**
+
+    >>> result, fig, ax = gc.quickstart(
+    ...     zmodel='londono', prmin=3, prmax=12, figsize= (8, 4),
+    ...     title_underline_loc=0.91, disable_tr_annotation=True,
+    ...     title_bold='This is a bold title', title_plain='and this a plain',
+    ... )
+
+    .. figure:: _static/quickstart_2.png
+        :align: center
+
+    **Custimization using the returned matplotlib axis object**
+
+    >>> result, fig, ax = gc.quickstart()
+    >>>
+    >>> ax.set_ylim(0, 2)
+    >>> ax.set_xlim(0, 15)
+    >>> ax.set_ylabel('This is a Y label')
+    >>> ax.set_xlabel('This is a X label')
+    >>> ax.grid(False)
+    >>> ax.minorticks_off()
+    >>> ax.text(0.1, 0.08, 'This is custom annotation', fontsize=11,
+    ... transform=ax.transAxes)
+    >>> ax.axvspan(9, 15, facecolor='#efefef', alpha=0.5)
+    >>> ax.axvline(x=9, color='k', linestyle='--', linewidth=1, alpha=0.7)
+    >>> ax.text(9.2, 1.9, 'Another custom annotation', fontsize=10, va='top',
+    ... color='k', alpha=0.7, rotation=270)
+    >>>
+    >>> fig.tight_layout()
+    >>> # fig.savefig('output.png', bbox_inches='tight', dpi=200)
+
+    .. figure:: _static/quickstart_3.png
+        :align: center
+
+    **Extreme failure scenario when** ``smart_guess=False`` **and bad** ``guess`` **is provided - NOT RECOMMENDED**.
+    Check :ref:`Theories 2.6: Caveats <theories:2.6. Caveats>` for more information.
+
+    >>> results, fig, ax = gc.quickstart(zmodel='hall_yarborough', prmin=0.2, prmax=30,
+    ... smart_guess=False, guess=0.1)
+
+    .. figure:: _static/quickstart_10.png
+        :align: center
+
+    Parameters
+    ----------
+    zmodel : str
+        choice of a z-correlation model.
+        Check :ref:`Theories 2: Z-Factor Correlation Models <theories:2. Z-Factor Correlation Models>` for more information.
+        Accepted inputs: ``'DAK'`` | ``'hall_yarborough'`` | ``'londono'`` |``'kareem'``
+    prmin : float
+        minimum value of the :math:`P_r` range
+    prmax : float
+        maximum value of the :math:`P_r` range
+    figsize : tuple
+        matplotlib figure size
+    title_bold : str
+        string of the bold (left) portion of the figure title
+    title_plain : str
+        string of the plain (right) portion of the figure title
+    title_underline_loc : float
+        vertical location of the horizontal bar under the title. Try adjusting this value between 0.8 ~ 1.10 if the
+        title underline looks off
+    disable_tr_annotation : bool
+        set this to ``True`` to not display :math:`T_r` text annotations
+    kwargs : dict
+        optional kwargs used py :ref:`gascompressibility.calc_z <calc_z>`.
     Returns
     -------
     results: dict
-        Test
+        dictionary of the simulation result. The structure is as follows:
+
+        >>> results
+        {
+            1.05: {
+                'Pr': array([0.2, 0.3, 0.4, ..., 29.9]),
+                'Z': array([0.9367, 0.9030, 0.8675, ..., 3.1807]),
+            },
+            1.1: {
+                'Pr': ...
+                'Z': ...
+            },
+            ...
+        }
+
+        Each key: value pairs can be retrieved like this:
+
+        >>> Pr_105 = results[1.05]['Pr']
+        >>> Z_105 = results[1.05]['Z']
+        >>> Pr_110 = results[1.1]['Pr']
+        >>> Z_110 = results[1.1]['Z']
+
     fig : `Figure <https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.subplots.html>`_
         Matplotlib figure object
     ax : `Axis <https://matplotlib.org/stable/api/axis_api.html#axis-objects>`_
-
+        Matplotlib axis object
     """
     if prmin <= 0:
         raise TypeError("Value of prmin must be greater than 0. Try prmin=0.1")
@@ -335,13 +436,11 @@ def quickstart(
     for Tr in Trs:
         for Pr in Prs:
 
-            if kwargs['zmodel'] is None:
-                kwargs['zmodel'] = 'DAK'
-
-            if kwargs['zmodel'] == 'kareem':
-                z = calc_z(Tr=Tr, Pr=Pr, **kwargs)
+            if zmodel == 'kareem':
+                z = calc_z(Tr=Tr, Pr=Pr, zmodel=zmodel, **kwargs)
             else:
-                z = calc_z(Tr=Tr, Pr=Pr, newton_kwargs={'maxiter': 50}, **kwargs)
+                z = calc_z(Tr=Tr, Pr=Pr, zmodel=zmodel, newton_kwargs={'maxiter': 50}, **kwargs)
+
             results[Tr]['Z'] = np.append(results[Tr]['Z'], [z], axis=0)
             results[Tr]['Pr'] = np.append(results[Tr]['Pr'], [Pr], axis=0)
 
@@ -377,7 +476,7 @@ def quickstart(
     ax.set_xlabel('Pseudo-Reduced Pressure, $P_{r}$', fontsize=label_fontsize)
     ax.text(0.57, 0.08, '$T_{r}$ = Pseudo-Reduced Temperature', fontsize=11, transform=ax.transAxes,
             bbox=dict(facecolor='white'))
-    ax.text(0.05, 0.9, "zmodel = '%s'" % kwargs['zmodel'], fontsize=11, transform=ax.transAxes,
+    ax.text(0.05, 0.9, "zmodel = '%s'" % zmodel, fontsize=11, transform=ax.transAxes,
             bbox=dict(facecolor='white'), va='center', ha='left')
 
     def setbold(txt):
@@ -385,6 +484,9 @@ def quickstart(
 
     if title_bold is None:
         title_bold = setbold('Gas Compressibility Factor - Z')
+    else:
+        title_bold = setbold(title_bold)
+
     if title_plain is None:
         title_plain = ', computed with GasCompressiblityFactor-py '
 
@@ -395,6 +497,3 @@ def quickstart(
     fig.tight_layout()
 
     return results, fig, ax
-
-
-#  gc.calc_z(Pr=2.1, Tr=1.05, zmodel='londono', newton_kwargs={'maxiter': 100000}, guess=0.5)
