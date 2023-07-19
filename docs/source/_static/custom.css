@@ -1,3 +1,6 @@
+#disqus_thread {
+    margin-top: 60px;
+}
 .reference.internal:has(> span.doc) {
     font-family: var(--pst-font-family-monospace);
     color: var(--pst-color-link);

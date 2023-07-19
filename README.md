@@ -4,12 +4,16 @@
 
 GasCompressibility-py is a Python library for calculating the gas compressibility factor, $Z$, based on real gas law. It is designed with practical oil field application in mind, in which the required inputs ($T$, $P$, and $\gamma_{g}$) can be readily obtained from the surface facility.
 
+## 0. Documentation
+
 Have you ever had an experience of finding the package that piques your interest, only to give up a few moments later after finding out that it has an insane learning curve because the documentation sucks? Worry not. **The package comes with extensive documentation support.** If you have any questions or looking for tutorials, just skim through this README introduction or check out the [official documentation](https://aegis4048.github.io/GasCompressibility-py/theories.html). 
 
 <a href="https://aegis4048.github.io/GasCompressibility-py/calc_z.html" target="_blank">
   <img align="center" src="misc/documentation_gallery.png" alt="GasCompressibility-py Documentation" />
 </a>
 
+Each page in the documentation have a Disqus plugin section where you can leave comments for any questions. Check the 
+[Discussion Forum](https://aegis4048.github.io/GasCompressibility-py/discussion.html) page to post your questions!
 
 ## 1. Installation
 
@@ -291,6 +295,8 @@ If you are asking this question, you are probably a petroleum or chemical engine
 
 ## 7. References
 
+<details><summary><b>Expand</b></summary>
+
 \[1\] Sutton, R.P.: "Compressibility Factor for High-Molecular Weight
 Reservoir Gases," paper SPE 14265 (1985).
 [(link)](https://onepetro.org/SPEATCE/proceedings-abstract/85SPE/All-85SPE/SPE-14265-MS/61651)
@@ -348,7 +354,11 @@ CO2 at high temperatures and pressures," *Journal of Petroleum and Gas
 Engineering* (2020).
 [(link)](https://www.researchgate.net/publication/343309900_Predicting_the_compressibility_factor_of_natural_gases_containing_various_amounts_of_CO2_at_high_temperatures_and_pressures)
 
-## 8. Requirements
+</details>
+
+## 8. Discussion Forum
+
+## 9. Requirements
 
 Python =\> 3.8
 
@@ -356,13 +366,13 @@ Python =\> 3.8
 2.  Scipy
 3.  Matplotlib
 
-## 9. Authors
+## 10. Authors
 
 -   [Eric 'Soobin' Kim](https://github.com/aegis4048) - Petroleum engineer with the gas compressor company, [Flogistix](https://flogistix.com/). Primary author of the package. (Contact | <aegis4048@gmail.com>, Website | [PythonicExcursions](https://aegis4048.github.io/))
 
-## 10. License
+## 11. License
 The packages is under [MIT License](https://github.com/aegis4048/GasCompressibiltiy-py/blob/main/LICENSE) (no restrictions whatsoever). 
 
-## 11. Cite As
+## 12. Cite As
 
 Eric \"Soobin\" Kim, 2021, GasCompressibility-py Python Package, PyPI, Python Package Index, <https://pypi.org/project/gascompressibility/>.

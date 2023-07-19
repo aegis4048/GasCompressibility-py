@@ -76,7 +76,9 @@ def write_class_methods_to_rst(file_dir=None, write_dir=None, file_name=None,):
                           "%s\n" \
                           "=====================================\n" \
                           "\n" \
-                          ".. automethod:: %s" % ('.'.join(method_w.split('.')[1:]), '.'.join(method_w.split('.')[2:]), method_w)
+                          ".. automethod:: %s" \
+                          "\n\n" \
+                          ".. disqus::" % ('.'.join(method_w.split('.')[1:]), '.'.join(method_w.split('.')[2:]), method_w)
 
                 fout.write(content)
                 print('   ~' + method_w)

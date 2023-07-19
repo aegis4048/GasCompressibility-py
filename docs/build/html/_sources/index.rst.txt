@@ -14,6 +14,7 @@ GasCompressibility-py
 
    modules
    theories
+   discussion
 
 GasCompressibility-py is a Python library for calculating the gas
 compressibility factor, :math:`Z`, based on real gas law. It is designed with practical oil field application in mind, in which
