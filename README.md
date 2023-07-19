@@ -12,6 +12,8 @@ Have you ever had an experience of finding the package that piques your interest
   <img align="center" src="misc/documentation_gallery.png" alt="GasCompressibility-py Documentation" />
 </a>
 
+&nbsp;
+
 Each page in the documentation have a Disqus plugin section where you can leave comments for any questions. Check the 
 [Discussion Forum](https://aegis4048.github.io/GasCompressibility-py/discussion.html) page to post your questions!
 
@@ -356,9 +358,7 @@ Engineering* (2020).
 
 </details>
 
-## 8. Discussion Forum
-
-## 9. Requirements
+## 8. Requirements
 
 Python =\> 3.8
 
@@ -366,13 +366,13 @@ Python =\> 3.8
 2.  Scipy
 3.  Matplotlib
 
-## 10. Authors
+## 9. Authors
 
 -   [Eric 'Soobin' Kim](https://github.com/aegis4048) - Petroleum engineer with the gas compressor company, [Flogistix](https://flogistix.com/). Primary author of the package. (Contact | <aegis4048@gmail.com>, Website | [PythonicExcursions](https://aegis4048.github.io/))
 
-## 11. License
+## 10. License
 The packages is under [MIT License](https://github.com/aegis4048/GasCompressibiltiy-py/blob/main/LICENSE) (no restrictions whatsoever). 
 
-## 12. Cite As
+## 11. Cite As
 
 Eric \"Soobin\" Kim, 2021, GasCompressibility-py Python Package, PyPI, Python Package Index, <https://pypi.org/project/gascompressibility/>.
