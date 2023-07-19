@@ -187,9 +187,9 @@ def calc_z(sg=None, P=None, T=None, H2S=None, CO2=None, N2=None, Pr=None, Tr=Non
     N2 : float
         mole fraction of N2 (dimensionless). Available only when ``pmodel='piper'`` (default)
     Pr : float
-        pseudo-reduced pressure, Pr (psia)
+        pseudo-reduced pressure, Pr (dimensionless)
     Tr : float
-        pseudo-reduced temperature, Tr (°R)
+        pseudo-reduced temperature, Tr (dimensionless)
     pmodel : str
         choice of a pseudo-critical model.
         Check :ref:`Theories 1: Pseudo-Critical Property Models <theories:1. Pseudo-Critical Property Models>` for more information.

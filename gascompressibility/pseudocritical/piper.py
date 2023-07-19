@@ -48,9 +48,9 @@ class Piper(object):
         self.K = None
         """Stewart-Burkhardt-VOO parameter K, (°R/psia^0.5)"""
         self.Tr = None
-        """pseudo-reduced temperature, Tr (°R)"""
+        """pseudo-reduced temperature, Tr (dimensionless)"""
         self.Pr = None
-        """pseudo-reduced pressure, Pr (psia)"""
+        """pseudo-reduced pressure, Pr (dimensionless)"""
 
         self.ps_props = {
             'Tpc': None,
@@ -224,7 +224,7 @@ class Piper(object):
 
     def calc_Tr(self, T=None, sg=None, Tpc=None, H2S=None, CO2=None, N2=None, J=None, K=None, ignore_conflict=False):
         """
-        Calculates pseudo-reduced temperature, Tr (°R)
+        Calculates pseudo-reduced temperature, Tr (dimensionless)
 
         Parameters
         ----------
@@ -248,7 +248,7 @@ class Piper(object):
         Returns
         -------
         float
-            pseudo-reduced temperature, Tr (°R)
+            pseudo-reduced temperature, Tr (dimensionless)
 
         """
         self._set_first_caller_attributes(inspect.stack()[0][3], locals())
@@ -261,7 +261,7 @@ class Piper(object):
     """pseudo-reduced pressure (psi)"""
     def calc_Pr(self, P=None, sg=None, Tpc=None, Ppc=None, H2S=None, CO2=None, N2=None, J=None, K=None, ignore_conflict=False):
         """
-        Calculates pseudo-reduced pressure, Pr (psia)
+        Calculates pseudo-reduced pressure, Pr (dimensionless)
 
         Parameters
         ----------
@@ -285,7 +285,7 @@ class Piper(object):
         Returns
         -------
         float
-            pseudo-reduced pressure, Pr (psia)
+            pseudo-reduced pressure, Pr (dimensionless)
         """
 
         self._set_first_caller_attributes(inspect.stack()[0][3], locals())

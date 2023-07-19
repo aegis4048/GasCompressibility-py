@@ -362,9 +362,9 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">Ppc_corrected</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;corrected pseudo-critical pressure, P&#39;pc (psia)&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Tr</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;pseudo-reduced temperature, Tr (°R)&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;pseudo-reduced temperature, Tr (dimensionless)&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Pr</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;pseudo-reduced pressure, Pr (psia)&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;pseudo-reduced pressure, Pr (dimensionless)&quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">ps_props</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s1">&#39;Tpc&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
@@ -551,7 +551,7 @@ document.write(`
 
 <div class="viewcode-block" id="Sutton.calc_Tr"><a class="viewcode-back" href="../functions/sutton.Sutton.calc_Tr.html#sutton.Sutton.calc_Tr">[docs]</a>    <span class="k">def</span> <span class="nf">calc_Tr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Tpc_corrected</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sg</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Tpc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">e_correction</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">H2S</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">CO2</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ignore_conflict</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculates pseudo-reduced temperature, Tr (°R)</span>
+<span class="sd">        Calculates pseudo-reduced temperature, Tr (dimensionless)</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -575,7 +575,7 @@ document.write(`
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        float</span>
-<span class="sd">            pseudo-reduced temperature, Tr (°R)</span>
+<span class="sd">            pseudo-reduced temperature, Tr (dimensionless)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_set_first_caller_attributes</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">stack</span><span class="p">()[</span><span class="mi">0</span><span class="p">][</span><span class="mi">3</span><span class="p">],</span> <span class="nb">locals</span><span class="p">())</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_initialize_T</span><span class="p">(</span><span class="n">T</span><span class="p">)</span>
@@ -587,7 +587,7 @@ document.write(`
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;pseudo-reduced pressure (psi)&quot;&quot;&quot;</span>
 <div class="viewcode-block" id="Sutton.calc_Pr"><a class="viewcode-back" href="../functions/sutton.Sutton.calc_Pr.html#sutton.Sutton.calc_Pr">[docs]</a>    <span class="k">def</span> <span class="nf">calc_Pr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">P</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Ppc_corrected</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sg</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Tpc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Ppc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">e_correction</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Tpc_corrected</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">H2S</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">CO2</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ignore_conflict</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Calculates pseudo-reduced pressure, Pr (psia)</span>
+<span class="sd">        Calculates pseudo-reduced pressure, Pr (dimensionless)</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -615,7 +615,7 @@ document.write(`
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        float</span>
-<span class="sd">            pseudo-reduced pressure, Pr (psia)</span>
+<span class="sd">            pseudo-reduced pressure, Pr (dimensionless)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_set_first_caller_attributes</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">stack</span><span class="p">()[</span><span class="mi">0</span><span class="p">][</span><span class="mi">3</span><span class="p">],</span> <span class="nb">locals</span><span class="p">())</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_initialize_P</span><span class="p">(</span><span class="n">P</span><span class="p">)</span>

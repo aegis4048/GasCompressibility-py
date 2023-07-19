@@ -44,9 +44,9 @@ class Sutton():
         self.Ppc_corrected = None
         """corrected pseudo-critical pressure, P'pc (psia)"""
         self.Tr = None
-        """pseudo-reduced temperature, Tr (°R)"""
+        """pseudo-reduced temperature, Tr (dimensionless)"""
         self.Pr = None
-        """pseudo-reduced pressure, Pr (psia)"""
+        """pseudo-reduced pressure, Pr (dimensionless)"""
 
         self.ps_props = {
             'Tpc': None,
@@ -233,7 +233,7 @@ class Sutton():
 
     def calc_Tr(self, T=None, Tpc_corrected=None, sg=None, Tpc=None, e_correction=None, H2S=None, CO2=None, ignore_conflict=False):
         """
-        Calculates pseudo-reduced temperature, Tr (°R)
+        Calculates pseudo-reduced temperature, Tr (dimensionless)
 
         Parameters
         ----------
@@ -257,7 +257,7 @@ class Sutton():
         Returns
         -------
         float
-            pseudo-reduced temperature, Tr (°R)
+            pseudo-reduced temperature, Tr (dimensionless)
         """
         self._set_first_caller_attributes(inspect.stack()[0][3], locals())
         self._initialize_T(T)
@@ -269,7 +269,7 @@ class Sutton():
     """pseudo-reduced pressure (psi)"""
     def calc_Pr(self, P=None, Ppc_corrected=None, sg=None, Tpc=None, Ppc=None, e_correction=None, Tpc_corrected=None, H2S=None, CO2=None, ignore_conflict=False):
         """
-        Calculates pseudo-reduced pressure, Pr (psia)
+        Calculates pseudo-reduced pressure, Pr (dimensionless)
 
         Parameters
         ----------
@@ -297,7 +297,7 @@ class Sutton():
         Returns
         -------
         float
-            pseudo-reduced pressure, Pr (psia)
+            pseudo-reduced pressure, Pr (dimensionless)
         """
         self._set_first_caller_attributes(inspect.stack()[0][3], locals())
         self._initialize_P(P)
