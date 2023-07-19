@@ -7,7 +7,7 @@ GasCompressibility-py is a Python library for calculating the gas compressibilit
 Have you ever had an experience of finding the package that piques your interest, only to give up a few moments later after finding out that it has an insane learning curve because the documentation sucks? Worry not. **The package comes with extensive documentation support.** Feel free to check out the [official documentation](https://aegis4048.github.io/GasCompressibility-py/index.html) if you have any questions or looking for tutorials. Or you could just skim through this README introduction. 
 
 <a href="https://aegis4048.github.io/GasCompressibility-py/index.html" target="_blank">
-  <img align="center" src="docs/_static/documentation_gallery.png" alt="GasCompressibility-py Documentation" />
+  <img align="center" src="misc/documentation_gallery.png" alt="GasCompressibility-py Documentation" />
 </a>
 
 
