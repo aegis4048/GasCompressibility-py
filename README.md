@@ -92,7 +92,7 @@ The package additionally supports calculation of pseudo-critical properties. Che
 ```python
 >>> from gascompressibility.pseudocritical import Piper
 >>>
->>> Piper().calc_Pr(sg=0.7)
+>>> Piper().calc_Pr(sg=0.7, N2=0.1, CO2=0.1, H2S=0.05, P=2010)
 2.7950877932259734
 ```
 
@@ -105,7 +105,7 @@ The package additionally supports calculation of pseudo-critical properties. Che
 
 **Reduced pressure calculation from pseudo-critical pressure**
 ```python
->>> Sutton().calc_Pr(Ppc=724.37, P=2010)
+>>> Piper().calc_Pr(Ppc=724.37, P=2010)
 2.7951185167800987
 ```
 

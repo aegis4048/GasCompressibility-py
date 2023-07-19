@@ -165,5 +165,6 @@ testruns.ipynb
 papers/
 notes.py
 !docs/build/
-tutorials
+tutorials/
+docs/source/md_rst.ipynb
 
