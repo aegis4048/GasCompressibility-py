@@ -353,6 +353,8 @@ engineers not proficient in Python (yet…!):
 8. Requirements
 ---------------
 
+Python => 3.9
+
 1. Numpy
 2. Scipy
 3. Matplotlib
