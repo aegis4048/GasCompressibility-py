@@ -1,0 +1,742 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>GasCompressibility-py &#8212; GasCompressibility-py 0.1.8 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/design-tabs.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'index';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API Reference" href="modules.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="#">
+  
+  
+  
+  
+  
+    <p class="title logo__title">GasCompressibility-py 0.1.8 documentation</p>
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="modules.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="theories.html">
+                        Theories
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="modules.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="theories.html">
+                        Theories
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article"></div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="gascompressibility-py">
+<h1>GasCompressibility-py<a class="headerlink" href="#gascompressibility-py" title="Permalink to this heading">#</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<p>GasCompressibility-py is a Python library for calculating the gas
+compressibility factor, <span class="math notranslate nohighlight">\(Z\)</span>, based on real gas law. It is designed with practical oil field application in mind, in which
+the required inputs (<span class="math notranslate nohighlight">\(T\)</span>, <span class="math notranslate nohighlight">\(P\)</span>, and <span class="math notranslate nohighlight">\(\gamma_{g}\)</span>)
+can be readily obtained from the surface facility.</p>
+<p>The packages is under <a class="reference external" href="https://github.com/aegis4048/GasCompressibiltiy-py/blob/main/LICENSE">MIT
+License</a> (no restrictions whatsoever).</p>
+<section id="installation">
+<h2>1. Installation<a class="headerlink" href="#installation" title="Permalink to this heading">#</a></h2>
+<p>The package is hosted on the
+<a class="reference external" href="https://pypi.org/project/gascompressibility/">PyPi</a> page. You can
+remotely install it with the <code class="docutils literal notranslate"><span class="pre">pip</span></code> command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">gascompressibility</span>
+</pre></div>
+</div>
+<p>To download the most recent version:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">gascompressibility</span> <span class="o">--</span><span class="n">upgrade</span>
+</pre></div>
+</div>
+<p>If you are a chemical or petroleum engineer who doesn’t know what
+<code class="docutils literal notranslate"><span class="pre">pip</span></code> is, read <a class="reference external" href="#pip">below</a>.</p>
+</section>
+<section id="quickstart">
+<h2>2. Quickstart<a class="headerlink" href="#quickstart" title="Permalink to this heading">#</a></h2>
+<p>Check <a class="reference internal" href="quickstart.html"><span class="doc">gascompressibility.quickstart</span></a> for more examples.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">gascompressibility</span> <span class="k">as</span> <span class="nn">gc</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">results</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">gc</span><span class="o">.</span><span class="n">quickstart</span><span class="p">(</span><span class="n">prmin</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">prmax</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">zmodel</span><span class="o">=</span><span class="s1">&#39;DAK&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<figure class="align-default">
+<img alt="_images/quickstart_index.png" class="width-80 responsive-full-width" src="_images/quickstart_index.png" />
+</figure>
+</section>
+<section id="usage">
+<h2>3. Usage<a class="headerlink" href="#usage" title="Permalink to this heading">#</a></h2>
+<p>The package allows for quick calculation of the z-factor from the gas specific gravity (<span class="math notranslate nohighlight">\(\gamma_{g}\)</span>),
+pressure (<span class="math notranslate nohighlight">\(P\)</span>), and temperature (<span class="math notranslate nohighlight">\(T\)</span>). Check <a class="reference internal" href="calc_z.html"><span class="doc">gascompressibility.calc_z</span></a> for more examples.</p>
+<p><strong>Basic (most common) usage:</strong></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">gascompressibility</span> <span class="k">as</span> <span class="nn">gc</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gc</span><span class="o">.</span><span class="n">calc_z</span><span class="p">(</span><span class="n">sg</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="mi">75</span><span class="p">,</span> <span class="n">P</span><span class="o">=</span><span class="mi">2010</span><span class="p">)</span>
+<span class="go">0.7366562810878984</span>
+</pre></div>
+</div>
+<p><strong>In presence of significant non-hydrocarbon impurities:</strong></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gc</span><span class="o">.</span><span class="n">calc_z</span><span class="p">(</span><span class="n">sg</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="mi">75</span><span class="p">,</span> <span class="n">P</span><span class="o">=</span><span class="mi">2010</span><span class="p">,</span> <span class="n">CO2</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">H2S</span><span class="o">=</span><span class="mf">0.07</span><span class="p">,</span> <span class="n">N2</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
+<span class="go">0.7765149771306533</span>
+</pre></div>
+</div>
+<p><strong>When pseudo-critical properties are known (not common):</strong></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gc</span><span class="o">.</span><span class="n">calc_z</span><span class="p">(</span><span class="n">Pr</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">Tr</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+<span class="go">0.859314380561347</span>
+</pre></div>
+</div>
+<p><strong>Picking correlation models of your choice</strong></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gc</span><span class="o">.</span><span class="n">calc_z</span><span class="p">(</span><span class="n">sg</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="mi">75</span><span class="p">,</span> <span class="n">P</span><span class="o">=</span><span class="mi">2010</span><span class="p">,</span> <span class="n">zmodel</span><span class="o">=</span><span class="s1">&#39;kareem&#39;</span><span class="p">,</span> <span class="n">pmodel</span><span class="o">=</span><span class="s1">&#39;sutton&#39;</span><span class="p">)</span>
+<span class="go">0.7150183342641309</span>
+</pre></div>
+</div>
+<p><strong>Returning all associated pseudo-critical properties computed</strong></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gc</span><span class="o">.</span><span class="n">calc_z</span><span class="p">(</span><span class="n">sg</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="mi">75</span><span class="p">,</span> <span class="n">P</span><span class="o">=</span><span class="mi">2010</span><span class="p">,</span> <span class="n">ps_props</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">{&#39;z&#39;: 0.7366562810878984, &#39;Tpc&#39;: 371.4335560823552, &#39;Ppc&#39;: 660.6569792741872, &#39;J&#39;: 0.56221847, &#39;K&#39;: 14.450840999999999, &#39;Tr&#39;: 1.4394768357478496, &#39;Pr&#39;: 3.0646766226921294}</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<hr class="gascomp-methods" style="margin-bottom: -20px;"><div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p>The package additionally supports calculation of pseudo-critical properties.
+Check <a class="reference internal" href="sutton.html"><span class="doc">gascompressibility.pseudocritical.Sutton</span></a> and <a class="reference internal" href="piper.html"><span class="doc">gascompressibility.pseudocritical.Piper</span></a>
+for more information.</p>
+<p><strong>Reduced pressure calculation from specific gravity:</strong></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gascompressibility.pseudocritical</span> <span class="kn">import</span> <span class="n">Piper</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Piper</span><span class="p">()</span><span class="o">.</span><span class="n">calc_Pr</span><span class="p">(</span><span class="n">sg</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+<span class="go">2.7950877932259734</span>
+</pre></div>
+</div>
+<p><strong>Pseudo-critical pressure calculation from specific gravity:</strong></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Piper</span><span class="p">()</span><span class="o">.</span><span class="n">calc_Ppc</span><span class="p">(</span><span class="n">sg</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">N2</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">CO2</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">H2S</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
+<span class="go">724.3779622618493</span>
+</pre></div>
+</div>
+<p><strong>Reduced pressure calculation from pseudo-critical pressure</strong></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Sutton</span><span class="p">()</span><span class="o">.</span><span class="n">calc_Pr</span><span class="p">(</span><span class="n">Ppc</span><span class="o">=</span><span class="mf">724.37</span><span class="p">,</span> <span class="n">P</span><span class="o">=</span><span class="mi">2010</span><span class="p">)</span>
+<span class="go">2.7951185167800987</span>
+</pre></div>
+</div>
+</section>
+<section id="models-implemented">
+<h2>4. Models Implemented<a class="headerlink" href="#models-implemented" title="Permalink to this heading">#</a></h2>
+<p><span class="underline-italic">Pseudo-critical models:</span></p>
+<ul class="simple">
+<li><p><strong>Sutton (1985):</strong> Makes corrections for acid fractions: <span class="math notranslate nohighlight">\(H_2S\)</span> and <span class="math notranslate nohighlight">\(CO_2\)</span></p></li>
+<li><p><strong>Piper (1993):</strong> Improved version of Piper. Additionally supports corrections for <span class="math notranslate nohighlight">\(N_2\)</span> along with <span class="math notranslate nohighlight">\(H_2S\)</span> and <span class="math notranslate nohighlight">\(CO_2\)</span></p></li>
+<li><p><a class="reference internal" href="theories.html#pseudo-critical-property-models"><span class="std std-ref">Theories 1: Pseudo-Critical Property Models</span></a></p></li>
+</ul>
+<p><span class="underline-italic">Z-factor models:</span></p>
+<ul class="simple">
+<li><p><strong>DAK (1975):</strong> The most widely used z-factor model in the oil and gas industry for the past 40 years. You can’t go wrong with this model</p></li>
+<li><p><strong>Hall-Yarborough (1973):</strong> Not recommended.</p></li>
+<li><p><strong>Londono (2005):</strong> Improved version of DAK. Math is exactly the same, but regression coefficients are fitted with 4x more data points.</p></li>
+<li><p><strong>Kareem (2016):</strong> Fast, but have shorter working ranges (<span class="math notranslate nohighlight">\(P_r &lt; 15\)</span>)</p></li>
+<li><p><a class="reference internal" href="theories.html#z-factor-correlation-models"><span class="std std-ref">Theories 2: Z-Factor Correlation Models</span></a></p></li>
+</ul>
+<p>Not sure which model to use? You don’t need to worry about it - default models (Piper + DAK) are more than good enough
+for real life applications. However, if computation speed is a big concern, use Kareem’s method for z-factor correlation
+for <span class="math notranslate nohighlight">\(P_r &lt; 15\)</span>. Check <a class="reference internal" href="theories.html#what-models-should-i-use"><span class="std std-ref">Theories 3: What models should I use?</span></a>
+for more information.</p>
+</section>
+<section id="working-ranges">
+<h2>5. Working Ranges<a class="headerlink" href="#working-ranges" title="Permalink to this heading">#</a></h2>
+<p>The below table summarizes the working <span class="math notranslate nohighlight">\(P_r\)</span> and <span class="math notranslate nohighlight">\(T_r\)</span> ranges of each model, according to it’s own original
+paper.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Model</p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(P_r\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(T_r\)</span></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>DAK</p></td>
+<td><p>[1, 3]</p></td>
+<td><p>[0.2, 30]</p></td>
+</tr>
+<tr class="row-odd"><td><p>Hall-Yarborough</p></td>
+<td><p>[1.15, 3]</p></td>
+<td><p>(0, 20.5]</p></td>
+</tr>
+<tr class="row-even"><td><p>Londono</p></td>
+<td><p>[1, 3]</p></td>
+<td><p>[0.2, 30]</p></td>
+</tr>
+<tr class="row-odd"><td><p>Kareem</p></td>
+<td><p>[1.15, 3]</p></td>
+<td><p>[0.2, 15]</p></td>
+</tr>
+</tbody>
+</table>
+<p><span class="vertical-spaceholder">something</span></p>
+<p>However, normally we don’t know the <span class="math notranslate nohighlight">\(P_r\)</span> and <span class="math notranslate nohighlight">\(T_r\)</span> values of a given mixture. The below figure summarizes
+the corresponding <span class="math notranslate nohighlight">\(P_r\)</span> and <span class="math notranslate nohighlight">\(T_r\)</span> (computed with Sutton’s method) for each of specific gravity, temperature, and pressure ranges. For
+example, assuming <span class="math notranslate nohighlight">\(\gamma_{g}\)</span> = 0.9 (green lines), z-factor correlation can’t be used for extreme conditions like
+<span class="math notranslate nohighlight">\(P\)</span> &gt; 19,000 psia, or <span class="math notranslate nohighlight">\(T\)</span> &gt; 800 °F. If Kareem’s method (<code class="docutils literal notranslate"><span class="pre">zmodel='kareem'</span></code>) is used for speed, you can’t
+use it for <span class="math notranslate nohighlight">\(P\)</span> &gt; 11,500 psia.</p>
+<figure class="align-center">
+<img alt="_images/zmodels_working_ranges.png" src="_images/zmodels_working_ranges.png" />
+</figure>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header sd-bg-primary sd-bg-text-primary">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-unlock" viewBox="0 0 16 16" aria-hidden="true"><path fill-rule="evenodd" d="M5.5 4a2.5 2.5 0 014.607-1.346.75.75 0 101.264-.808A4 4 0 004 4v2h-.501A1.5 1.5 0 002 7.5v6A1.5 1.5 0 003.5 15h9a1.5 1.5 0 001.5-1.5v-6A1.5 1.5 0 0012.5 6h-7V4zm-.75 3.5H3.5v6h9v-6H4.75z"></path></svg></span>Figure source code<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">gascompressibility.pseudocritical</span> <span class="kn">import</span> <span class="n">Sutton</span>
+
+<span class="n">pmin</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">pmax</span> <span class="o">=</span> <span class="mi">25000</span>
+<span class="n">Ps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">pmin</span><span class="p">,</span> <span class="n">pmax</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">Ps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">round</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">P</span> <span class="ow">in</span> <span class="n">Ps</span><span class="p">])</span>
+
+<span class="n">tmin</span> <span class="o">=</span> <span class="o">-</span><span class="mi">459</span>
+<span class="n">tmax</span> <span class="o">=</span> <span class="mi">1500</span>
+<span class="n">Ts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">tmin</span><span class="p">,</span> <span class="n">tmax</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">Ts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">round</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">T</span> <span class="ow">in</span> <span class="n">Ts</span><span class="p">])</span>
+
+<span class="n">sgs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">2.6</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">)</span>
+<span class="n">sgs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">round</span><span class="p">(</span><span class="n">sg</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">sg</span> <span class="ow">in</span> <span class="n">sgs</span><span class="p">])</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="p">{</span><span class="n">sg</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s1">&#39;Pr&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]),</span>
+    <span class="s1">&#39;P&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]),</span>
+    <span class="s1">&#39;Tr&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]),</span>
+    <span class="s1">&#39;T&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]),</span>
+<span class="p">}</span> <span class="k">for</span> <span class="n">sg</span> <span class="ow">in</span> <span class="n">sgs</span><span class="p">}</span>
+
+<span class="k">for</span> <span class="n">sg</span> <span class="ow">in</span> <span class="n">sgs</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">P</span> <span class="ow">in</span> <span class="n">Ps</span><span class="p">:</span>
+        <span class="n">Pr</span> <span class="o">=</span> <span class="n">Sutton</span><span class="p">()</span><span class="o">.</span><span class="n">calc_Pr</span><span class="p">(</span><span class="n">sg</span><span class="o">=</span><span class="n">sg</span><span class="p">,</span> <span class="n">P</span><span class="o">=</span><span class="n">P</span><span class="p">)</span>
+        <span class="n">results</span><span class="p">[</span><span class="n">sg</span><span class="p">][</span><span class="s1">&#39;P&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="n">sg</span><span class="p">][</span><span class="s1">&#39;P&#39;</span><span class="p">],</span> <span class="p">[</span><span class="n">P</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">results</span><span class="p">[</span><span class="n">sg</span><span class="p">][</span><span class="s1">&#39;Pr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="n">sg</span><span class="p">][</span><span class="s1">&#39;Pr&#39;</span><span class="p">],</span> <span class="p">[</span><span class="n">Pr</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">T</span> <span class="ow">in</span> <span class="n">Ts</span><span class="p">:</span>
+        <span class="n">Tr</span> <span class="o">=</span> <span class="n">Sutton</span><span class="p">()</span><span class="o">.</span><span class="n">calc_Tr</span><span class="p">(</span><span class="n">sg</span><span class="o">=</span><span class="n">sg</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">)</span>
+        <span class="n">results</span><span class="p">[</span><span class="n">sg</span><span class="p">][</span><span class="s1">&#39;T&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="n">sg</span><span class="p">][</span><span class="s1">&#39;T&#39;</span><span class="p">],</span> <span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">results</span><span class="p">[</span><span class="n">sg</span><span class="p">][</span><span class="s1">&#39;Tr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="n">sg</span><span class="p">][</span><span class="s1">&#39;Tr&#39;</span><span class="p">],</span> <span class="p">[</span><span class="n">Tr</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ax</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">axes</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">sg</span> <span class="ow">in</span> <span class="n">sgs</span><span class="p">:</span>
+            <span class="n">Prs</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="n">sg</span><span class="p">][</span><span class="s1">&#39;Pr&#39;</span><span class="p">]</span>
+            <span class="n">Ps</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="n">sg</span><span class="p">][</span><span class="s1">&#39;P&#39;</span><span class="p">]</span>
+
+            <span class="n">p</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Ps</span><span class="p">,</span> <span class="n">Prs</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">sg</span><span class="p">)</span>
+
+            <span class="n">t</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">Ps</span><span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">],</span> <span class="nb">max</span><span class="p">(</span><span class="n">Prs</span><span class="p">)</span> <span class="o">-</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;sg = &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">sg</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_color</span><span class="p">())</span>
+            <span class="n">t</span><span class="o">.</span><span class="n">set_bbox</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.06</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="s1">&#39;$P_</span><span class="si">{r}</span><span class="s1">$  approximation&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">transAxes</span><span class="p">,</span>
+            <span class="n">bbox</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$P_r$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Pressure (psia)&#39;</span><span class="p">)</span>
+        <span class="n">ymax</span> <span class="o">=</span> <span class="mi">60</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">xmin</span><span class="o">=</span><span class="n">pmin</span><span class="p">,</span> <span class="n">xmax</span><span class="o">=</span><span class="n">pmax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mf">31.3</span><span class="p">,</span> <span class="s1">&#39;$P_r$ = 30.0&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">xmin</span><span class="o">=</span><span class="n">pmin</span><span class="p">,</span> <span class="n">xmax</span><span class="o">=</span><span class="n">pmax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="s1">&#39;$P_r$ = 15.0&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">xmin</span><span class="o">=</span><span class="n">pmin</span><span class="p">,</span> <span class="n">xmax</span><span class="o">=</span><span class="n">pmax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;$P_r$ = 1.0&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">Ps</span><span class="p">,</span> <span class="n">y1</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">y2</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=-</span><span class="mi">99</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">sg</span> <span class="ow">in</span> <span class="n">sgs</span><span class="p">:</span>
+            <span class="n">Trs</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="n">sg</span><span class="p">][</span><span class="s1">&#39;Tr&#39;</span><span class="p">]</span>
+            <span class="n">Ts</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="n">sg</span><span class="p">][</span><span class="s1">&#39;T&#39;</span><span class="p">]</span>
+
+            <span class="n">p</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Ts</span><span class="p">,</span> <span class="n">Trs</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">sg</span><span class="p">)</span>
+
+            <span class="n">t</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">Ts</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="nb">max</span><span class="p">(</span><span class="n">Trs</span><span class="p">),</span> <span class="s1">&#39;sg = &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">sg</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_color</span><span class="p">())</span>
+            <span class="n">t</span><span class="o">.</span><span class="n">set_bbox</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.06</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="s1">&#39;$T_</span><span class="si">{r}</span><span class="s1">$  approximation&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">transAxes</span><span class="p">,</span>
+            <span class="n">bbox</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$T_r$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Temperature (°F)&#39;</span><span class="p">)</span>
+        <span class="n">ymax</span> <span class="o">=</span> <span class="mi">10</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">xmin</span><span class="o">=</span><span class="n">tmin</span><span class="p">,</span> <span class="n">xmax</span><span class="o">=</span><span class="n">tmax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">tmin</span><span class="p">,</span> <span class="mf">3.2</span><span class="p">,</span> <span class="s1">&#39;$T_r$ = 3.0&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">xmin</span><span class="o">=</span><span class="n">tmin</span><span class="p">,</span> <span class="n">xmax</span><span class="o">=</span><span class="n">tmax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">tmin</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s1">&#39;$T_r$ = 0.2&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">Ts</span><span class="p">,</span> <span class="n">y1</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">y2</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=-</span><span class="mi">99</span><span class="p">)</span>
+
+
+    <span class="n">ymin</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">-</span> <span class="mf">0.05</span> <span class="o">*</span> <span class="n">ymax</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ymin</span><span class="p">,</span> <span class="n">ymax</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">minorticks_on</span><span class="p">()</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">visible</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;minor&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="o">.</span><span class="n">top</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">setbold</span><span class="p">(</span><span class="n">txt</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">r</span><span class="s2">&quot;$\bf{&quot;</span> <span class="o">+</span> <span class="n">item</span> <span class="o">+</span> <span class="s2">&quot;}$&quot;</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">txt</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)])</span>
+
+    <span class="n">bold_txt</span> <span class="o">=</span> <span class="n">setbold</span><span class="p">(</span><span class="s1">&#39;Working Ranges of Z Models&#39;</span><span class="p">)</span>
+    <span class="n">plain_txt</span> <span class="o">=</span> <span class="s1">&#39;,  for each of specific gravity, pressure, and  temperature ranges&#39;</span>
+
+    <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="n">bold_txt</span> <span class="o">+</span> <span class="n">plain_txt</span><span class="p">,</span>
+                 <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+    <span class="n">yloc</span> <span class="o">=</span> <span class="mf">0.9</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">yloc</span><span class="p">),</span> <span class="n">xycoords</span><span class="o">=</span><span class="s1">&#39;figure fraction&#39;</span><span class="p">,</span> <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="mf">1.02</span><span class="p">,</span> <span class="n">yloc</span><span class="p">),</span>
+                <span class="n">arrowprops</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">arrowstyle</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.7</span><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.95</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="s1">&#39;GasCompressibility-Py&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span>
+            <span class="n">transform</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">transAxes</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details></section>
+<section id="tips">
+<h2>6. Tips<a class="headerlink" href="#tips" title="Permalink to this heading">#</a></h2>
+<p><strong>What does ‘pip’ mean?</strong></p>
+<p>If you are asking this question, you are probably a petroleum or
+chemical engineer with minimal programming knowledge. It’s basically a
+command-line program that helps you download &amp; install any open-source
+library with minimal hassle. Here I offer some practical tips for
+engineers not proficient in Python (yet…!):</p>
+<ol class="arabic simple">
+<li><p>Download Anaconda from <a class="reference external" href="https://www.anaconda.com/download">here</a>.</p></li>
+<li><p>Run the downloaded file. It’s filename will look something like this:
+“Anaconda3-2023.03-1-Windows-x86_64.exe”</p></li>
+<li><p>It will ask you to select destination folder. By default, its
+<code class="docutils literal notranslate"><span class="pre">C:\ProgramData\Anaconda3</span></code></p></li>
+<li><p>If it asks you to check if you want to add Codna to the environtment
+PATH variable, check yes. It will say that it is not recommended, but
+trust me - this will make your life easier if you don’t know what you
+are doing.</p></li>
+<li><p>Once installation is finished, go to windows search tab (bottom left
+corner of your screen). Type “cmd” and launch.</p></li>
+<li><p>If installation is done correctly, you should have <code class="docutils literal notranslate"><span class="pre">(base)</span></code> next to
+your current directory, like this: <code class="docutils literal notranslate"><span class="pre">(base)</span> <span class="pre">C:\Users\EricKim&gt;</span></code>. If
+you don’t see <code class="docutils literal notranslate"><span class="pre">(base)</span></code>, go to windows search tab again. Type
+“Anaconda”. Click “Anaconda Prompt (Anaconda 3)” and launch it. If
+you still don’t see <code class="docutils literal notranslate"><span class="pre">(base)</span></code>, you are about to do dive into some
+painful troubleshooting. Ask your friends who are good at Python to
+help you with it.</p></li>
+<li><p>If the Anaconda installation is done correctly, make your command
+line look like the following and press enter:
+<code class="docutils literal notranslate"><span class="pre">(base)</span> <span class="pre">C:\Users\EricKim&gt;pip</span> <span class="pre">install</span> <span class="pre">gascompressibility</span></code>.</p></li>
+<li><p>Congrats! Installation is finished</p></li>
+<li><p>Type <code class="docutils literal notranslate"><span class="pre">(base)</span> <span class="pre">C:\Users\EricKim&gt;Jupyter</span> <span class="pre">Notebook</span></code> and try the package
+on Jupyter Notebook.</p></li>
+</ol>
+</section>
+<section id="references">
+<h2>7. References<a class="headerlink" href="#references" title="Permalink to this heading">#</a></h2>
+<p>[1] Sutton, R.P.: “Compressibility Factor for High-Molecular Weight Reservoir Gases,” paper SPE 14265 (1985). <a class="reference external" href="https://onepetro.org/SPEATCE/proceedings-abstract/85SPE/All-85SPE/SPE-14265-MS/61651">(link)</a></p>
+<p>[2] Piper, L.D., McCain Jr., W.D., and Corredor J.H.: “Compressibility Factors for Naturally Occurring Petroleum Gases,” paper SPE 26668 (1993). <a class="reference external" href="https://onepetro.org/SPEATCE/proceedings/93SPE/All-93SPE/SPE-26668-MS/55401">(link)</a></p>
+<p>[3] Dranchuk, P.M., and Abou-Kassem, J.H.: “Calculation of z-Factors for Natural Gases Using Equations of State,” <em>Journal of Canadian Petroleum Technology</em> (1975). <a class="reference external" href="https://onepetro.org/JCPT/article-abstract/doi/10.2118/75-03-03">(link)</a></p>
+<p>[4] Kay, W.B: “Density of Hydrocarbon Gases and Vapors at High Temperature and Pressure,” Industrial Engineering Chemistry (1936)</p>
+<p>[5] Wichert, E.: “Compressibility Factor of Sour Natural Gases,” MEng Thesis, The University of Calgary, Alberta (1970)</p>
+<p>[6] Stewart, W.F., Burkhardt, S.F., and Voo, D.: “Prediction of Pseudocritical Parameters for Mixtures,” paper presented at the AIChE Meeting, Kansas City, MO (May 18, 1959).</p>
+<p>[7] Hall, K.R., and Yarborough, L.: “A new equation of state for Z-factor calculations,” <em>Oil and Gas Journal</em> (1973). <a class="reference external" href="https://www.researchgate.net/publication/284299884_A_new_equation_of_state_for_Z-factor_calculations">(link)</a></p>
+<p>[8] Londono, F.E., Archer, R.A., and Blasingame, T.A.: “Simplified Correlations for Hydrocarbon Gas Viscosity and Gas Density — Validation and Correlation of Behavior Using a Large-Scale Database,” paper SPE 75721 (2005). <a class="reference external" href="https://onepetro.org/SPEGTS/proceedings/02GTS/All-02GTS/SPE-75721-MS/135705">(link)</a></p>
+<p>[9] Kareem, L.A., Iwalewa, T.M., and Marhoun, M.al-.: “New explicit correlation for the compressibility factor of natural gas: linearized z-factor isotherms,” <em>Journal of Petroleum Exploration and Production Technology</em> (2016). <a class="reference external" href="https://link.springer.com/article/10.1007/s13202-015-0209-3">(link)</a></p>
+<p>[10] Elsharkawy, A.M., Aladwani, F., Alostad, N.: “Uncertainty in sour gas viscosity estimation and its impact on inflow performance and production forecasting,” <em>Journal of Natural Gas Science and Engineering</em> (2015). <a class="reference external" href="https://link.springer.com/article/10.1007/s13202-015-0209-3">(link)</a></p>
+<p>[11] Elsharkawy, A.M.: “Predicting the Properties of Sour Gases and Condensates: Equations of State and Empirical Correlations,” paper SPE 74369 (2002). <a class="reference external" href="https://onepetro.org/SPEIOCEM/proceedings-abstract/02IPCEM/All-02IPCEM/SPE-74369-MS/136841">(link)</a></p>
+<p>[12] Elsharkawy, A.M., and Elsharkawy, L.: “Predicting the compressibility factor of natural gases containing various amounts of CO2 at high temperatures and pressures,” <em>Journal of Petroleum and Gas Engineering</em> (2020). <a class="reference external" href="https://www.researchgate.net/publication/343309900_Predicting_the_compressibility_factor_of_natural_gases_containing_various_amounts_of_CO2_at_high_temperatures_and_pressures">(link)</a></p>
+</section>
+<section id="requirements">
+<h2>8. Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading">#</a></h2>
+<p>Python =&gt; 3.9</p>
+<ol class="arabic simple">
+<li><p>Numpy</p></li>
+<li><p>Scipy</p></li>
+<li><p>Matplotlib</p></li>
+</ol>
+</section>
+<section id="authors">
+<h2>9. Authors<a class="headerlink" href="#authors" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/aegis4048">Eric ‘Soobin’ Kim</a> - Petroleum
+engineer with the gas compressor company,
+<a class="reference external" href="https://flogistix.com/">Flogistix</a>. Primary author of the
+package. (Contact | <a class="reference external" href="mailto:aegis4048&#37;&#52;&#48;gmail&#46;com">aegis4048<span>&#64;</span>gmail<span>&#46;</span>com</a>, Website |
+<a class="reference external" href="https://aegis4048.github.io/">PythonicExcursions</a>)</p></li>
+</ul>
+</section>
+<section id="cite-as">
+<h2>10. Cite As:<a class="headerlink" href="#cite-as" title="Permalink to this heading">#</a></h2>
+<p>Eric “Soobin” Kim, 2021, GasCompressibility-py Python Package, PyPI, Python Package Index, <a class="reference external" href="https://pypi.org/project/gascompressibility/">https://pypi.org/project/gascompressibility/</a>.</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="right-next"
+       href="modules.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">API Reference</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">1. Installation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quickstart">2. Quickstart</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#usage">3. Usage</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#models-implemented">4. Models Implemented</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#working-ranges">5. Working Ranges</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tips">6. Tips</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">7. References</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requirements">8. Requirements</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#authors">9. Authors</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cite-as">10. Cite As:</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection sourcelink">
+    <a href="_sources/index.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2023, Eric Kim.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

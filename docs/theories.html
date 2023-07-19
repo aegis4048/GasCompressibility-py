@@ -1,0 +1,1208 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Theories &#8212; GasCompressibility-py 0.1.8 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/design-tabs.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'theories';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="calc_Pr" href="functions/piper.Piper.calc_Pr.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">GasCompressibility-py 0.1.8 documentation</p>
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="modules.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
+                        Theories
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="modules.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="#">
+                        Theories
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">Theories</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="theories">
+<h1>Theories<a class="headerlink" href="#theories" title="Permalink to this heading">#</a></h1>
+<p>The goal of all existing z-factor correlation models is to numerically
+represent the famous Standing-Katz (SK) chart, correlating the
+pseudo-critical properties, reduced pressure (<span class="math notranslate nohighlight">\(P_{r}\)</span>) and reduced
+temperature (<span class="math notranslate nohighlight">\(T_{r}\)</span>), to the real gas compressibility factor
+<span class="math notranslate nohighlight">\(Z\)</span>. In the other words, <strong>calculation of the z-factor requires
+values of</strong> <span class="math notranslate nohighlight">\(P_{r}\)</span> <strong>and</strong> <span class="math notranslate nohighlight">\(T_{r}\)</span>.</p>
+<p>In real life applications, no one knows the exact <span class="math notranslate nohighlight">\(P_{r}\)</span> and
+<span class="math notranslate nohighlight">\(T_{r}\)</span> values of his gas mixture. This is where pseudo-critical
+property models, such as Sutton (1985) <a class="footnote-reference brackets" href="#id22" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> and Piper et al (1993) <a class="footnote-reference brackets" href="#id23" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>,
+comes in handy by approximating them from gas specific gravity
+(<span class="math notranslate nohighlight">\(\gamma_g\)</span>), which is relatively easy to obtain from lab sample
+analysis.</p>
+<p>This section explains the basic theories behind <span class="math notranslate nohighlight">\(P_{r}\)</span> and
+<span class="math notranslate nohighlight">\(T_{r}\)</span> correlation from specific gravity and the subsequent
+z-factor correlation from the computed <span class="math notranslate nohighlight">\(P_{r}\)</span> and <span class="math notranslate nohighlight">\(T_{r}\)</span>.</p>
+<img alt="_images/SK_chart_comparison.png" src="_images/SK_chart_comparison.png" />
+<p>Figure 1: Left is the original SK chart, and the right is the numerical
+representation of the SK chart using the Dranchuk and Abu-Kassem (DAK)
+model <a class="footnote-reference brackets" href="#id24" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>.</p>
+</p></section>
+<section id="pseudo-critical-property-models">
+<h1>1. Pseudo-Critical Property Models<a class="headerlink" href="#pseudo-critical-property-models" title="Permalink to this heading">#</a></h1>
+<p>The z-factor can be derived from <span class="math notranslate nohighlight">\(P_{r}\)</span> and <span class="math notranslate nohighlight">\(T_{r}\)</span> through
+visual inspection of the SK chart or through numerical computation using
+various z-factor correlation models. In the other words, z-factor is a
+function of pseudo-reduced pressure and temperature:</p>
+<div class="math notranslate nohighlight">
+\[Z = f(P_{r}, T_{r})\]</div>
+<p><span class="math notranslate nohighlight">\(P_{r}\)</span> and <span class="math notranslate nohighlight">\(T_{r}\)</span> are defined as the pressure and
+temperature divided by the mixture’s pseudo-critical pressure
+(<span class="math notranslate nohighlight">\(P_{pc}\)</span>) and and temperature (<span class="math notranslate nohighlight">\(T_{pc}\)</span>):</p>
+<div class="math notranslate nohighlight">
+\[P_{r} = \frac{P}{P_{pc}}, ~~~~~~~ T_{r} = \frac{T}{T_{pc}}\]</div>
+<p>Kay (1936) <a class="footnote-reference brackets" href="#id25" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a> stated that <span class="math notranslate nohighlight">\(P_{pc}\)</span> and <span class="math notranslate nohighlight">\(T_{pc}\)</span> of a gas
+mixture can be expressed as the mole fraction (<span class="math notranslate nohighlight">\(x\)</span>) weighted
+average of the critical pressure (<span class="math notranslate nohighlight">\(P_c\)</span>) and temperature
+(<span class="math notranslate nohighlight">\(T_c\)</span>) of the mixture’s individual component (<span class="math notranslate nohighlight">\(i\)</span>):</p>
+<div class="math notranslate nohighlight">
+\[P_{pc}=\sum x_{i} P_{c_{i}}, ~~~~~~~T_{pc}=\sum x_{i} T_{c_{i}}\]</div>
+<p>However, this method is too inconvenient because you have to manually
+input individual component’s <span class="math notranslate nohighlight">\(P_c\)</span>, <span class="math notranslate nohighlight">\(T_c\)</span>, and <span class="math notranslate nohighlight">\(x\)</span>,
+which can be time-consuming. Furthermore, this isn’t practical for oil
+field applications in which the lab analysis of the “heavy-ends” are
+often lumped up together and reported as <span class="math notranslate nohighlight">\(C_{6}^{+}\)</span> or
+<span class="math notranslate nohighlight">\(C_{7}^{+}\)</span>. This makes it impossible to know the mole fractions
+of the components heavier than <span class="math notranslate nohighlight">\(C_{6}\)</span> or <span class="math notranslate nohighlight">\(C_{7}\)</span>.</p>
+<p>This section introduces various pseudo-critical property models that
+correlates a gas mixture’s specific gravity (<span class="math notranslate nohighlight">\(\gamma_{g}\)</span>) to its
+corresponding <span class="math notranslate nohighlight">\(P_{pc}\)</span> and <span class="math notranslate nohighlight">\(T_{pc}\)</span>.</p>
+<section id="sutton-1985">
+<h2>1.1. Sutton (1985)<a class="headerlink" href="#sutton-1985" title="Permalink to this heading">#</a></h2>
+<p>Sutton (1985) <a class="footnote-reference brackets" href="#id22" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> fitted the following regression model for a gas mixture
+with unknown component composition that that take <span class="math notranslate nohighlight">\(\gamma_{g}\)</span> as
+input:</p>
+<div class="math notranslate nohighlight">
+\[P_{pc} = 756.8 - 131.07\gamma_{g} - 3.6\gamma^{2}_{g}\]</div>
+<div class="math notranslate nohighlight">
+\[T_{pc} = 169.2 - 349.5\gamma_{g} - 74.0\gamma^{2}_{g}\]</div>
+<p>The above correlations are valid over the ranges of specific gravities
+with which Sutton worked: <span class="math notranslate nohighlight">\(0.57 &lt; \gamma_{g} &lt; 1.68\)</span>. He also
+recommends to apply Wichert-Aziz <a class="footnote-reference brackets" href="#id26" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a> correction for
+significant <span class="math notranslate nohighlight">\(H_2S\)</span> and <span class="math notranslate nohighlight">\(CO_2\)</span> fractions:</p>
+<div class="math notranslate nohighlight">
+\[\epsilon = 120 (A^{0.9} - A^{1.6}) + 15(B^{0.5} - B^{4})\]</div>
+<div class="math notranslate nohighlight">
+\[T_{pc}^{'} = T_{pc} - \epsilon\]</div>
+<div class="math notranslate nohighlight">
+\[P_{pc}^{'} = \frac{P_{pc}T_{pc}^{'}}{T_{pc} - B(1 - B)\epsilon}\]</div>
+<p>where:</p>
+<p><span class="math notranslate nohighlight">\(\epsilon\)</span> = temperature-correction factor for acid gases [°R]</p>
+<p><span class="math notranslate nohighlight">\(A\)</span> = sum of the mole fractions of <span class="math notranslate nohighlight">\(CO_2\)</span> and <span class="math notranslate nohighlight">\(H_2S\)</span>
+in the gas mixture [dimensionless]</p>
+<p><span class="math notranslate nohighlight">\(B\)</span> = mole fraction of <span class="math notranslate nohighlight">\(H_2S\)</span> in the gas mixture
+[dimensionless]</p>
+<p><span class="math notranslate nohighlight">\(T^{'}_{pc}\)</span> = corrected pseudo-critical temperature [°R]</p>
+<p><span class="math notranslate nohighlight">\(P^{'}_{pc}\)</span> = corrected pseudo-critical pressure [psia]</p>
+<p>The correction correlation is applicable to concentration ranges of
+<span class="math notranslate nohighlight">\(CO_2 &lt; 54.4 \space mol\)</span><strong>%</strong> and
+<span class="math notranslate nohighlight">\(H_2S &lt; 73.8 \space mol\)</span><strong>%</strong>. Using the Dranchuk and Abu-Kassem
+(DAK) method <a class="footnote-reference brackets" href="#id24" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a>  as a z-factor correlation model,
+Sutton’s correlation model reported an average absolute error of 1.418%.
+The regression coefficients were fitted with 289 points.</p>
+</section>
+<section id="piper-et-al-1993">
+<h2>1.2. Piper et al. (1993)<a class="headerlink" href="#piper-et-al-1993" title="Permalink to this heading">#</a></h2>
+<p>Piper et al. (1993) <a class="footnote-reference brackets" href="#id23" id="id8" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a> adapted the method of Stewart et al. (1959) <a class="footnote-reference brackets" href="#id27" id="id9" role="doc-noteref"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></a> to
+calculate the pseudo-critical properties of gas mixtures with nitrogen
+(<span class="math notranslate nohighlight">\(N_2\)</span>), <span class="math notranslate nohighlight">\(CO_2\)</span>, and <span class="math notranslate nohighlight">\(H_2S\)</span> fractions:</p>
+<div class="math notranslate nohighlight">
+\[T_{pc} = \frac{K^{2}}{J}, ~~~~~~~P_{pc} = \frac{T_{pc}}{J}\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align}
+J &amp;= 0.11582  - 0.45820 x_{H_2S}\left(\frac{T_c}{P_c}\right)\_{H_2S} - 0.90348 x_{CO_2}\left(\frac{T_c}{P_c}\right)\_{CO_2} - 0.66026 x_{N_2}\left(\frac{T_c}{P_c}\right)\_{N_2} \\
+\\
+&amp;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ + 0.70729\gamma_{g} - 0.099397 \gamma^{2}\_{g}\\
+\\
+K &amp;= 3.8216 -0.06534 x_{H_2S}\left(\frac{T_c}{\sqrt{P_c}}\right)\_{H_2S} - 0.42113 x_{CO_2}\left(\frac{T_c}{\sqrt{P_c}}\right)\_{CO_2} - 0.91249 x_{N_2}\left(\frac{T_c}{\sqrt{P_c}}\right)\_{N_2} \\
+\\
+&amp;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ + 17.438\gamma_{g} - 3.2191 \gamma^{2}\_{g}\\
+\end{align}\end{split}\]</div>
+<p>where:</p>
+<p><span class="math notranslate nohighlight">\(J\)</span> = Steward, Burkhardt, and Voo (SBV) parameter [°R/psia]</p>
+<p><span class="math notranslate nohighlight">\(K\)</span> = SBV parameter [°R/psia^0.5]</p>
+<p><span class="math notranslate nohighlight">\(x_{H_2S}\)</span> = mole fraction of <span class="math notranslate nohighlight">\(H_2S\)</span> [dimensionless]</p>
+<p><span class="math notranslate nohighlight">\(x_{CO_2}\)</span> = mole fraction of <span class="math notranslate nohighlight">\(CO_2\)</span> [dimensionless]</p>
+<p><span class="math notranslate nohighlight">\(x_{N2}\)</span> = mole fraction of <span class="math notranslate nohighlight">\(N_2\)</span> [dimensionless]</p>
+<p>Piper’s correction for non-hydrocarbon impurities have working ranges of
+<span class="math notranslate nohighlight">\(H_2S &lt; 51.37 \space mol\)</span><strong>%</strong>,
+<span class="math notranslate nohighlight">\(CO_2 &lt; 67.16 \space mol\)</span><strong>%</strong>, and
+<span class="math notranslate nohighlight">\(N_2 &lt; 15.68 \space mol\)</span><strong>%</strong>. Using the DAK method <a class="footnote-reference brackets" href="#id24" id="id10" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a> as a
+z-factor correlation model, Piper’s crrelation model reported an average
+absolute error of 1.304%. The regression coefficients were fitted with
+896 points.</p>
+</section>
+<section id="caveats">
+<h2>1.3. Caveats<a class="headerlink" href="#caveats" title="Permalink to this heading">#</a></h2>
+<p><strong>1) The models work only for “naturally occurring” hydrocarbon gases</strong></p>
+<p>The models implemented in this library correlates <span class="math notranslate nohighlight">\(\gamma_{g}\)</span> to
+the corresponding <span class="math notranslate nohighlight">\(P_{pc}\)</span> and <span class="math notranslate nohighlight">\(T_{pc}\)</span> by using the fitted
+regression coefficients. This means that the working range of the models
+will be limited by the range of the data points used to fit the
+coefficients. All pseudo-critical models (that I know of) are developed
+using only the naturally occurring gas samples. Therefore, it is not
+recommended to use these models for synthetic gases. If you are dealing
+with synthetic gases, I recommend using Kay’s (1936) <a class="footnote-reference brackets" href="#id25" id="id11" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a>
+method.</p>
+<p><strong>2) Correction is necessary in presence of significant impurities
+fractions</strong></p>
+<p>Sutton’s method (1985) <a class="footnote-reference brackets" href="#id22" id="id12" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>  can apply correction for
+<span class="math notranslate nohighlight">\(H_{2}S\)</span> and <span class="math notranslate nohighlight">\(CO_2\)</span>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gascompressibility.pseudocritical</span> <span class="kn">import</span> <span class="n">Sutton</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Sutton</span><span class="p">()</span><span class="o">.</span><span class="n">calc_Tr</span><span class="p">(</span><span class="n">sg</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="mi">75</span><span class="p">,</span> <span class="n">CO2</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">H2S</span><span class="o">=</span><span class="mf">0.07</span><span class="p">)</span>
+<span class="go">1.5005661019949397</span>
+</pre></div>
+</div>
+<p>Piper’s method (1993) <a class="footnote-reference brackets" href="#id23" id="id13" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>  can apply correction for
+<span class="math notranslate nohighlight">\(H_{2}S\)</span>, <span class="math notranslate nohighlight">\(CO_2\)</span>, and <span class="math notranslate nohighlight">\(N_2\)</span>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gascompressibility.pseudocritical</span> <span class="kn">import</span> <span class="n">Piper</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Piper</span><span class="p">()</span><span class="o">.</span><span class="n">calc_Tr</span><span class="p">(</span><span class="n">sg</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="mi">75</span><span class="p">,</span> <span class="n">CO2</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">H2S</span><span class="o">=</span><span class="mf">0.07</span><span class="p">,</span> <span class="n">N2</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="go">1.5483056093175225</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="z-factor-correlation-models">
+<h1>2. Z-Factor Correlation Models<a class="headerlink" href="#z-factor-correlation-models" title="Permalink to this heading">#</a></h1>
+<p>There are two kinds of models for z-factor correlation: <strong>Implicit
+vs. Explicit models</strong></p>
+<p><strong>Implicit</strong> models require iterative convergence to find the root of
+non-linear equations. From the Python point of view, this means that
+they use <code class="docutils literal notranslate"><span class="pre">scipy.optimize.newton()</span></code> method. These models are
+computationally much more expensive than explicit models. However,
+providing a good initial guess for the z-factor can significantly reduce
+computational cost. Initial guess of <span class="math notranslate nohighlight">\(Z = 0.9\)</span> is a good starting
+point for most applications in the oil field. This can be done by
+setting <code class="docutils literal notranslate"><span class="pre">calc_z(guess=0.9)</span></code> in this library (however, this is unnecessary if you set
+<code class="docutils literal notranslate"><span class="pre">smart_guess=True</span></code>).</p>
+<p><span class="underline-italic">Models implemented:</span></p>
+<ul class="simple">
+<li><p>DAK (1975) <a class="footnote-reference brackets" href="#id24" id="id14" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a></p></li>
+<li><p>Hall-Yarborough (1973) <a class="footnote-reference brackets" href="#id28" id="id15" role="doc-noteref"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></a></p></li>
+<li><p>Londono (2005) <a class="footnote-reference brackets" href="#id29" id="id16" role="doc-noteref"><span class="fn-bracket">[</span>8<span class="fn-bracket">]</span></a></p></li>
+</ul>
+<p><strong>Explicit</strong> models require only 1 iteration. They are fast. These
+models tend to be restricted by smaller applicable <span class="math notranslate nohighlight">\(P_{r}\)</span> and
+<span class="math notranslate nohighlight">\(T_{r}\)</span> ranges and be less accurate than implicit models. It is
+important to check the working ranges of the parameters before
+implementing these models.</p>
+<p><span class="underline-italic">Models implemented:</span></p>
+<ul class="simple">
+<li><p>Kareem, Iwalewa, and Marhoun (2016) <a class="footnote-reference brackets" href="#id30" id="id17" role="doc-noteref"><span class="fn-bracket">[</span>9<span class="fn-bracket">]</span></a></p></li>
+</ul>
+<section id="dak-1975">
+<h2>2.1. DAK (1975)<a class="headerlink" href="#dak-1975" title="Permalink to this heading">#</a></h2>
+<p>This method requires iterative converge. The z-factor is computed by
+setting <span class="math notranslate nohighlight">\(z\)</span> as the root of the following non-linear equations:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align}
+0 &amp;= 1 + \left( A_{1} + \frac{A_{2}}{T_{r}} +  \frac{A_{3}}{T_{r}^{3}} + \frac{A_{4}}{T_{r}^{4}} + \frac{A_{5}}{T_{r}^{5}}\right)\rho_{r} + \left( A_{6} + \frac{A_{7}}{T_{r}} + \frac{A_{8}}{T_{r}^{2}}\right)\rho_{r}^{2} \\
+&amp; ~~~~-A_{9}\left( \frac{A_{7}}{T_{r}} + \frac{A_{8}}{T_{r}^{2}}\right) \rho_{r}^{5} + A_{10}\left( 1 + A_{11}\rho_{r}^{2}\right)\left( \frac{\rho_{r}^{2}}{T_{r}^{3}}\right)exp(-A_{11}\rho_{r}^{2}) - z \\
+\end{align}\end{split}\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[\rho_{r} = \frac{0.27P_{r}}{zT_{r}}\]</div>
+<p>where:</p>
+<p><span class="math notranslate nohighlight">\(A_{1} = 0.3265 ~~~~~~~~~ A_{2} = -1.0700 ~~~~~~~~~ A_{3} = -0.5339\)</span></p>
+<p><span class="math notranslate nohighlight">\(A_{4}= 0.01569 ~~~~~~~ A_{5} = -0.05165 ~~~~~~~ A_{6} = 0.5475\)</span></p>
+<p><span class="math notranslate nohighlight">\(A_{7} = -0.7361 ~~~~~~ A_{8} = 0.1844 ~~~~~~~~~~~~ A_{9} = 0.1056\)</span></p>
+<p><span class="math notranslate nohighlight">\(A_{10} = 0.6134 ~~~~~~~~ A_{11} = 0.7210\)</span></p>
+<p>The model’s tested working ranges are: <span class="math notranslate nohighlight">\(1 \leq T_{r} \leq 3\)</span> and
+<span class="math notranslate nohighlight">\(0.2 \leq P_{r} \leq 30\)</span>. The regression coefficients were fitted
+on 1500 points. An average absolute error of 0.468% is reported in the
+original paper.</p>
+<p>This method is widely used in the petroleum industry <a class="footnote-reference brackets" href="#id31" id="id18" role="doc-noteref"><span class="fn-bracket">[</span>10<span class="fn-bracket">]</span></a>.</p>
+<p><strong>Code usage example:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">gascompressibility</span> <span class="k">as</span> <span class="nn">gc</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gc</span><span class="o">.</span><span class="n">calc_z</span><span class="p">(</span><span class="n">Pr</span><span class="o">=</span><span class="mf">3.1995</span><span class="p">,</span> <span class="n">Tr</span><span class="o">=</span><span class="mf">1.5006</span><span class="p">)</span>  <span class="c1"># default: model=&#39;DAK&#39;</span>
+<span class="go">0.7730934971021096</span>
+</pre></div>
+</div>
+</section>
+<section id="hall-yarborough-1973">
+<h2>2.2. Hall-Yarborough (1973)<a class="headerlink" href="#hall-yarborough-1973" title="Permalink to this heading">#</a></h2>
+<p>This method requires iterative converge. The z-factor is computed by
+setting <span class="math notranslate nohighlight">\(z\)</span> as the root of the following non-linear equations:</p>
+<div class="math notranslate nohighlight">
+\[0 = -A_{1}P_{r} + \frac{\rho_{r} + \rho_{r}^{2} + \rho_{r}^{3} - \rho_{r}^{4}}{(1 - \rho_{r})^{3}} - A_{2}\rho_{r}^{2} + A_{3}\rho_{r}^{A_{4}}\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[\rho_{r} = \frac{A_{1}P_{r}}{z}\]</div>
+<p>where:</p>
+<p><span class="math notranslate nohighlight">\(A_{1} = 0.06125te^{-1.2(1-t)^{2}}\)</span></p>
+<p><span class="math notranslate nohighlight">\(A_{2}=14.76t - 9.76t^{2} + 4.58t^{3}\)</span></p>
+<p><span class="math notranslate nohighlight">\(A_{3} = 90.7t - 242.2t^{2} + 42.4t^{3}\)</span></p>
+<p><span class="math notranslate nohighlight">\(A_{4} = 2.18 + 2.82t,\)</span></p>
+<p><span class="math notranslate nohighlight">\(t = 1 / T_{r}\)</span>,</p>
+<p>The model’s tested working ranges are: <span class="math notranslate nohighlight">\(1.15 &lt; T_{r} \leq 3\)</span> and
+<span class="math notranslate nohighlight">\(0 &lt; P_{r} \leq 20.5\)</span>. The regression coefficients were fitted
+with 289 points. An average absolute error of 1.21% is reported in the
+original paper.</p>
+<p>This method has received great application in the natural gas
+industry <a class="footnote-reference brackets" href="#id32" id="id19" role="doc-noteref"><span class="fn-bracket">[</span>11<span class="fn-bracket">]</span></a>.</p>
+<p><strong>Code usage example:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">gascompressibility</span> <span class="k">as</span> <span class="nn">gc</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gc</span><span class="o">.</span><span class="n">calc_z</span><span class="p">(</span><span class="n">zmodel</span><span class="o">=</span><span class="s1">&#39;hall_yarborough&#39;</span><span class="p">,</span> <span class="n">Pr</span><span class="o">=</span><span class="mf">3.1995</span><span class="p">,</span> <span class="n">Tr</span><span class="o">=</span><span class="mf">1.5006</span><span class="p">)</span>
+<span class="go">0.77140002684377</span>
+</pre></div>
+</div>
+</section>
+<section id="londono-2005">
+<h2>2.3. Londono (2005)<a class="headerlink" href="#londono-2005" title="Permalink to this heading">#</a></h2>
+<p>Londono’s method is exactly the same as the DAK method, and requires
+iterative converge. The only difference is that Londono further
+optimized the eleven regression coefficients by using more data points.
+DAK used 1500 points. Londono used 5960 points. The new regression
+coefficients are as follows:</p>
+<p><span class="math notranslate nohighlight">\(A_{1} = 0.3024696 ~~~~~~~~~~ A_{2} = -1.046964 ~~~~~~~~~~ A_{3} = -0.1078916\)</span></p>
+<p><span class="math notranslate nohighlight">\(A_{4}= -0.7694186 ~~~~~~~ A_{5} = 0.1965439 ~~~~~~~~~~~ A_{6} =0.6527819\)</span></p>
+<p><span class="math notranslate nohighlight">\(A_{7} = -1.118884 ~~~~~~~~~ A_{8} = 0.3951957 ~~~~~~~~~~~ A_{9} = 0.09313593\)</span></p>
+<p><span class="math notranslate nohighlight">\(A_{10} = 0.8483081 ~~~~~~~~~ A_{11} = 0.7880011\)</span></p>
+<p>The original paper does not mention any tested working ranges of
+<span class="math notranslate nohighlight">\(P_{r}\)</span> and <span class="math notranslate nohighlight">\(T_{r}\)</span>. However, it is logical to assume it’s
+working ranges to be the same as the those of the DAK method,
+<span class="math notranslate nohighlight">\(1 \leq T_{r} \leq 3\)</span> and <span class="math notranslate nohighlight">\(0.2 \leq P_{r} \leq 30\)</span>, since
+the underlying math is the same. An average absolute error of 0.412% is
+reported in the original paper.</p>
+<p><strong>Code usage example:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">gascompressibility</span> <span class="k">as</span> <span class="nn">gc</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gc</span><span class="o">.</span><span class="n">calc_z</span><span class="p">(</span><span class="n">zmodel</span><span class="o">=</span><span class="s1">&#39;londono&#39;</span><span class="p">,</span> <span class="n">Pr</span><span class="o">=</span><span class="mf">3.19</span><span class="p">,</span> <span class="n">Tr</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+<span class="go">0.7752626795793716</span>
+</pre></div>
+</div>
+</section>
+<section id="kareem-iwalewa-and-marhoun-2016">
+<h2>2.4. Kareem, Iwalewa, and Marhoun (2016)<a class="headerlink" href="#kareem-iwalewa-and-marhoun-2016" title="Permalink to this heading">#</a></h2>
+<p>This method is an adapted form of the Hall-Yarborough method. This
+method DOES NOT require iterative convergence. The z-factor can be
+calculated by:</p>
+<div class="math notranslate nohighlight">
+\[z = \frac{DP_{r}(1 + \rho_{r} + \rho_{r}^{2} -  \rho_{r}^{3})}{(DP_{r} + E \rho_{r}^{2} - F \rho_{r}^{G})(1- \rho_{r})^{3}}\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[\rho_{r} = \frac{DP_{r}}{\left(\frac{1 + A^{2}}{C} -\frac{A^{2}B}{C^{3}} \right)}\]</div>
+<p>where:</p>
+<p><span class="math notranslate nohighlight">\(A = a_{1}te^{a_{2}(1-t)^{2}}P_{r}\)</span></p>
+<p><span class="math notranslate nohighlight">\(B = a_{3}t + a_{4}t^{2} + a_{5}t^{6}P_{r}^{6}\)</span></p>
+<p><span class="math notranslate nohighlight">\(C = a_{9} + a_{8}tP_{r} + a_{7}t^{2}P_{r}^{2} + a_{6}t^{3}P_{r}^{3}\)</span></p>
+<p><span class="math notranslate nohighlight">\(D = a_{10}te^{a_{11}(1-t)^{2}}\)</span></p>
+<p><span class="math notranslate nohighlight">\(E = a_{12}t + a_{13}t^{2} + a_{14}t^{3}\)</span></p>
+<p><span class="math notranslate nohighlight">\(F = a_{15}t + a_{16}t^{2} + a_{17}t^{3}\)</span></p>
+<p><span class="math notranslate nohighlight">\(G = a_{18} + a_{19}t\)</span></p>
+<p><span class="math notranslate nohighlight">\(t = \frac{1}{T_{r}}\)</span></p>
+<p><span class="math notranslate nohighlight">\(A_{1} = 0.317842 ~~~~~~~~~~~~~~ A_{2} = 0.382216 ~~~~~~~~~~ A_{3} = -7.76835 ~~~~~~~~~A_{4}= 14.2905 ~~~~~~~~~ A_{5} = 0.00000218363\)</span></p>
+<p><span class="math notranslate nohighlight">\(A_{6} = -0.00469257 ~~~~~~~ A_{7} = 0.0962541 ~~~~~~~~ A_{8} = 0.16672 ~~~~~~~~~~~~A_{9}= 0.96691 ~~~~~~~~~ A_{10} = 0.063069\)</span></p>
+<p><span class="math notranslate nohighlight">\(A_{11} = -1.966847 ~~~~~~~~~ A_{12} = 21.0581 ~~~~~~~~~~~ A_{13} = -27.0246 ~~~~~~~~A_{14}= 16.23 ~~~~~~~~~~~ A_{15} = 207.783\)</span></p>
+<p><span class="math notranslate nohighlight">\(A_{16} = -488.161 ~~~~~~~~~~~ A_{17} = 176.29 ~~~~~~~~~~~~~ A_{18} = 1.88453 ~~~~~~~~~~~A_{19}= 3.05921\)</span></p>
+<p>The model’s tested working ranges are: <span class="math notranslate nohighlight">\(1.15 &lt; T_{r} \leq 3\)</span> and
+<span class="math notranslate nohighlight">\(0.2 \leq P_{r} \leq 15\)</span>. The regression coefficients were fitted
+with 5346 points. An average absolute error of 0.4379% is reported in
+the original paper. For the range outside the coverage of this
+correlation, the authors recommend using implicit correlations. However,
+this explicit correlation can be used to provide an initial guess to
+speed up the iteration process.</p>
+<p><strong>Code usage example:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">gascompressibility</span> <span class="k">as</span> <span class="nn">gc</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gc</span><span class="o">.</span><span class="n">calc_z</span><span class="p">(</span><span class="n">zmodel</span><span class="o">=</span><span class="s1">&#39;kareem&#39;</span><span class="p">,</span> <span class="n">Pr</span><span class="o">=</span><span class="mf">3.1995</span><span class="p">,</span> <span class="n">Tr</span><span class="o">=</span><span class="mf">1.5006</span><span class="p">)</span>
+<span class="go">0.7667583024871576</span>
+</pre></div>
+</div>
+</section>
+<section id="output-comparison">
+<h2>2.5. Output Comparison<a class="headerlink" href="#output-comparison" title="Permalink to this heading">#</a></h2>
+<p><strong>For 0.2 &lt;</strong> <span class="math notranslate nohighlight">\(P_{r}\)</span> <strong>&lt; 15:</strong></p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-0">
+DAK</label><div class="sd-tab-content docutils">
+<figure class="align-center">
+<img alt="_images/DAK-15.png" class="width-80 responsive-full-width" src="_images/DAK-15.png" />
+</figure>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">gascompressibility</span> <span class="k">as</span> <span class="nn">gc</span>
+
+<span class="n">results</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">gc</span><span class="o">.</span><span class="n">quickstart</span><span class="p">(</span><span class="n">zmodel</span><span class="o">=</span><span class="s1">&#39;hall_yarborough&#39;</span><span class="p">,</span> <span class="n">prmin</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">prmax</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">1.8</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-1">
+Londono</label><div class="sd-tab-content docutils">
+<figure class="align-center">
+<img alt="_images/londono-15.png" class="width-80 responsive-full-width" src="_images/londono-15.png" />
+</figure>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">gascompressibility</span> <span class="k">as</span> <span class="nn">gc</span>
+
+<span class="n">results</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">gc</span><span class="o">.</span><span class="n">quickstart</span><span class="p">(</span><span class="n">zmodel</span><span class="o">=</span><span class="s1">&#39;londono&#39;</span><span class="p">,</span> <span class="n">prmin</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">prmax</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">1.8</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-2" name="sd-tab-set-0" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-2">
+Hall-Yarborough</label><div class="sd-tab-content docutils">
+<figure class="align-center">
+<img alt="_images/hall_yarborough-15.png" class="width-80 responsive-full-width" src="_images/hall_yarborough-15.png" />
+</figure>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">gascompressibility</span> <span class="k">as</span> <span class="nn">gc</span>
+
+<span class="n">results</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">gc</span><span class="o">.</span><span class="n">quickstart</span><span class="p">(</span><span class="n">zmodel</span><span class="o">=</span><span class="s1">&#39;hall_yarborough&#39;</span><span class="p">,</span> <span class="n">prmin</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">prmax</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">1.8</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-3" name="sd-tab-set-0" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-3">
+Kareem</label><div class="sd-tab-content docutils">
+<figure class="align-center">
+<img alt="_images/kareem-15.png" class="width-80 responsive-full-width" src="_images/kareem-15.png" />
+</figure>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">gascompressibility</span> <span class="k">as</span> <span class="nn">gc</span>
+
+<span class="n">results</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">gc</span><span class="o">.</span><span class="n">quickstart</span><span class="p">(</span><span class="n">zmodel</span><span class="o">=</span><span class="s1">&#39;kareem&#39;</span><span class="p">,</span> <span class="n">prmin</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">prmax</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">1.8</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>For 0.2 &lt;</strong> <span class="math notranslate nohighlight">\(P_{r}\)</span> <strong>&lt; 30:</strong></p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-4" name="sd-tab-set-1" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-4">
+DAK</label><div class="sd-tab-content docutils">
+<figure class="align-center">
+<img alt="_images/DAK-30.png" class="width-80 responsive-full-width" src="_images/DAK-30.png" />
+</figure>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">gascompressibility</span> <span class="k">as</span> <span class="nn">gc</span>
+
+<span class="n">results</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">gc</span><span class="o">.</span><span class="n">quickstart</span><span class="p">(</span><span class="n">zmodel</span><span class="o">=</span><span class="s1">&#39;DAK&#39;</span><span class="p">,</span> <span class="n">prmin</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">prmax</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-5" name="sd-tab-set-1" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-5">
+Londono</label><div class="sd-tab-content docutils">
+<figure class="align-center">
+<img alt="_images/londono-30.png" class="width-80 responsive-full-width" src="_images/londono-30.png" />
+</figure>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">gascompressibility</span> <span class="k">as</span> <span class="nn">gc</span>
+
+<span class="n">results</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">gc</span><span class="o">.</span><span class="n">quickstart</span><span class="p">(</span><span class="n">zmodel</span><span class="o">=</span><span class="s1">&#39;londono&#39;</span><span class="p">,</span> <span class="n">prmin</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">prmax</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-6" name="sd-tab-set-1" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-6">
+Hall-Yarborough</label><div class="sd-tab-content docutils">
+<figure class="align-center">
+<img alt="_images/hall_yarborough-30.png" class="width-80 responsive-full-width" src="_images/hall_yarborough-30.png" />
+</figure>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">gascompressibility</span> <span class="k">as</span> <span class="nn">gc</span>
+
+<span class="n">results</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">gc</span><span class="o">.</span><span class="n">quickstart</span><span class="p">(</span><span class="n">zmodel</span><span class="o">=</span><span class="s1">&#39;hall_yarborough&#39;</span><span class="p">,</span> <span class="n">prmin</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">prmax</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">guess</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-7" name="sd-tab-set-1" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-7">
+Kareem</label><div class="sd-tab-content docutils">
+<figure class="align-center">
+<img alt="_images/kareem-30.png" class="width-80 responsive-full-width" src="_images/kareem-30.png" />
+</figure>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">gascompressibility</span> <span class="k">as</span> <span class="nn">gc</span>
+
+<span class="n">results</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">gc</span><span class="o">.</span><span class="n">quickstart</span><span class="p">(</span><span class="n">zmodel</span><span class="o">=</span><span class="n">kareem</span><span class="p">,</span> <span class="n">prmin</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">prmax</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">disable_tr_annotation</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id20">
+<h2>2.6. Caveats<a class="headerlink" href="#id20" title="Permalink to this heading">#</a></h2>
+<p>Z-factor correlation models that rely on iterative convergence share issues of their optimization methods - the result
+depends on the quality of the initial guess. Most times this issues is restricted only to the speed, but sometimes it has
+direct impact on the final values computed.</p>
+<p>Consider the following example when <code class="docutils literal notranslate"><span class="pre">Pr=2.8</span></code> and <code class="docutils literal notranslate"><span class="pre">Tr=1.1</span></code>:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">gascompressibility</span> <span class="k">as</span> <span class="nn">gc</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gc</span><span class="o">.</span><span class="n">calc_z</span><span class="p">(</span><span class="n">Pr</span><span class="o">=</span><span class="mf">2.8</span><span class="p">,</span> <span class="n">Tr</span><span class="o">=</span><span class="mf">1.1</span><span class="p">,</span> <span class="n">zmodel</span><span class="o">=</span><span class="s1">&#39;hall_yarborough&#39;</span><span class="p">,</span> <span class="n">smart_guess</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">guess</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+<span class="go">0.6001600275325583</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gc</span><span class="o">.</span><span class="n">calc_z</span><span class="p">(</span><span class="n">Pr</span><span class="o">=</span><span class="mf">2.8</span><span class="p">,</span> <span class="n">Tr</span><span class="o">=</span><span class="mf">1.1</span><span class="p">,</span> <span class="n">zmodel</span><span class="o">=</span><span class="s1">&#39;hall_yarborough&#39;</span><span class="p">,</span> <span class="n">smart_guess</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">guess</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="go">0.44138121739974145</span>
+</pre></div>
+</div>
+<p>When <code class="docutils literal notranslate"><span class="pre">smart_guess</span></code> is turned off, the computed z value for the <code class="docutils literal notranslate"><span class="pre">hall_yarborough</span></code> model returns different results despite the same <code class="docutils literal notranslate"><span class="pre">Pr</span></code> and <code class="docutils literal notranslate"><span class="pre">Tr</span></code> input
+values. The only differences are the <code class="docutils literal notranslate"><span class="pre">guess</span></code> values. Comparing with the other z-models, we know that the true solution sits around ~0.44.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gc</span><span class="o">.</span><span class="n">calc_z</span><span class="p">(</span><span class="n">Pr</span><span class="o">=</span><span class="mf">2.8</span><span class="p">,</span> <span class="n">Tr</span><span class="o">=</span><span class="mf">1.1</span><span class="p">,</span> <span class="n">zmodel</span><span class="o">=</span><span class="s1">&#39;DAK&#39;</span><span class="p">,</span> <span class="n">smart_guess</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">guess</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+<span class="go">0.44245159219674585</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gc</span><span class="o">.</span><span class="n">calc_z</span><span class="p">(</span><span class="n">Pr</span><span class="o">=</span><span class="mf">2.8</span><span class="p">,</span> <span class="n">Tr</span><span class="o">=</span><span class="mf">1.1</span><span class="p">,</span> <span class="n">zmodel</span><span class="o">=</span><span class="s1">&#39;kareem&#39;</span><span class="p">)</span>
+<span class="go">0.42052851684415665</span>
+</pre></div>
+</div>
+<p>This discrepancy happens because the iterative z-models implemented in <em>GasCompressibility-py</em> (<code class="docutils literal notranslate"><span class="pre">'DAK'</span></code> | <code class="docutils literal notranslate"><span class="pre">'hall_yarborough'</span></code> | <code class="docutils literal notranslate"><span class="pre">'londono'</span></code>)
+rely on <code class="docutils literal notranslate"><span class="pre">scipy.optimize.newton</span></code> method to find  a root, and as the official scipy documentation states,
+<em>“there is no guarantee that a root has been found. Consequently, the result should be verified.”</em></p>
+<p>Fortunately, <em>GasCompressibility-py</em> has a built-in feature that prevents these rare corner cases by setting <code class="docutils literal notranslate"><span class="pre">smart_guess=True</span></code>
+(default). Observe that the <code class="docutils literal notranslate"><span class="pre">'hall_yarborough'</span></code> model is able to converge to the ~0.44 z-factor solution when smart guess is activated:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">gc</span><span class="o">.</span><span class="n">calc_z</span><span class="p">(</span><span class="n">Pr</span><span class="o">=</span><span class="mf">2.8</span><span class="p">,</span> <span class="n">Tr</span><span class="o">=</span><span class="mf">1.1</span><span class="p">,</span> <span class="n">zmodel</span><span class="o">=</span><span class="s1">&#39;hall_yarborough&#39;</span><span class="p">,</span> <span class="n">smart_guess</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">0.44138121739974157</span>
+</pre></div>
+</div>
+<p>The below figure demonstrates some corner cases in which scipy fails converge to the right solution when
+<code class="docutils literal notranslate"><span class="pre">smart_guess=False</span></code>.</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-8" name="sd-tab-set-2" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-8">
+Example 1</label><div class="sd-tab-content docutils">
+<figure class="align-center">
+<img alt="_images/corner_cases_example_1.png" class="width-80 responsive-full-width" src="_images/corner_cases_example_1.png" />
+</figure>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header sd-bg-primary sd-bg-text-primary">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-unlock" viewBox="0 0 16 16" aria-hidden="true"><path fill-rule="evenodd" d="M5.5 4a2.5 2.5 0 014.607-1.346.75.75 0 101.264-.808A4 4 0 004 4v2h-.501A1.5 1.5 0 002 7.5v6A1.5 1.5 0 003.5 15h9a1.5 1.5 0 001.5-1.5v-6A1.5 1.5 0 0012.5 6h-7V4zm-.75 3.5H3.5v6h9v-6H4.75z"></path></svg></span>Figure source code<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">gascompressibility</span> <span class="k">as</span> <span class="nn">gc</span>
+
+<span class="n">results</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="o">=</span> <span class="n">gc</span><span class="o">.</span><span class="n">quickstart</span><span class="p">(</span><span class="n">zmodel</span><span class="o">=</span><span class="s1">&#39;londono&#39;</span><span class="p">,</span> <span class="n">prmin</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">prmax</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">smart_guess</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details></div>
+<input id="sd-tab-item-9" name="sd-tab-set-2" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-9">
+Example 2</label><div class="sd-tab-content docutils">
+<figure class="align-center">
+<img alt="_images/corner_cases_example_2.png" class="width-80 responsive-full-width" src="_images/corner_cases_example_2.png" />
+</figure>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header sd-bg-primary sd-bg-text-primary">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-unlock" viewBox="0 0 16 16" aria-hidden="true"><path fill-rule="evenodd" d="M5.5 4a2.5 2.5 0 014.607-1.346.75.75 0 101.264-.808A4 4 0 004 4v2h-.501A1.5 1.5 0 002 7.5v6A1.5 1.5 0 003.5 15h9a1.5 1.5 0 001.5-1.5v-6A1.5 1.5 0 0012.5 6h-7V4zm-.75 3.5H3.5v6h9v-6H4.75z"></path></svg></span>Figure source code<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">gascompressibility</span> <span class="k">as</span> <span class="nn">gc</span>
+
+<span class="n">results</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">gc</span><span class="o">.</span><span class="n">quickstart</span><span class="p">(</span><span class="n">zmodel</span><span class="o">=</span><span class="s1">&#39;hall_yarborough&#39;</span><span class="p">,</span> <span class="n">prmin</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">prmax</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">smart_guess</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details></div>
+<input id="sd-tab-item-10" name="sd-tab-set-2" type="radio">
+</input><label class="sd-tab-label" for="sd-tab-item-10">
+Example 3</label><div class="sd-tab-content docutils">
+<figure class="align-center">
+<img alt="_images/corner_cases_example_3.png" class="width-80 responsive-full-width" src="_images/corner_cases_example_3.png" />
+</figure>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header sd-bg-primary sd-bg-text-primary">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-unlock" viewBox="0 0 16 16" aria-hidden="true"><path fill-rule="evenodd" d="M5.5 4a2.5 2.5 0 014.607-1.346.75.75 0 101.264-.808A4 4 0 004 4v2h-.501A1.5 1.5 0 002 7.5v6A1.5 1.5 0 003.5 15h9a1.5 1.5 0 001.5-1.5v-6A1.5 1.5 0 0012.5 6h-7V4zm-.75 3.5H3.5v6h9v-6H4.75z"></path></svg></span>Figure source code<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">gascompressibility</span> <span class="k">as</span> <span class="nn">gc</span>
+
+<span class="n">results</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">gc</span><span class="o">.</span><span class="n">quickstart</span><span class="p">(</span><span class="n">zmodel</span><span class="o">=</span><span class="s1">&#39;hall_yarborough&#39;</span><span class="p">,</span> <span class="n">prmin</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">prmax</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">smart_guess</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</details></div>
+</div>
+<div class="note admonition">
+<p class="admonition-title">About <code class="docutils literal notranslate"><span class="pre">smart_guess</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">smart_guess</span></code> is a built-in feature activated by default (<code class="docutils literal notranslate"><span class="pre">True</span></code>) in  the
+<a class="reference internal" href="calc_z.html"><span class="doc">gascompressibility.calc_z</span></a> function. It provides <em>“smart”</em> initial guess for the z-factor by using
+Kareem’s z-model for <span class="math notranslate nohighlight">\(P_r &lt; 15\)</span> (working range of the model). This has two advantages.</p>
+<ol class="arabic simple">
+<li><p>Faster because less iterations are needed. Kareem’s model uses an explicit method that doesn’t need iterative convergence.</p></li>
+<li><p>It’s guaranteed to converge to the correct solution since the guess provided by Kareem’s method should be VERY close to the true solution</p></li>
+</ol>
+<p>For <span class="math notranslate nohighlight">\(P_r &gt; 15\)</span>, I found that a guess value of <code class="docutils literal notranslate"><span class="pre">guess=2</span></code> (default when Pr &gt; 15) works very well. So far I did not observe any cases in which the function converges to a false solution.</p>
+</div>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.newton.html">scipy.optimize.newton</a></p>
+</div>
+</section>
+</section>
+<section id="what-models-should-i-use">
+<h1>3. What models should I use?<a class="headerlink" href="#what-models-should-i-use" title="Permalink to this heading">#</a></h1>
+<p><strong>Short Answer:</strong> For z-correlation model, use <code class="docutils literal notranslate"><span class="pre">zmodel='londono'</span></code>. But if computational cost is a big concern,
+use <code class="docutils literal notranslate"><span class="pre">zmodel='kareem'</span></code> for <span class="math notranslate nohighlight">\(P_r &lt; 15\)</span>. For pseudo-critical property model, use <code class="docutils literal notranslate"><span class="pre">pmodel='sutton'</span></code>. If you have
+significant nitrogen fractions, use <code class="docutils literal notranslate"><span class="pre">pmodel='piper'</span></code>.</p>
+<section id="working-ranges-of-z-models">
+<h2>3.1. Working Ranges of Z-Models<a class="headerlink" href="#working-ranges-of-z-models" title="Permalink to this heading">#</a></h2>
+<p>The below table summarizes the working <span class="math notranslate nohighlight">\(P_r\)</span> and <span class="math notranslate nohighlight">\(T_r\)</span> ranges of each model, according to it’s own original
+paper.</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Model</p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(P_r\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(T_r\)</span></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>DAK</p></td>
+<td><p>[1, 3]</p></td>
+<td><p>[0.2, 30]</p></td>
+</tr>
+<tr class="row-odd"><td><p>Hall-Yarborough</p></td>
+<td><p>[1.15, 3]</p></td>
+<td><p>(0, 20.5]</p></td>
+</tr>
+<tr class="row-even"><td><p>Londono</p></td>
+<td><p>[1, 3]</p></td>
+<td><p>[0.2, 30]</p></td>
+</tr>
+<tr class="row-odd"><td><p>Kareem</p></td>
+<td><p>[1.15, 3]</p></td>
+<td><p>[0.2, 15]</p></td>
+</tr>
+</tbody>
+</table>
+<p><span class="vertical-spaceholder">something</span></p>
+<p>However, normally we don’t know the <span class="math notranslate nohighlight">\(P_r\)</span> and <span class="math notranslate nohighlight">\(T_r\)</span> values of a given mixture. The below figure summarizes
+the corresponding <span class="math notranslate nohighlight">\(P_r\)</span> and <span class="math notranslate nohighlight">\(T_r\)</span> (computed with Sutton’s method) for each of specific gravity, temperature, and pressure ranges. For
+example, assuming <span class="math notranslate nohighlight">\(\gamma_{g}\)</span> = 0.9 (green lines), z-factor correlation can’t be used for extreme conditions like
+<span class="math notranslate nohighlight">\(P\)</span> &gt; 19,000 psia, or <span class="math notranslate nohighlight">\(T\)</span> &gt; 800 °F. If Kareem’s method (<code class="docutils literal notranslate"><span class="pre">zmodel='kareem'</span></code>) is used for speed, you can’t
+use it for <span class="math notranslate nohighlight">\(P\)</span> &gt; 11,500 psia.</p>
+<figure class="align-center">
+<img alt="_images/zmodels_working_ranges.png" src="_images/zmodels_working_ranges.png" />
+</figure>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header sd-bg-primary sd-bg-text-primary">
+<span class="sd-summary-icon"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-unlock" viewBox="0 0 16 16" aria-hidden="true"><path fill-rule="evenodd" d="M5.5 4a2.5 2.5 0 014.607-1.346.75.75 0 101.264-.808A4 4 0 004 4v2h-.501A1.5 1.5 0 002 7.5v6A1.5 1.5 0 003.5 15h9a1.5 1.5 0 001.5-1.5v-6A1.5 1.5 0 0012.5 6h-7V4zm-.75 3.5H3.5v6h9v-6H4.75z"></path></svg></span>Figure source code<div class="sd-summary-down docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-down" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5.22 8.72a.75.75 0 000 1.06l6.25 6.25a.75.75 0 001.06 0l6.25-6.25a.75.75 0 00-1.06-1.06L12 14.44 6.28 8.72a.75.75 0 00-1.06 0z"></path></svg></div>
+<div class="sd-summary-up docutils">
+<svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-up" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M18.78 15.28a.75.75 0 000-1.06l-6.25-6.25a.75.75 0 00-1.06 0l-6.25 6.25a.75.75 0 101.06 1.06L12 9.56l5.72 5.72a.75.75 0 001.06 0z"></path></svg></div>
+</summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">gascompressibility.pseudocritical</span> <span class="kn">import</span> <span class="n">Sutton</span>
+
+<span class="n">pmin</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">pmax</span> <span class="o">=</span> <span class="mi">25000</span>
+<span class="n">Ps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">pmin</span><span class="p">,</span> <span class="n">pmax</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">Ps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">round</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">P</span> <span class="ow">in</span> <span class="n">Ps</span><span class="p">])</span>
+
+<span class="n">tmin</span> <span class="o">=</span> <span class="o">-</span><span class="mi">459</span>
+<span class="n">tmax</span> <span class="o">=</span> <span class="mi">1500</span>
+<span class="n">Ts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">tmin</span><span class="p">,</span> <span class="n">tmax</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">Ts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">round</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">T</span> <span class="ow">in</span> <span class="n">Ts</span><span class="p">])</span>
+
+<span class="n">sgs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">2.6</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">)</span>
+<span class="n">sgs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">round</span><span class="p">(</span><span class="n">sg</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">sg</span> <span class="ow">in</span> <span class="n">sgs</span><span class="p">])</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="p">{</span><span class="n">sg</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s1">&#39;Pr&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]),</span>
+    <span class="s1">&#39;P&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]),</span>
+    <span class="s1">&#39;Tr&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]),</span>
+    <span class="s1">&#39;T&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]),</span>
+<span class="p">}</span> <span class="k">for</span> <span class="n">sg</span> <span class="ow">in</span> <span class="n">sgs</span><span class="p">}</span>
+
+<span class="k">for</span> <span class="n">sg</span> <span class="ow">in</span> <span class="n">sgs</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">P</span> <span class="ow">in</span> <span class="n">Ps</span><span class="p">:</span>
+        <span class="n">Pr</span> <span class="o">=</span> <span class="n">Sutton</span><span class="p">()</span><span class="o">.</span><span class="n">calc_Pr</span><span class="p">(</span><span class="n">sg</span><span class="o">=</span><span class="n">sg</span><span class="p">,</span> <span class="n">P</span><span class="o">=</span><span class="n">P</span><span class="p">)</span>
+        <span class="n">results</span><span class="p">[</span><span class="n">sg</span><span class="p">][</span><span class="s1">&#39;P&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="n">sg</span><span class="p">][</span><span class="s1">&#39;P&#39;</span><span class="p">],</span> <span class="p">[</span><span class="n">P</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">results</span><span class="p">[</span><span class="n">sg</span><span class="p">][</span><span class="s1">&#39;Pr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="n">sg</span><span class="p">][</span><span class="s1">&#39;Pr&#39;</span><span class="p">],</span> <span class="p">[</span><span class="n">Pr</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">T</span> <span class="ow">in</span> <span class="n">Ts</span><span class="p">:</span>
+        <span class="n">Tr</span> <span class="o">=</span> <span class="n">Sutton</span><span class="p">()</span><span class="o">.</span><span class="n">calc_Tr</span><span class="p">(</span><span class="n">sg</span><span class="o">=</span><span class="n">sg</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">)</span>
+        <span class="n">results</span><span class="p">[</span><span class="n">sg</span><span class="p">][</span><span class="s1">&#39;T&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="n">sg</span><span class="p">][</span><span class="s1">&#39;T&#39;</span><span class="p">],</span> <span class="p">[</span><span class="n">T</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">results</span><span class="p">[</span><span class="n">sg</span><span class="p">][</span><span class="s1">&#39;Tr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="n">sg</span><span class="p">][</span><span class="s1">&#39;Tr&#39;</span><span class="p">],</span> <span class="p">[</span><span class="n">Tr</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ax</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">axes</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">sg</span> <span class="ow">in</span> <span class="n">sgs</span><span class="p">:</span>
+            <span class="n">Prs</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="n">sg</span><span class="p">][</span><span class="s1">&#39;Pr&#39;</span><span class="p">]</span>
+            <span class="n">Ps</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="n">sg</span><span class="p">][</span><span class="s1">&#39;P&#39;</span><span class="p">]</span>
+
+            <span class="n">p</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Ps</span><span class="p">,</span> <span class="n">Prs</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">sg</span><span class="p">)</span>
+
+            <span class="n">t</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">Ps</span><span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">],</span> <span class="nb">max</span><span class="p">(</span><span class="n">Prs</span><span class="p">)</span> <span class="o">-</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;sg = &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">sg</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_color</span><span class="p">())</span>
+            <span class="n">t</span><span class="o">.</span><span class="n">set_bbox</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.06</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="s1">&#39;$P_</span><span class="si">{r}</span><span class="s1">$  approximation&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">transAxes</span><span class="p">,</span>
+            <span class="n">bbox</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$P_r$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Pressure (psia)&#39;</span><span class="p">)</span>
+        <span class="n">ymax</span> <span class="o">=</span> <span class="mi">60</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">xmin</span><span class="o">=</span><span class="n">pmin</span><span class="p">,</span> <span class="n">xmax</span><span class="o">=</span><span class="n">pmax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mf">31.3</span><span class="p">,</span> <span class="s1">&#39;$P_r$ = 30.0&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">xmin</span><span class="o">=</span><span class="n">pmin</span><span class="p">,</span> <span class="n">xmax</span><span class="o">=</span><span class="n">pmax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="s1">&#39;$P_r$ = 15.0&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">xmin</span><span class="o">=</span><span class="n">pmin</span><span class="p">,</span> <span class="n">xmax</span><span class="o">=</span><span class="n">pmax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;$P_r$ = 1.0&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">Ps</span><span class="p">,</span> <span class="n">y1</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">y2</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=-</span><span class="mi">99</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">sg</span> <span class="ow">in</span> <span class="n">sgs</span><span class="p">:</span>
+            <span class="n">Trs</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="n">sg</span><span class="p">][</span><span class="s1">&#39;Tr&#39;</span><span class="p">]</span>
+            <span class="n">Ts</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="n">sg</span><span class="p">][</span><span class="s1">&#39;T&#39;</span><span class="p">]</span>
+
+            <span class="n">p</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Ts</span><span class="p">,</span> <span class="n">Trs</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">sg</span><span class="p">)</span>
+
+            <span class="n">t</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">Ts</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="nb">max</span><span class="p">(</span><span class="n">Trs</span><span class="p">),</span> <span class="s1">&#39;sg = &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">sg</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_color</span><span class="p">())</span>
+            <span class="n">t</span><span class="o">.</span><span class="n">set_bbox</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.06</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="s1">&#39;$T_</span><span class="si">{r}</span><span class="s1">$  approximation&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">transAxes</span><span class="p">,</span>
+            <span class="n">bbox</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">))</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$T_r$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Temperature (°F)&#39;</span><span class="p">)</span>
+        <span class="n">ymax</span> <span class="o">=</span> <span class="mi">10</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">xmin</span><span class="o">=</span><span class="n">tmin</span><span class="p">,</span> <span class="n">xmax</span><span class="o">=</span><span class="n">tmax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">tmin</span><span class="p">,</span> <span class="mf">3.2</span><span class="p">,</span> <span class="s1">&#39;$T_r$ = 3.0&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">xmin</span><span class="o">=</span><span class="n">tmin</span><span class="p">,</span> <span class="n">xmax</span><span class="o">=</span><span class="n">tmax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">tmin</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s1">&#39;$T_r$ = 0.2&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">Ts</span><span class="p">,</span> <span class="n">y1</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">y2</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=-</span><span class="mi">99</span><span class="p">)</span>
+
+
+    <span class="n">ymin</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">-</span> <span class="mf">0.05</span> <span class="o">*</span> <span class="n">ymax</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">ymin</span><span class="p">,</span> <span class="n">ymax</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">minorticks_on</span><span class="p">()</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">visible</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;minor&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="o">.</span><span class="n">top</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">setbold</span><span class="p">(</span><span class="n">txt</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">r</span><span class="s2">&quot;$\bf{&quot;</span> <span class="o">+</span> <span class="n">item</span> <span class="o">+</span> <span class="s2">&quot;}$&quot;</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">txt</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)])</span>
+
+    <span class="n">bold_txt</span> <span class="o">=</span> <span class="n">setbold</span><span class="p">(</span><span class="s1">&#39;Working Ranges of Z Models&#39;</span><span class="p">)</span>
+    <span class="n">plain_txt</span> <span class="o">=</span> <span class="s1">&#39;,  for each of specific gravity, pressure, and  temperature ranges&#39;</span>
+
+    <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="n">bold_txt</span> <span class="o">+</span> <span class="n">plain_txt</span><span class="p">,</span>
+                 <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+    <span class="n">yloc</span> <span class="o">=</span> <span class="mf">0.9</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">yloc</span><span class="p">),</span> <span class="n">xycoords</span><span class="o">=</span><span class="s1">&#39;figure fraction&#39;</span><span class="p">,</span> <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="mf">1.02</span><span class="p">,</span> <span class="n">yloc</span><span class="p">),</span>
+                <span class="n">arrowprops</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">arrowstyle</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">0.7</span><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.95</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="s1">&#39;GasCompressibility-Py&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span>
+            <span class="n">transform</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">transAxes</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details></section>
+<section id="compatibilities">
+<h2>3.2. Compatibilities<a class="headerlink" href="#compatibilities" title="Permalink to this heading">#</a></h2>
+<p><em>GasCompressibility-py</em> currently supports two pseudo-critical models (<code class="docutils literal notranslate"><span class="pre">'sutton'</span></code> | <code class="docutils literal notranslate"><span class="pre">'piper'</span></code>) and four z-factor
+correlation models (<code class="docutils literal notranslate"><span class="pre">'DAK'</span></code> | <code class="docutils literal notranslate"><span class="pre">'hall_yarborough'</span></code> | <code class="docutils literal notranslate"><span class="pre">'londono'</span></code> | <code class="docutils literal notranslate"><span class="pre">'kareem'</span></code>). Which combination of
+pseudo-critical model should you use with which z-factor correlation model? The below table presented in Elsharkawy and
+Elsharkawy (2020) <a class="footnote-reference brackets" href="#id33" id="id21" role="doc-noteref"><span class="fn-bracket">[</span>12<span class="fn-bracket">]</span></a> may shed light on determining which combination should be used:</p>
+<figure class="align-center">
+<img alt="_images/elsharkawy_table.png" src="_images/elsharkawy_table.png" />
+</figure>
+<p>The table dictates that <strong>Sutton’s pseudo-critical property model with Londono’s z-factor correlation model yields the highest coefficient of determination</strong> (<span class="math notranslate nohighlight">\(R^2\)</span>) <strong>of 0.974.</strong>
+However, so long as the models implemented in this package
+are concerned, you can use any combination you want. They all have <span class="math notranslate nohighlight">\(R^2 \geq 0.957\)</span>, which is more than good enough for
+practical usage in real life applications.</p>
+<div class="admonition-notes admonition">
+<p class="admonition-title">Notes</p>
+<p>Unfortunately this performance evaluation table does not include any explicit (fast) z-factor correlation models.
+Therefore, my recommendation is to avoid Kareem’s method unless computation speed is very important, since there’s
+no 3rd party paper (that I know of) that evaluates Kareem’s method other than himself.</p>
+</div>
+</section>
+<section id="brief-of-each-models">
+<h2>3.3. Brief Of Each Models<a class="headerlink" href="#brief-of-each-models" title="Permalink to this heading">#</a></h2>
+<p><span class="underline-italic">Pseudo-critical models:</span></p>
+<ul class="simple">
+<li><p><strong>Sutton (1985):</strong> Makes corrections for acid fractions: <span class="math notranslate nohighlight">\(H_2S\)</span> and <span class="math notranslate nohighlight">\(CO_2\)</span></p></li>
+<li><p><strong>Piper (1993):</strong> Improved version of Piper. Additionally supports corrections for <span class="math notranslate nohighlight">\(N_2\)</span> along with <span class="math notranslate nohighlight">\(H_2S\)</span> and <span class="math notranslate nohighlight">\(CO_2\)</span></p></li>
+</ul>
+<p><span class="underline-italic">Z-factor models:</span></p>
+<ul class="simple">
+<li><p><strong>DAK (1975):</strong> The most widely used z-factor model in the oil and gas industry for the past 40 years. You can’t go wrong with this model</p></li>
+<li><p><strong>Hall-Yarborough (1973):</strong> Not recommended.</p></li>
+<li><p><strong>Londono (2005):</strong> Improved version of DAK. Math is exactly the same, but regression coefficients are fitted with 4x more data points.</p></li>
+<li><p><strong>Kareem (2016):</strong> Fast, but have shorter working ranges (<span class="math notranslate nohighlight">\(P_r &lt; 15\)</span>)</p></li>
+</ul>
+</section>
+</section>
+<section id="references">
+<h1>4. References<a class="headerlink" href="#references" title="Permalink to this heading">#</a></h1>
+<aside class="footnote brackets" id="id22" role="note">
+<span class="label"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id5">2</a>,<a role="doc-backlink" href="#id12">3</a>)</span>
+<p>Sutton, R.P.: “Compressibility Factor for High-Molecular Weight Reservoir Gases,” paper SPE 14265 (1985). <a class="reference external" href="https://onepetro.org/SPEATCE/proceedings-abstract/85SPE/All-85SPE/SPE-14265-MS/61651">(link)</a></p>
+</aside>
+<aside class="footnote brackets" id="id23" role="note">
+<span class="label"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id2">1</a>,<a role="doc-backlink" href="#id8">2</a>,<a role="doc-backlink" href="#id13">3</a>)</span>
+<p>Piper, L.D., McCain Jr., W.D., and Corredor J.H.: “Compressibility Factors for Naturally Occurring Petroleum Gases,” paper SPE 26668 (1993). <a class="reference external" href="https://onepetro.org/SPEATCE/proceedings/93SPE/All-93SPE/SPE-26668-MS/55401">(link)</a></p>
+</aside>
+<aside class="footnote brackets" id="id24" role="note">
+<span class="label"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id3">1</a>,<a role="doc-backlink" href="#id7">2</a>,<a role="doc-backlink" href="#id10">3</a>,<a role="doc-backlink" href="#id14">4</a>)</span>
+<p>Dranchuk, P.M., and Abou-Kassem, J.H.: “Calculation of z-Factors for Natural Gases Using Equations of State,” <em>Journal of Canadian Petroleum Technology</em> (1975). <a class="reference external" href="https://onepetro.org/JCPT/article-abstract/doi/10.2118/75-03-03">(link)</a></p>
+</aside>
+<aside class="footnote brackets" id="id25" role="note">
+<span class="label"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id4">1</a>,<a role="doc-backlink" href="#id11">2</a>)</span>
+<p>Kay, W.B: “Density of Hydrocarbon Gases and Vapors at High Temperature and Pressure,” Industrial Engineering Chemistry (1936)</p>
+</aside>
+<aside class="footnote brackets" id="id26" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id6">5</a><span class="fn-bracket">]</span></span>
+<p>Wichert, E.: “Compressibility Factor of Sour Natural Gases,” MEng Thesis, The University of Calgary, Alberta (1970)</p>
+</aside>
+<aside class="footnote brackets" id="id27" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id9">6</a><span class="fn-bracket">]</span></span>
+<p>Stewart, W.F., Burkhardt, S.F., and Voo, D.: “Prediction of Pseudocritical Parameters for Mixtures,” paper presented at the AIChE Meeting, Kansas City, MO (May 18, 1959).</p>
+</aside>
+<aside class="footnote brackets" id="id28" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id15">7</a><span class="fn-bracket">]</span></span>
+<p>Hall, K.R., and Yarborough, L.: “A new equation of state for Z-factor calculations,” <em>Oil and Gas Journal</em> (1973). <a class="reference external" href="https://www.researchgate.net/publication/284299884_A_new_equation_of_state_for_Z-factor_calculations">(link)</a></p>
+</aside>
+<aside class="footnote brackets" id="id29" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id16">8</a><span class="fn-bracket">]</span></span>
+<p>Londono, F.E., Archer, R.A., and Blasingame, T.A.: “Simplified Correlations for Hydrocarbon Gas Viscosity and Gas Density — Validation and Correlation of Behavior Using a Large-Scale Database,” paper SPE 75721 (2005). <a class="reference external" href="https://onepetro.org/SPEGTS/proceedings/02GTS/All-02GTS/SPE-75721-MS/135705">(link)</a></p>
+</aside>
+<aside class="footnote brackets" id="id30" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id17">9</a><span class="fn-bracket">]</span></span>
+<p>Kareem, L.A., Iwalewa, T.M., and Marhoun, M.al-.: “New explicit correlation for the compressibility factor of natural gas: linearized z-factor isotherms,” <em>Journal of Petroleum Exploration and Production Technology</em> (2016). <a class="reference external" href="https://link.springer.com/article/10.1007/s13202-015-0209-3">(link)</a></p>
+</aside>
+<aside class="footnote brackets" id="id31" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id18">10</a><span class="fn-bracket">]</span></span>
+<p>Elsharkawy, A.M., Aladwani, F., Alostad, N.: “Uncertainty in sour gas viscosity estimation and its impact on inflow performance and production forecasting,” <em>Journal of Natural Gas Science and Engineering</em> (2015). <a class="reference external" href="https://link.springer.com/article/10.1007/s13202-015-0209-3">(link)</a></p>
+</aside>
+<aside class="footnote brackets" id="id32" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id19">11</a><span class="fn-bracket">]</span></span>
+<p>Elsharkawy, A.M.: “Predicting the Properties of Sour Gases and Condensates: Equations of State and Empirical Correlations,” paper SPE 74369 (2002). <a class="reference external" href="https://onepetro.org/SPEIOCEM/proceedings-abstract/02IPCEM/All-02IPCEM/SPE-74369-MS/136841">(link)</a></p>
+</aside>
+<aside class="footnote brackets" id="id33" role="note">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id21">12</a><span class="fn-bracket">]</span></span>
+<p>Elsharkawy, A.M., and Elsharkawy, L.: “Predicting the compressibility factor of natural gases containing various amounts of CO2 at high temperatures and pressures,” <em>Journal of Petroleum and Gas Engineering</em> (2020). <a class="reference external" href="https://www.researchgate.net/publication/343309900_Predicting_the_compressibility_factor_of_natural_gases_containing_various_amounts_of_CO2_at_high_temperatures_and_pressures">(link)</a></p>
+</aside>
+</section>
+
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="functions/piper.Piper.calc_Pr.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">calc_Pr</p>
+      </div>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Theories</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#pseudo-critical-property-models">1. Pseudo-Critical Property Models</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sutton-1985">1.1. Sutton (1985)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#piper-et-al-1993">1.2. Piper et al. (1993)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#caveats">1.3. Caveats</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#z-factor-correlation-models">2. Z-Factor Correlation Models</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dak-1975">2.1. DAK (1975)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hall-yarborough-1973">2.2. Hall-Yarborough (1973)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#londono-2005">2.3. Londono (2005)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kareem-iwalewa-and-marhoun-2016">2.4. Kareem, Iwalewa, and Marhoun (2016)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#output-comparison">2.5. Output Comparison</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id20">2.6. Caveats</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#what-models-should-i-use">3. What models should I use?</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#working-ranges-of-z-models">3.1. Working Ranges of Z-Models</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compatibilities">3.2. Compatibilities</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#brief-of-each-models">3.3. Brief Of Each Models</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#references">4. References</a></li>
+</ul>
+
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection sourcelink">
+    <a href="_sources/theories.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2023, Eric Kim.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

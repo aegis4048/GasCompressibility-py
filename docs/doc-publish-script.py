@@ -1,7 +1,7 @@
 from distutils.dir_util import copy_tree
 
 from_dir = 'build/html'
-to_dir = 'GasCompressibiltiy-py-docs'
+to_dir = ''
 
 copy_tree(from_dir, to_dir)
 

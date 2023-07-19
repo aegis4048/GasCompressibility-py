@@ -1,0 +1,876 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>z_helper &#8212; GasCompressibility-py 0.1.8 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/z_helper';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">GasCompressibility-py 0.1.8 documentation</p>
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../modules.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../theories.html">
+                        Theories
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../modules.html">
+                        API Reference
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../theories.html">
+                        Theories
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">z_helper</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Source code for z_helper</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">optimize</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">gascompressibility.z_correlation.DAK</span> <span class="kn">import</span> <span class="n">DAK</span>
+<span class="kn">from</span> <span class="nn">gascompressibility.z_correlation.hall_yarborough</span> <span class="kn">import</span> <span class="n">hall_yarborough</span>
+<span class="kn">from</span> <span class="nn">gascompressibility.z_correlation.londono</span> <span class="kn">import</span> <span class="n">londono</span>
+<span class="kn">from</span> <span class="nn">gascompressibility.z_correlation.kareem</span> <span class="kn">import</span> <span class="n">kareem</span>
+<span class="kn">from</span> <span class="nn">gascompressibility.pseudocritical</span> <span class="kn">import</span> <span class="n">Piper</span>
+<span class="kn">from</span> <span class="nn">gascompressibility.pseudocritical</span> <span class="kn">import</span> <span class="n">Sutton</span>
+
+
+<span class="n">models</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;DAK&#39;</span><span class="p">:</span> <span class="n">DAK</span><span class="p">,</span>
+    <span class="s1">&#39;hall_yarborough&#39;</span><span class="p">:</span> <span class="n">hall_yarborough</span><span class="p">,</span>
+    <span class="s1">&#39;londono&#39;</span><span class="p">:</span> <span class="n">londono</span><span class="p">,</span>
+    <span class="s1">&#39;kareem&#39;</span><span class="p">:</span> <span class="n">kareem</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">MODEL_RANGES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;DAK&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;Tr&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+        <span class="s1">&#39;Pr&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;hall_yarborough&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;Tr&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+        <span class="s1">&#39;Pr&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">20.5</span><span class="p">)</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;londono&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;Tr&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+        <span class="s1">&#39;Pr&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;kareem&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;Tr&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+        <span class="s1">&#39;Pr&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
+    <span class="p">},</span>
+<span class="p">}</span>
+
+
+<span class="k">def</span> <span class="nf">_check_working_Pr_Tr_range</span><span class="p">(</span><span class="n">Pr</span><span class="p">,</span> <span class="n">Tr</span><span class="p">,</span> <span class="n">zmodel_str</span><span class="p">):</span>
+    <span class="n">Pr_is_in_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">Pr</span> <span class="o">&gt;=</span> <span class="n">MODEL_RANGES</span><span class="p">[</span><span class="n">zmodel_str</span><span class="p">][</span><span class="s1">&#39;Pr&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">Pr</span> <span class="o">&lt;=</span> <span class="n">MODEL_RANGES</span><span class="p">[</span><span class="n">zmodel_str</span><span class="p">][</span><span class="s1">&#39;Pr&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">Tr_is_in_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">Tr</span> <span class="o">&gt;=</span> <span class="n">MODEL_RANGES</span><span class="p">[</span><span class="n">zmodel_str</span><span class="p">][</span><span class="s1">&#39;Tr&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">Tr</span> <span class="o">&lt;=</span> <span class="n">MODEL_RANGES</span><span class="p">[</span><span class="n">zmodel_str</span><span class="p">][</span><span class="s1">&#39;Tr&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+
+    <span class="c1">#print(Pr &gt;= MODEL_RANGES[zmodel_str][&#39;Pr&#39;][0], Pr &lt;= MODEL_RANGES[zmodel_str][&#39;Pr&#39;][1])</span>
+
+    <span class="k">return</span> <span class="n">Pr_is_in_range</span> <span class="ow">and</span> <span class="n">Tr_is_in_range</span>
+
+
+<span class="n">zmodels_ks</span> <span class="o">=</span> <span class="s1">&#39;[&quot;DAK&quot;, &quot;hall_yarborough&quot;, &quot;londono&quot;, &quot;kareem&quot;]&#39;</span>
+<span class="n">pmodels_ks</span> <span class="o">=</span> <span class="s1">&#39;[&quot;sutton&quot;, &quot;piper&quot;]&#39;</span>
+
+
+<span class="k">def</span> <span class="nf">_get_guess_constant</span><span class="p">():</span>
+    <span class="k">return</span> <span class="mf">0.900000765321234598723486</span>
+
+
+<span class="k">def</span> <span class="nf">_get_z_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s1">&#39;DAK&#39;</span><span class="p">):</span>
+
+    <span class="k">if</span> <span class="n">model</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">models</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
+            <span class="s1">&#39;Z-factor model &quot;</span><span class="si">%s</span><span class="s1">&quot; is not implemented. Choose from the list of available models: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">zmodels_ks</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">models</span><span class="p">[</span><span class="n">model</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">_construct_guess_list_order</span><span class="p">(</span><span class="n">guess</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;reorder t in an order closest to the provided guess&quot;&quot;&quot;</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]</span>
+
+    <span class="n">reordered</span> <span class="o">=</span> <span class="p">[</span><span class="n">guess</span><span class="p">]</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">match</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">abs</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">guess</span><span class="p">))</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">match</span><span class="p">))</span>
+        <span class="n">reordered</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">match</span><span class="p">)</span>
+        <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">reordered</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">_calc_z_explicit_implicit_helper</span><span class="p">(</span><span class="n">Pr</span><span class="p">,</span> <span class="n">Tr</span><span class="p">,</span> <span class="n">zmodel_func</span><span class="p">,</span> <span class="n">zmodel_str</span><span class="p">,</span> <span class="n">guess</span><span class="p">,</span> <span class="n">newton_kwargs</span><span class="p">,</span> <span class="n">smart_guess</span><span class="p">):</span>
+
+    <span class="n">maxiter</span> <span class="o">=</span> <span class="mi">50</span>
+    <span class="n">Z</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">smart_guess_model</span> <span class="o">=</span> <span class="s1">&#39;kareem&#39;</span>
+
+    <span class="c1"># Explicit models</span>
+    <span class="k">if</span> <span class="n">zmodel_str</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;kareem&#39;</span><span class="p">]:</span>
+        <span class="n">Z</span> <span class="o">=</span> <span class="n">zmodel_func</span><span class="p">(</span><span class="n">Pr</span><span class="o">=</span><span class="n">Pr</span><span class="p">,</span> <span class="n">Tr</span><span class="o">=</span><span class="n">Tr</span><span class="p">)</span>
+
+    <span class="c1"># Implicit models: they require iterative convergence</span>
+    <span class="k">else</span><span class="p">:</span>
+
+        <span class="k">if</span> <span class="n">guess</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">Pr</span> <span class="o">&lt;</span> <span class="mi">15</span><span class="p">:</span>
+                <span class="n">guess</span> <span class="o">=</span> <span class="mf">0.9</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Todo: z-factor after Pr shows linear trend. So fit a linear regression model for each TR and get</span>
+                <span class="c1">#  better estimate of initial guess for Pr range greater than 15, which is the working bound of the</span>
+                <span class="c1">#  explicit &quot;kareem&quot; model. But for now, guess = 2 gets the job done</span>
+                <span class="n">guess</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="k">if</span> <span class="n">smart_guess</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">smart_guess</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="n">worked</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="n">smart_guess</span><span class="p">:</span>
+            <span class="c1"># if Pr and Tr is in the range of the &quot;smart_guess_model&quot; (explicit z-model), use that to make first guess</span>
+            <span class="k">if</span> <span class="n">_check_working_Pr_Tr_range</span><span class="p">(</span><span class="n">Pr</span><span class="p">,</span> <span class="n">Tr</span><span class="p">,</span> <span class="n">smart_guess_model</span><span class="p">):</span>
+                <span class="n">guess_zmodel_func</span> <span class="o">=</span> <span class="n">_get_z_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">smart_guess_model</span><span class="p">)</span>
+                <span class="n">guess_</span> <span class="o">=</span> <span class="n">guess_zmodel_func</span><span class="p">(</span><span class="n">Pr</span><span class="o">=</span><span class="n">Pr</span><span class="p">,</span> <span class="n">Tr</span><span class="o">=</span><span class="n">Tr</span><span class="p">)</span>
+                <span class="n">guesses</span> <span class="o">=</span> <span class="p">[</span><span class="n">guess_</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">guess</span><span class="p">]</span> <span class="o">+</span> <span class="n">_construct_guess_list_order</span><span class="p">(</span><span class="n">guess</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">guesses</span> <span class="o">=</span> <span class="p">[</span><span class="n">guess</span><span class="p">]</span> <span class="o">+</span> <span class="n">_construct_guess_list_order</span><span class="p">(</span><span class="n">guess</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">guesses</span> <span class="o">=</span> <span class="n">_construct_guess_list_order</span><span class="p">(</span><span class="n">guess</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">guess_</span> <span class="ow">in</span> <span class="n">guesses</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">newton_kwargs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># apply default value of max iteration if newton_kwargs is not provided</span>
+                    <span class="n">Z</span> <span class="o">=</span> <span class="n">optimize</span><span class="o">.</span><span class="n">newton</span><span class="p">(</span><span class="n">zmodel_func</span><span class="p">,</span> <span class="n">guess_</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">Pr</span><span class="p">,</span> <span class="n">Tr</span><span class="p">),</span> <span class="n">maxiter</span><span class="o">=</span><span class="n">maxiter</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="s1">&#39;maxiter&#39;</span> <span class="ow">in</span> <span class="n">newton_kwargs</span><span class="p">:</span>
+                        <span class="n">Z</span> <span class="o">=</span> <span class="n">optimize</span><span class="o">.</span><span class="n">newton</span><span class="p">(</span><span class="n">zmodel_func</span><span class="p">,</span> <span class="n">guess_</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">Pr</span><span class="p">,</span> <span class="n">Tr</span><span class="p">),</span> <span class="o">**</span><span class="n">newton_kwargs</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">newton_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;maxiter&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                        <span class="n">Z</span> <span class="o">=</span> <span class="n">optimize</span><span class="o">.</span><span class="n">newton</span><span class="p">(</span><span class="n">zmodel_func</span><span class="p">,</span> <span class="n">guess_</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">Pr</span><span class="p">,</span> <span class="n">Tr</span><span class="p">),</span> <span class="n">maxiter</span><span class="o">=</span><span class="n">maxiter</span><span class="p">,</span> <span class="o">**</span><span class="n">newton_kwargs</span><span class="p">)</span>
+                <span class="n">worked</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="k">if</span> <span class="n">worked</span><span class="p">:</span>
+                <span class="k">break</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">worked</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Failed to converge&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">Z</span>
+
+
+
+<div class="viewcode-block" id="calc_z"><a class="viewcode-back" href="../calc_z.html#z_helper.calc_z">[docs]</a><span class="k">def</span> <span class="nf">calc_z</span><span class="p">(</span><span class="n">sg</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">P</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">H2S</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">CO2</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">N2</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Pr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Tr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pmodel</span><span class="o">=</span><span class="s1">&#39;piper&#39;</span><span class="p">,</span> <span class="n">zmodel</span><span class="o">=</span><span class="s1">&#39;DAK&#39;</span><span class="p">,</span>
+           <span class="n">guess</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">newton_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">smart_guess</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ps_props</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ignore_conflict</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculates the gas compressibility factor, :math:`Z`.</span>
+
+<span class="sd">    **Basic (most common) usage:**</span>
+
+<span class="sd">    &gt;&gt;&gt; import gascompressibility as gc</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; gc.calc_z(sg=0.7, T=75, P=2010)</span>
+<span class="sd">    0.7366562810878984</span>
+
+
+<span class="sd">    **In presence of significant non-hydrocarbon impurities:**</span>
+
+<span class="sd">    &gt;&gt;&gt; gc.calc_z(sg=0.7, T=75, P=2010, CO2=0.1, H2S=0.07, N2=0.05)</span>
+<span class="sd">    0.7765149771306533</span>
+
+<span class="sd">    **When pseudo-critical properties are known (not common):**</span>
+
+<span class="sd">    &gt;&gt;&gt; gc.calc_z(Pr=1.5, Tr=1.5)</span>
+<span class="sd">    0.859314380561347</span>
+
+<span class="sd">    **Picking correlation models of your choice**</span>
+
+<span class="sd">    &gt;&gt;&gt; gc.calc_z(sg=0.7, T=75, P=2010, zmodel=&#39;kareem&#39;, pmodel=&#39;sutton&#39;)</span>
+<span class="sd">    0.7150183342641309</span>
+
+<span class="sd">    **Returning all associated pseudo-critical properties computed**</span>
+
+<span class="sd">    &gt;&gt;&gt; gc.calc_z(sg=0.7, T=75, P=2010, ps_props=True)</span>
+<span class="sd">    {&#39;z&#39;: 0.7366562810878984, &#39;Tpc&#39;: 371.4335560823552, &#39;Ppc&#39;: 660.6569792741872, &#39;J&#39;: 0.56221847, &#39;K&#39;: 14.450840999999999, &#39;Tr&#39;: 1.4394768357478496, &#39;Pr&#39;: 3.0646766226921294}</span>
+
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    sg : float</span>
+<span class="sd">        specific gravity of gas (dimensionless)</span>
+<span class="sd">    P : float</span>
+<span class="sd">        pressure of gas (psig)</span>
+<span class="sd">    T : float</span>
+<span class="sd">        temperature of gas (°F)</span>
+<span class="sd">    H2S : float</span>
+<span class="sd">        mole fraction of H2S (dimensionless)</span>
+<span class="sd">    CO2 : float</span>
+<span class="sd">        mole fraction of CO2 (dimensionless)</span>
+<span class="sd">    N2 : float</span>
+<span class="sd">        mole fraction of N2 (dimensionless). Available only when ``pmodel=&#39;piper&#39;`` (default)</span>
+<span class="sd">    Pr : float</span>
+<span class="sd">        pseudo-reduced pressure, Pr (psia)</span>
+<span class="sd">    Tr : float</span>
+<span class="sd">        pseudo-reduced temperature, Tr (°R)</span>
+<span class="sd">    pmodel : str</span>
+<span class="sd">        choice of a pseudo-critical model.</span>
+<span class="sd">        Check :ref:`Theories 1: Pseudo-Critical Property Models &lt;theories:1. Pseudo-Critical Property Models&gt;` for more information.</span>
+<span class="sd">        Accepted inputs: ``&#39;sutton&#39;`` | ``&#39;piper&#39;``</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        ~sutton.Sutton</span>
+<span class="sd">        ~piper.Piper</span>
+
+<span class="sd">    zmodel : str</span>
+<span class="sd">        choice of a z-correlation model.</span>
+<span class="sd">        Check :ref:`Theories 2: Z-Factor Correlation Models &lt;theories:2. Z-Factor Correlation Models&gt;` for more information.</span>
+<span class="sd">        Accepted inputs: ``&#39;DAK&#39;`` | ``&#39;hall_yarborough&#39;`` | ``&#39;londono&#39;`` |``&#39;kareem&#39;``</span>
+<span class="sd">    guess : float</span>
+<span class="sd">        initial guess of z-value for z-correlation models using iterative convergence (``&#39;DAK&#39;`` | ``&#39;hall_yarborough&#39;`` | ``&#39;londono&#39;``).</span>
+<span class="sd">        NOT RECOMMENDED to manually set this parameter unless the computed :math:`P_r` exceeds 15. If so a default ``guess=2`` is applied, which</span>
+<span class="sd">        is a good estimate for high-pressure scenarios. Otherwise for :math:`P_r &lt; 15`, the built-in ``smart_guess`` takes over to</span>
+<span class="sd">        automatically provide a good initial guess that&#39;s fast and accurate.</span>
+<span class="sd">    newton_kwargs : dict</span>
+<span class="sd">        dictonary of keyword-arguments used by ``scipy.optimize.newton`` method for z-correlation models that use</span>
+<span class="sd">        iterative convergence (``&#39;DAK&#39;`` | ``&#39;hall_yarborough&#39;`` | ``&#39;londono&#39;``).</span>
+
+<span class="sd">        &gt;&gt;&gt; gc.calc_z(sg=0.7, P=2010, T=75, newton_kwargs={&#39;maxiter&#39;: 10000})</span>
+<span class="sd">        0.7366562810878984</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        ----------</span>
+<span class="sd">        `scipy.optimize.newton &lt;https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.newton.html&gt;`_.</span>
+<span class="sd">    smart_guess : bool</span>
+<span class="sd">        ``True`` by default. Prevents rare corner cases where ``scipy.optimize.newton`` fails to converge to a true</span>
+<span class="sd">        solution, and improves speed. It provides *&quot;smart&quot;* initial guess with explicit z-models (like ``zmodel=&#39;kareem&#39;``)</span>
+<span class="sd">        for :math:`P_r &lt; 15`. For :math:`P_r &gt; 15`, smart guess is turned off and uses a fixed value of ``guess=2``,</span>
+<span class="sd">        which is shown to work well. Check :ref:`Theories 2.6: Caveats &lt;theories:2.6. Caveats&gt;` for more information.</span>
+<span class="sd">    ps_props : bool</span>
+<span class="sd">        set this to `True` to return a dictionary of all associated pseudo-critical properties computed during calculation</span>
+<span class="sd">        of the z-factor.</span>
+<span class="sd">    ignore_conflict : bool</span>
+<span class="sd">        set this to True to override calculated variables with input keyword arguments.</span>
+<span class="sd">    kwargs : dict</span>
+<span class="sd">        optional kwargs used by pseudo-critical models (:doc:`Sutton &lt;sutton&gt;` | :doc:`Piper &lt;piper&gt;`) that allow direct calculation of</span>
+<span class="sd">        z-factor from pseudo-critical properties instead of specific gravity correlation. Consider the below code example</span>
+<span class="sd">        that uses ``pmodel=&#39;sutton&#39;``:</span>
+
+<span class="sd">        &gt;&gt;&gt; gc.calc_z(Ppc=663, e_correction=21, Tpc=377.59, P=2010, T=75, pmodel=&#39;sutton&#39;, ignore_conflict=True)</span>
+<span class="sd">        0.7720015496503527</span>
+
+<span class="sd">        ``Ppc``, ``e_correction``, ``Tpc`` aren&#39;t default parameters defined in this function,</span>
+<span class="sd">        but they can be optionally passed into Sutton&#39;s :ref:`Sutton.calc_Pr &lt;Sutton.calc_Pr&gt;` and :ref:`Sutton.calc_Tr &lt;Sutton.calc_Tr&gt;`</span>
+<span class="sd">        methods if you already know these values (not common) and would like to compute the z-factor from these instead</span>
+<span class="sd">        of using specific gravity correlation.</span>
+
+
+<span class="sd">        Danger</span>
+<span class="sd">        -------</span>
+<span class="sd">        It is not recommended to the pass optional ``**kwargs`` unless you really know what you are doing. 99.9% of the users</span>
+<span class="sd">        should not be using this feature.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        gas compressibility factor, :math:`Z` (dimensionless)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">zmodel</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;kareem&#39;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">guess</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s1">&#39;calc_z(model=&quot;</span><span class="si">%s</span><span class="s1">&quot;) got an unexpected argument &quot;guess&quot;&#39;</span> <span class="o">%</span> <span class="n">zmodel</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">newton_kwargs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s1">&#39;calc_z(model=&quot;</span><span class="si">%s</span><span class="s1">&quot;) got an unexpected argument &quot;newton_kwargs&quot;&#39;</span> <span class="o">%</span> <span class="n">zmodel</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">smart_guess</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s1">&#39;calc_z(model=&quot;</span><span class="si">%s</span><span class="s1">&quot;) got an unexpected argument &quot;smart_guess&quot;&#39;</span> <span class="o">%</span> <span class="n">zmodel</span><span class="p">)</span>
+
+    <span class="n">z_model</span> <span class="o">=</span> <span class="n">_get_z_model</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">zmodel</span><span class="p">)</span>
+
+    <span class="c1"># Pr and Tr are already provided:</span>
+    <span class="k">if</span> <span class="n">Pr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">Tr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">Z</span> <span class="o">=</span> <span class="n">_calc_z_explicit_implicit_helper</span><span class="p">(</span><span class="n">Pr</span><span class="p">,</span> <span class="n">Tr</span><span class="p">,</span> <span class="n">z_model</span><span class="p">,</span> <span class="n">zmodel</span><span class="p">,</span> <span class="n">guess</span><span class="p">,</span> <span class="n">newton_kwargs</span><span class="p">,</span> <span class="n">smart_guess</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">ps_props</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">ps_props</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;z&#39;</span><span class="p">:</span> <span class="n">Z</span><span class="p">,</span> <span class="s1">&#39;Pr&#39;</span><span class="p">:</span> <span class="n">Pr</span><span class="p">,</span> <span class="s1">&#39;Tr&#39;</span><span class="p">:</span> <span class="n">Tr</span><span class="p">}</span>
+            <span class="k">return</span> <span class="n">ps_props</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Z</span>
+
+    <span class="c1"># Pr and Tr are NOT provided:</span>
+    <span class="k">if</span> <span class="n">pmodel</span> <span class="o">==</span> <span class="s1">&#39;piper&#39;</span><span class="p">:</span>
+        <span class="n">pc_instance</span> <span class="o">=</span> <span class="n">Piper</span><span class="p">()</span>
+        <span class="n">Tr</span><span class="p">,</span> <span class="n">Pr</span> <span class="o">=</span> <span class="n">pc_instance</span><span class="o">.</span><span class="n">_initialize_Tr_and_Pr</span><span class="p">(</span><span class="n">sg</span><span class="o">=</span><span class="n">sg</span><span class="p">,</span> <span class="n">P</span><span class="o">=</span><span class="n">P</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">,</span> <span class="n">Tr</span><span class="o">=</span><span class="n">Tr</span><span class="p">,</span> <span class="n">Pr</span><span class="o">=</span><span class="n">Pr</span><span class="p">,</span> <span class="n">H2S</span><span class="o">=</span><span class="n">H2S</span><span class="p">,</span> <span class="n">CO2</span><span class="o">=</span><span class="n">CO2</span><span class="p">,</span> <span class="n">N2</span><span class="o">=</span><span class="n">N2</span><span class="p">,</span> <span class="n">ignore_conflict</span><span class="o">=</span><span class="n">ignore_conflict</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">pmodel</span> <span class="o">==</span> <span class="s1">&#39;sutton&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">N2</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s1">&#39;pmodel=&quot;sutton&quot; does not support N2 as input. Set N2=None&#39;</span><span class="p">)</span>
+        <span class="n">pc_instance</span> <span class="o">=</span> <span class="n">Sutton</span><span class="p">()</span>
+        <span class="n">Tr</span><span class="p">,</span> <span class="n">Pr</span> <span class="o">=</span> <span class="n">pc_instance</span><span class="o">.</span><span class="n">_initialize_Tr_and_Pr</span><span class="p">(</span><span class="n">sg</span><span class="o">=</span><span class="n">sg</span><span class="p">,</span> <span class="n">P</span><span class="o">=</span><span class="n">P</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">,</span> <span class="n">Tr</span><span class="o">=</span><span class="n">Tr</span><span class="p">,</span> <span class="n">Pr</span><span class="o">=</span><span class="n">Pr</span><span class="p">,</span> <span class="n">H2S</span><span class="o">=</span><span class="n">H2S</span><span class="p">,</span> <span class="n">CO2</span><span class="o">=</span><span class="n">CO2</span><span class="p">,</span> <span class="n">ignore_conflict</span><span class="o">=</span><span class="n">ignore_conflict</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
+            <span class="s1">&#39;Pseudo-critical model &quot;</span><span class="si">%s</span><span class="s1">&quot; is not implemented. Choose from the list of available models: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">pmodel</span><span class="p">,</span> <span class="n">pmodels_ks</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="n">Z</span> <span class="o">=</span> <span class="n">_calc_z_explicit_implicit_helper</span><span class="p">(</span><span class="n">Pr</span><span class="p">,</span> <span class="n">Tr</span><span class="p">,</span> <span class="n">z_model</span><span class="p">,</span> <span class="n">zmodel</span><span class="p">,</span> <span class="n">guess</span><span class="p">,</span> <span class="n">newton_kwargs</span><span class="p">,</span> <span class="n">smart_guess</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">ps_props</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">ps_props</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;z&#39;</span><span class="p">:</span> <span class="n">Z</span><span class="p">}</span>
+        <span class="n">ps_props</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">pc_instance</span><span class="o">.</span><span class="n">ps_props</span><span class="p">)</span>
+        <span class="n">ps_props</span><span class="p">[</span><span class="s1">&#39;Tr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Tr</span>
+        <span class="n">ps_props</span><span class="p">[</span><span class="s1">&#39;Pr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Pr</span>
+        <span class="k">return</span> <span class="n">ps_props</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Z</span></div>
+
+
+<div class="viewcode-block" id="quickstart"><a class="viewcode-back" href="../quickstart.html#z_helper.quickstart">[docs]</a><span class="k">def</span> <span class="nf">quickstart</span><span class="p">(</span>
+        <span class="n">zmodel</span><span class="o">=</span><span class="s1">&#39;DAK&#39;</span><span class="p">,</span>
+        <span class="n">prmin</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+        <span class="n">prmax</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+        <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+        <span class="n">title_bold</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">title_plain</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">title_underline_loc</span><span class="o">=</span><span class="mf">0.93</span><span class="p">,</span>
+        <span class="n">disable_tr_annotation</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Quick plot generation tool for those who don&#39;t wish to write a full-blown matplotlib script. It generates a</span>
+<span class="sd">    z-factor correlation plot against :math:`P_r` and :math:`T_r` ranges.</span>
+
+<span class="sd">    **Basic usage**</span>
+
+<span class="sd">    &gt;&gt;&gt; import gascompressibility as gc</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; result, fig, ax = gc.quickstart()</span>
+
+<span class="sd">    .. figure:: _static/quickstart_1.png</span>
+<span class="sd">        :align: center</span>
+
+<span class="sd">    **Built-In Parameter Tweaks**</span>
+
+<span class="sd">    &gt;&gt;&gt; result, fig, ax = gc.quickstart(</span>
+<span class="sd">    ...     zmodel=&#39;londono&#39;, prmin=3, prmax=12, figsize= (8, 4),</span>
+<span class="sd">    ...     title_underline_loc=0.91, disable_tr_annotation=True,</span>
+<span class="sd">    ...     title_bold=&#39;This is a bold title&#39;, title_plain=&#39;and this a plain&#39;,</span>
+<span class="sd">    ... )</span>
+
+<span class="sd">    .. figure:: _static/quickstart_2.png</span>
+<span class="sd">        :align: center</span>
+
+<span class="sd">    **Custimization using the returned matplotlib axis object**</span>
+
+<span class="sd">    &gt;&gt;&gt; result, fig, ax = gc.quickstart()</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; ax.set_ylim(0, 2)</span>
+<span class="sd">    &gt;&gt;&gt; ax.set_xlim(0, 15)</span>
+<span class="sd">    &gt;&gt;&gt; ax.set_ylabel(&#39;This is a Y label&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; ax.set_xlabel(&#39;This is a X label&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; ax.grid(False)</span>
+<span class="sd">    &gt;&gt;&gt; ax.minorticks_off()</span>
+<span class="sd">    &gt;&gt;&gt; ax.text(0.1, 0.08, &#39;This is custom annotation&#39;, fontsize=11,</span>
+<span class="sd">    ... transform=ax.transAxes)</span>
+<span class="sd">    &gt;&gt;&gt; ax.axvspan(9, 15, facecolor=&#39;#efefef&#39;, alpha=0.5)</span>
+<span class="sd">    &gt;&gt;&gt; ax.axvline(x=9, color=&#39;k&#39;, linestyle=&#39;--&#39;, linewidth=1, alpha=0.7)</span>
+<span class="sd">    &gt;&gt;&gt; ax.text(9.2, 1.9, &#39;Another custom annotation&#39;, fontsize=10, va=&#39;top&#39;,</span>
+<span class="sd">    ... color=&#39;k&#39;, alpha=0.7, rotation=270)</span>
+<span class="sd">    &gt;&gt;&gt;</span>
+<span class="sd">    &gt;&gt;&gt; fig.tight_layout()</span>
+<span class="sd">    &gt;&gt;&gt; # fig.savefig(&#39;output.png&#39;, bbox_inches=&#39;tight&#39;, dpi=200)</span>
+
+<span class="sd">    .. figure:: _static/quickstart_3.png</span>
+<span class="sd">        :align: center</span>
+
+<span class="sd">    **Extreme failure scenario when** ``smart_guess=False`` **and bad** ``guess`` **is provided - NOT RECOMMENDED**.</span>
+<span class="sd">    Check :ref:`Theories 2.6: Caveats &lt;theories:2.6. Caveats&gt;` for more information.</span>
+
+<span class="sd">    &gt;&gt;&gt; results, fig, ax = gc.quickstart(zmodel=&#39;hall_yarborough&#39;, prmin=0.2, prmax=30,</span>
+<span class="sd">    ... smart_guess=False, guess=0.1)</span>
+
+<span class="sd">    .. figure:: _static/quickstart_10.png</span>
+<span class="sd">        :align: center</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    zmodel : str</span>
+<span class="sd">        choice of a z-correlation model.</span>
+<span class="sd">        Check :ref:`Theories 2: Z-Factor Correlation Models &lt;theories:2. Z-Factor Correlation Models&gt;` for more information.</span>
+<span class="sd">        Accepted inputs: ``&#39;DAK&#39;`` | ``&#39;hall_yarborough&#39;`` | ``&#39;londono&#39;`` |``&#39;kareem&#39;``</span>
+<span class="sd">    prmin : float</span>
+<span class="sd">        minimum value of the :math:`P_r` range</span>
+<span class="sd">    prmax : float</span>
+<span class="sd">        maximum value of the :math:`P_r` range</span>
+<span class="sd">    figsize : tuple</span>
+<span class="sd">        matplotlib figure size</span>
+<span class="sd">    title_bold : str</span>
+<span class="sd">        string of the bold (left) portion of the figure title</span>
+<span class="sd">    title_plain : str</span>
+<span class="sd">        string of the plain (right) portion of the figure title</span>
+<span class="sd">    title_underline_loc : float</span>
+<span class="sd">        vertical location of the horizontal bar under the title. Try adjusting this value between 0.8 ~ 1.10 if the</span>
+<span class="sd">        title underline looks off</span>
+<span class="sd">    disable_tr_annotation : bool</span>
+<span class="sd">        set this to ``True`` to not display :math:`T_r` text annotations</span>
+<span class="sd">    kwargs : dict</span>
+<span class="sd">        optional kwargs used py :ref:`gascompressibility.calc_z &lt;calc_z&gt;`.</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    results: dict</span>
+<span class="sd">        dictionary of the simulation result. The structure is as follows:</span>
+
+<span class="sd">        &gt;&gt;&gt; results</span>
+<span class="sd">        {</span>
+<span class="sd">            1.05: {</span>
+<span class="sd">                &#39;Pr&#39;: array([0.2, 0.3, 0.4, ..., 29.9]),</span>
+<span class="sd">                &#39;Z&#39;: array([0.9367, 0.9030, 0.8675, ..., 3.1807]),</span>
+<span class="sd">            },</span>
+<span class="sd">            1.1: {</span>
+<span class="sd">                &#39;Pr&#39;: ...</span>
+<span class="sd">                &#39;Z&#39;: ...</span>
+<span class="sd">            },</span>
+<span class="sd">            ...</span>
+<span class="sd">        }</span>
+
+<span class="sd">        Each key: value pairs can be retrieved like this:</span>
+
+<span class="sd">        &gt;&gt;&gt; Pr_105 = results[1.05][&#39;Pr&#39;]</span>
+<span class="sd">        &gt;&gt;&gt; Z_105 = results[1.05][&#39;Z&#39;]</span>
+<span class="sd">        &gt;&gt;&gt; Pr_110 = results[1.1][&#39;Pr&#39;]</span>
+<span class="sd">        &gt;&gt;&gt; Z_110 = results[1.1][&#39;Z&#39;]</span>
+
+<span class="sd">    fig : `Figure &lt;https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.subplots.html&gt;`_</span>
+<span class="sd">        Matplotlib figure object</span>
+<span class="sd">    ax : `Axis &lt;https://matplotlib.org/stable/api/axis_api.html#axis-objects&gt;`_</span>
+<span class="sd">        Matplotlib axis object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">prmin</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Value of prmin must be greater than 0. Try prmin=0.1&quot;</span><span class="p">)</span>
+
+    <span class="n">Prs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">prmin</span><span class="p">,</span> <span class="n">prmax</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">prmax</span> <span class="o">*</span> <span class="mi">10</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">Prs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">round</span><span class="p">(</span><span class="n">Pr</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">Pr</span> <span class="ow">in</span> <span class="n">Prs</span><span class="p">])</span>
+
+    <span class="n">Trs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.05</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.3</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.6</span><span class="p">,</span> <span class="mf">1.7</span><span class="p">,</span> <span class="mf">1.8</span><span class="p">,</span> <span class="mf">1.9</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">2.2</span><span class="p">,</span> <span class="mf">2.4</span><span class="p">,</span> <span class="mf">2.6</span><span class="p">,</span> <span class="mf">2.8</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">])</span>
+
+    <span class="n">results</span> <span class="o">=</span> <span class="p">{</span><span class="n">Tr</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;Pr&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]),</span>
+        <span class="s1">&#39;Z&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+    <span class="p">}</span> <span class="k">for</span> <span class="n">Tr</span> <span class="ow">in</span> <span class="n">Trs</span><span class="p">}</span>
+
+    <span class="k">for</span> <span class="n">Tr</span> <span class="ow">in</span> <span class="n">Trs</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">Pr</span> <span class="ow">in</span> <span class="n">Prs</span><span class="p">:</span>
+
+            <span class="k">if</span> <span class="n">zmodel</span> <span class="o">==</span> <span class="s1">&#39;kareem&#39;</span><span class="p">:</span>
+                <span class="n">z</span> <span class="o">=</span> <span class="n">calc_z</span><span class="p">(</span><span class="n">Tr</span><span class="o">=</span><span class="n">Tr</span><span class="p">,</span> <span class="n">Pr</span><span class="o">=</span><span class="n">Pr</span><span class="p">,</span> <span class="n">zmodel</span><span class="o">=</span><span class="n">zmodel</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">z</span> <span class="o">=</span> <span class="n">calc_z</span><span class="p">(</span><span class="n">Tr</span><span class="o">=</span><span class="n">Tr</span><span class="p">,</span> <span class="n">Pr</span><span class="o">=</span><span class="n">Pr</span><span class="p">,</span> <span class="n">zmodel</span><span class="o">=</span><span class="n">zmodel</span><span class="p">,</span> <span class="n">newton_kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;maxiter&#39;</span><span class="p">:</span> <span class="mi">50</span><span class="p">},</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+            <span class="n">results</span><span class="p">[</span><span class="n">Tr</span><span class="p">][</span><span class="s1">&#39;Z&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="n">Tr</span><span class="p">][</span><span class="s1">&#39;Z&#39;</span><span class="p">],</span> <span class="p">[</span><span class="n">z</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">results</span><span class="p">[</span><span class="n">Tr</span><span class="p">][</span><span class="s1">&#39;Pr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="n">Tr</span><span class="p">][</span><span class="s1">&#39;Pr&#39;</span><span class="p">],</span> <span class="p">[</span><span class="n">Pr</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">label_fontsize</span> <span class="o">=</span> <span class="mi">12</span>
+
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">Tr</span> <span class="ow">in</span> <span class="n">Trs</span><span class="p">:</span>
+
+        <span class="n">Zs</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="n">Tr</span><span class="p">][</span><span class="s1">&#39;Z&#39;</span><span class="p">]</span>
+        <span class="n">idx_min</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">Zs</span> <span class="o">==</span> <span class="nb">min</span><span class="p">(</span><span class="n">Zs</span><span class="p">))[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">p</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">Prs</span><span class="p">,</span> <span class="n">Zs</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">disable_tr_annotation</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">Tr</span> <span class="o">==</span> <span class="mf">1.05</span><span class="p">:</span>
+                <span class="n">t</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">Prs</span><span class="p">[</span><span class="n">idx_min</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">Zs</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.005</span><span class="p">,</span> <span class="s1">&#39;$T_</span><span class="si">{r}</span><span class="s1">$ = 1.05&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_color</span><span class="p">())</span>
+                <span class="n">t</span><span class="o">.</span><span class="n">set_bbox</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+                <span class="k">pass</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">t</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">Prs</span><span class="p">[</span><span class="n">idx_min</span><span class="p">]</span> <span class="o">-</span> <span class="mf">0.2</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">Zs</span><span class="p">)</span> <span class="o">-</span> <span class="mf">0.005</span><span class="p">,</span> <span class="n">Tr</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_color</span><span class="p">())</span>
+                <span class="n">t</span><span class="o">.</span><span class="n">set_bbox</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+                <span class="k">pass</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">prmin</span><span class="p">,</span> <span class="n">prmax</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">minorticks_on</span><span class="p">()</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">visible</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;minor&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="o">.</span><span class="n">top</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Compressibility Factor, $Z$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">label_fontsize</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Pseudo-Reduced Pressure, $P_</span><span class="si">{r}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">label_fontsize</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.57</span><span class="p">,</span> <span class="mf">0.08</span><span class="p">,</span> <span class="s1">&#39;$T_</span><span class="si">{r}</span><span class="s1">$ = Pseudo-Reduced Temperature&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">transAxes</span><span class="p">,</span>
+            <span class="n">bbox</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">))</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="s2">&quot;zmodel = &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="n">zmodel</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">transAxes</span><span class="p">,</span>
+            <span class="n">bbox</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">),</span> <span class="n">va</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">setbold</span><span class="p">(</span><span class="n">txt</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">r</span><span class="s2">&quot;$\bf{&quot;</span> <span class="o">+</span> <span class="n">item</span> <span class="o">+</span> <span class="s2">&quot;}$&quot;</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">txt</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)])</span>
+
+    <span class="k">if</span> <span class="n">title_bold</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">title_bold</span> <span class="o">=</span> <span class="n">setbold</span><span class="p">(</span><span class="s1">&#39;Gas Compressibility Factor - Z&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">title_bold</span> <span class="o">=</span> <span class="n">setbold</span><span class="p">(</span><span class="n">title_bold</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">title_plain</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">title_plain</span> <span class="o">=</span> <span class="s1">&#39;, computed with GasCompressiblityFactor-py &#39;</span>
+
+    <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="n">title_bold</span> <span class="o">+</span> <span class="n">title_plain</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;top&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">title_underline_loc</span><span class="p">),</span> <span class="n">xycoords</span><span class="o">=</span><span class="s1">&#39;figure fraction&#39;</span><span class="p">,</span> <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="mf">1.02</span><span class="p">,</span> <span class="n">title_underline_loc</span><span class="p">),</span>
+                <span class="n">arrowprops</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">arrowstyle</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">))</span>
+
+    <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">results</span><span class="p">,</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span></div>
+</pre></div>
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2023, Eric Kim.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
