@@ -1,0 +1,3 @@
+[submodule "docs/GasCompressibiltiy-py-docs"]
+	path = docs/GasCompressibiltiy-py-docs
+	url = https://github.com/aegis4048/GasCompressibiltiy-py-docs.git
