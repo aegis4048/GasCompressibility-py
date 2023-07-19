@@ -370,6 +370,6 @@ Python => 3.9
 
 10. Cite As:
 --------------
-.
+
 Eric "Soobin" Kim, 2021, GasCompressibility-py Python Package, PyPI, Python Package Index, https://pypi.org/project/gascompressibility/.
 
