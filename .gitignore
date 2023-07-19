@@ -2,6 +2,7 @@
 testruns.ipynb
 papers/
 notes.py
+!docs/build/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
