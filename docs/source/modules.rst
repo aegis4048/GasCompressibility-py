@@ -7,3 +7,5 @@ API Reference
    quickstart
    calc_z
    pseudocritical
+
+.. disqus::

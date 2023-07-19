@@ -138,9 +138,11 @@ extensions = [
 #    'sphinx_automodapi.automodapi',
     'myst_parser',  # git install myst_parser
     'sphinx_design',
+    'sphinx_disqus.disqus',
 ]
 myst_enable_extensions = ["colon_fence"]
 autosectionlabel_prefix_document = True
+disqus_shortname = 'GasCompressibiltiyFactor-py'
 
 ################## Run "html make" with True once, and then change to False and run again ########################
 

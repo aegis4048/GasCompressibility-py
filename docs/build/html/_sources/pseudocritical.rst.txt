@@ -16,3 +16,5 @@ Pseudo-Critical Models
 
    sutton
    piper
+
+.. disqus::
