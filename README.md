@@ -4,9 +4,9 @@
 
 GasCompressibility-py is a Python library for calculating the gas compressibility factor, $Z$, based on real gas law. It is designed with practical oil field application in mind, in which the required inputs ($T$, $P$, and $\gamma_{g}$) can be readily obtained from the surface facility.
 
-Have you ever had an experience of finding the package that piques your interest, only to give up a few moments later after finding out that it has an insane learning curve because the documentation sucks? Worry not. **The package comes with extensive documentation support.** Feel free to check out the [official documentation](https://aegis4048.github.io/GasCompressibility-py/index.html) if you have any questions or looking for tutorials. Or you could just skim through this README introduction. 
+Have you ever had an experience of finding the package that piques your interest, only to give up a few moments later after finding out that it has an insane learning curve because the documentation sucks? Worry not. **The package comes with extensive documentation support.** If you have any questions or looking for tutorials, just skim through this README introduction or check out the [official documentation](https://aegis4048.github.io/GasCompressibility-py/theories.html) 
 
-<a href="https://aegis4048.github.io/GasCompressibility-py/index.html" target="_blank">
+<a href="https://aegis4048.github.io/GasCompressibility-py/calc_z.html" target="_blank">
   <img align="center" src="misc/documentation_gallery.png" alt="GasCompressibility-py Documentation" />
 </a>
 
