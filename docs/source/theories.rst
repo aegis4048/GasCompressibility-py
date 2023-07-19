@@ -306,7 +306,7 @@ This method is widely used in the petroleum industry [10]_.
 
    >>> import gascompressibility as gc
    >>> gc.calc_z(Pr=3.1995, Tr=1.5006)  # default: model='DAK'
-   0.7730934971020327
+   0.7730934971021096
 
 2.2. Hall-Yarborough (1973)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -352,7 +352,7 @@ industry [11]_.
 
    >>> import gascompressibility as gc
    >>> gc.calc_z(zmodel='hall_yarborough', Pr=3.1995, Tr=1.5006)
-   0.7714000268437348
+   0.77140002684377
 
 2.3. Londono (2005)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -384,7 +384,7 @@ reported in the original paper.
 
    >>> import gascompressibility as gc
    >>> gc.calc_z(zmodel='londono', Pr=3.19, Tr=1.5)
-   0.7754849921456453
+   0.7752626795793716
 
 2.4. Kareem, Iwalewa, and Marhoun (2016)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

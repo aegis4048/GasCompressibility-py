@@ -4,14 +4,13 @@ import inspect
 from gascompressibility.utilities.utilities import calc_Fahrenheit_to_Rankine
 from gascompressibility.utilities.utilities import calc_psig_to_psia
 
-"""
-This is a Piper module
-"""
-
 
 class Piper(object):
     """
-    An example docstring for a class definition.
+    Class object to calculate pseudo-critical properties based on Piper's method.
+
+    The model uses Piper's model (1993) [1]_ to correlate specific gravity (:math:`\gamma_g`) to pseudo-critical pressure (:math:`P_{pc}`) and pseudo-critical
+    temperature (:math:`T_{pc}`). It supports corrections for acid gas fractions (:math:`H_2S`, :math:`CO_2`, and :math:`N2`)
     """
 
     def __init__(self):

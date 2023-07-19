@@ -5,6 +5,52 @@ gascompressibility.pseudocritical.Sutton
    :undoc-members:
    :show-inheritance:
 
+Basic Usage
+------------
+``Sutton`` class object uses instance method that requires instantiation. This means you first have to initiate the
+object like this:
+
+>>> from gascompressibility.pseudocritical import Sutton
+>>>
+>>> obj = Sutton()
+>>> obj
+<gascompressibility.pseudocritical.Sutton> class object with the following calculated attributes:
+{
+   Tpc: None
+   Ppc: None
+   e_correction: None
+   Tpc_corrected: None
+   Ppc_corrected: None
+   Tr: None
+   Pr: None
+}
+
+Once a class instance is instantiated, you can run methods from the instantiated object:
+
+>>> obj.calc_Pr(sg=0.7, P=2010)
+3.052524774343535
+
+Running a method from the instantiated object updates the associated variables computed during the calculation process:
+
+>>> obj
+<gascompressibility.pseudocritical.Sutton> class object with the following calculated attributes:
+{
+   Tpc: None
+   Ppc: 663.2869999999999
+   e_correction: None
+   Tpc_corrected: None
+   Ppc_corrected: 663.2869999999999
+   Tr: None
+   Pr: 3.052524774343535
+}
+
+You can access the computed variables in a form of class attributes:
+
+>>> obj.Ppc
+663.2869999999999
+>>> obj.Pr
+3.052524774343535
+
 Examples
 --------
 .. raw:: html
@@ -32,15 +78,13 @@ Examples
 >>> obj = Sutton()
 >>> _ = obj.calc_Pr(sg=0.7, P=2000, H2S=0.07, CO2=0.1)
 >>> obj.ps_props
-{
-    'Tpc': 377.59,
-    'Ppc': 663.28,
-    'e_correction': 21.27,
-    'Tpc_corrected': 356.31,
-    'Ppc_corrected': 628.21,
-    'Tr': None,
-    'Pr': 3.20
-}
+{'Tpc': 377.59,
+ 'Ppc': 663.2869999999999,
+ 'e_correction': 21.277806029218723,
+ 'Tpc_corrected': 356.31219397078127,
+ 'Ppc_corrected': 628.2143047814683,
+ 'Tr': None,
+ 'Pr': 3.2070266223893724}
 
 **More examples**
 
@@ -52,13 +96,25 @@ Examples
 >>> Sutton().calc_Tpc(sg=0.7)
 377.59
 
->>> d = {'col1': [1, 2], 'col2': [3, 4]}
->>> df = pd.DataFrame(data=d)
->>> df
-   col1  col2
-0     1     3
-1     2     4
+>>> # temperature correction factor for acid gases ε (°R)
+>>> Sutton().calc_e_correction(H2S=0.05, CO2=0.1)
+>>> 19.34753439832438
 
+>>> # corrected pseudo-critical pressure, Ppc_corrected (psia)
+>>> Sutton().calc_Ppc_corrected(sg=0.7, H2S=0.05, CO2=0.1)
+630.8358627422825
+
+>>> # corrected pseudo-critical temperature, Tpc_corrected (°R)
+>>> Sutton().calc_Tpc_corrected(sg=0.7, H2S=0.05, CO2=0.1)
+358.2424656016756
+
+>>> # reduced pseudo-critical pressure, Pr (dimensionless)
+>>> Sutton().calc_Pr(sg=0.7, H2S=0.05, CO2=0.1, P=2010)
+3.2095511995759147
+
+>>> # reduced pseudo-critical temperature, Tr (dimensionless)
+>>> Sutton().calc_Tr(sg=0.7, H2S=0.05, CO2=0.1, T=75)
+1.4924807953797739
 
 Methods
 --------

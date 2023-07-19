@@ -7,10 +7,11 @@ from gascompressibility.utilities.utilities import calc_psig_to_psia
 class Sutton():
 
     """
-    Class object to calculate pseudo-critical properties.
+    Class object to calculate pseudo-critical properties based on Sutton's method.
 
-    Based on Sutton's specific gravity correlation [1]_ and Wichert & Aziz correction for acid gases (:math:`H_2S` and :math:`CO_2`) [2]_.
-
+    The model uses Sutton's model (1985) [1]_ to correlate specific gravity (:math:`\gamma_g`) to pseudo-critical pressure (:math:`P_{pc}`) and pseudo-critical
+    temperature (:math:`T_{pc}`). It supports corrections for acid gas fractions (:math:`H_2S` and :math:`CO_2`) using
+    Wichert & Aziz method (1970) [2]_.
     """
 
     def __init__(self):
