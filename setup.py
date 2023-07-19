@@ -21,7 +21,7 @@ def classifiers():
 
 setup(
     name='gascompressibility',
-    version='0.1.8',
+    version='1.0.0',
     packages=find_packages(exclude=[
         "tutorials",
         "LICENSE",
