@@ -8,9 +8,9 @@ If you like this package, please consider giving a star :star: on the top right 
 
 ## 0. Documentation
 
-Have you ever had an experience of finding the package that piques your interest, only to give up a few moments later after finding out that it has an insane learning curve because the documentation sucks? Worry not. **The package comes with extensive documentation support.** If you have any questions or looking for tutorials, just skim through this README introduction or check out the [official documentation](https://aegis4048.github.io/GasCompressibility-py/theories.html). 
+Have you ever had an experience of finding the package that piques your interest, only to give up a few moments later after finding out that it has an insane learning curve because the documentation sucks? Worry not. **The package comes with extensive documentation support.** If you have any questions or looking for tutorials, just skim through this README introduction or check out the [official documentation](https://aegis4048.github.io/GasCompressibility-py/calc_z.html). 
 
-<a href="https://aegis4048.github.io/GasCompressibility-py/calc_z.html" target="_blank">
+<a href="https://aegis4048.github.io/GasCompressibility-py/theories.html" target="_blank">
   <img align="center" src="misc/documentation_gallery.png" alt="GasCompressibility-py Documentation" />
 </a>
 
