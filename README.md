@@ -115,7 +115,7 @@ The package additionally supports calculation of pseudo-critical properties. Che
 
 -   **Sutton (1985):** Makes corrections for acid fractions: $H_2S$ and
     $CO_2$
--   **Piper (1993):** Improved version of Piper. Additionally supports
+-   **Piper (1993):** Improved version of Sutton. Additionally supports
     corrections for $N_2$ along with $H_2S$ and $CO_2$
 - [Theories 1: Pseudo-Critical Property Models](https://aegis4048.github.io/GasCompressibility-py/theories.html#pseudo-critical-property-models)
 
