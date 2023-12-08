@@ -1,8 +1,6 @@
-.. _Sutton.calc_Tpc_corrected:
+﻿sutton.Sutton.calc\_Tpc\_corrected
+==================================
 
-calc_Tpc_corrected
-=====================================
+.. currentmodule:: sutton
 
-.. automethod:: sutton.Sutton.calc_Tpc_corrected
-
-.. disqus::
+.. automethod:: Sutton.calc_Tpc_corrected

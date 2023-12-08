@@ -1,8 +1,6 @@
-.. _Piper.calc_Ppc:
+﻿piper.Piper.calc\_Ppc
+=====================
 
-calc_Ppc
-=====================================
+.. currentmodule:: piper
 
-.. automethod:: piper.Piper.calc_Ppc
-
-.. disqus::
+.. automethod:: Piper.calc_Ppc

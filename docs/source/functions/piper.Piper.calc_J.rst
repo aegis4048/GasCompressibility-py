@@ -1,8 +1,6 @@
-.. _Piper.calc_J:
+﻿piper.Piper.calc\_J
+===================
 
-calc_J
-=====================================
+.. currentmodule:: piper
 
-.. automethod:: piper.Piper.calc_J
-
-.. disqus::
+.. automethod:: Piper.calc_J

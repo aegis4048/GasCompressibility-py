@@ -1,8 +1,6 @@
-.. _Sutton.calc_Ppc:
+﻿sutton.Sutton.calc\_Ppc
+=======================
 
-calc_Ppc
-=====================================
+.. currentmodule:: sutton
 
-.. automethod:: sutton.Sutton.calc_Ppc
-
-.. disqus::
+.. automethod:: Sutton.calc_Ppc

@@ -1,8 +1,6 @@
-.. _Piper.calc_Pr:
+﻿piper.Piper.calc\_Pr
+====================
 
-calc_Pr
-=====================================
+.. currentmodule:: piper
 
-.. automethod:: piper.Piper.calc_Pr
-
-.. disqus::
+.. automethod:: Piper.calc_Pr

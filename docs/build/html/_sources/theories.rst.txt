@@ -679,7 +679,7 @@ The below table summarizes the working :math:`P_r` and :math:`T_r` ranges of eac
 paper.
 
 +-----------------+------------+------------+
-| Model           | :math:`P_r`| :math:`T_r`|
+| Model           | :math:`T_r`| :math:`P_r`|
 +=================+============+============+
 | DAK             | [1, 3]     | [0.2, 30]  |
 +-----------------+------------+------------+

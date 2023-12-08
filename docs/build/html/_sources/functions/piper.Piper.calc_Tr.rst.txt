@@ -1,8 +1,6 @@
-.. _Piper.calc_Tr:
+﻿piper.Piper.calc\_Tr
+====================
 
-calc_Tr
-=====================================
+.. currentmodule:: piper
 
-.. automethod:: piper.Piper.calc_Tr
-
-.. disqus::
+.. automethod:: Piper.calc_Tr

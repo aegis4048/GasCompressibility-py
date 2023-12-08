@@ -1,8 +1,6 @@
-.. _Sutton.calc_e_correction:
+﻿sutton.Sutton.calc\_e\_correction
+=================================
 
-calc_e_correction
-=====================================
+.. currentmodule:: sutton
 
-.. automethod:: sutton.Sutton.calc_e_correction
-
-.. disqus::
+.. automethod:: Sutton.calc_e_correction

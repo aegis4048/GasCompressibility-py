@@ -1,8 +1,6 @@
-.. _Sutton.calc_Ppc_corrected:
+﻿sutton.Sutton.calc\_Ppc\_corrected
+==================================
 
-calc_Ppc_corrected
-=====================================
+.. currentmodule:: sutton
 
-.. automethod:: sutton.Sutton.calc_Ppc_corrected
-
-.. disqus::
+.. automethod:: Sutton.calc_Ppc_corrected

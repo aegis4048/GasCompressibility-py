@@ -1,8 +1,6 @@
-.. _Sutton.calc_Tr:
+﻿sutton.Sutton.calc\_Tr
+======================
 
-calc_Tr
-=====================================
+.. currentmodule:: sutton
 
-.. automethod:: sutton.Sutton.calc_Tr
-
-.. disqus::
+.. automethod:: Sutton.calc_Tr

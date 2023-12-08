@@ -1,8 +1,6 @@
-.. _Sutton.calc_Pr:
+﻿sutton.Sutton.calc\_Pr
+======================
 
-calc_Pr
-=====================================
+.. currentmodule:: sutton
 
-.. automethod:: sutton.Sutton.calc_Pr
-
-.. disqus::
+.. automethod:: Sutton.calc_Pr

@@ -1,8 +1,6 @@
-.. _Piper.calc_K:
+﻿piper.Piper.calc\_K
+===================
 
-calc_K
-=====================================
+.. currentmodule:: piper
 
-.. automethod:: piper.Piper.calc_K
-
-.. disqus::
+.. automethod:: Piper.calc_K
