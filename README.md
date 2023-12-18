@@ -141,7 +141,7 @@ The below table summarizes the working $P_r$ and $T_r$ ranges of each
 model, according to it\'s own original paper.
 
 
-| Model           | $P_r$     | $T_r$     |
+| Model           | $T_r$     | $P_r$     |
 | --------------- | --------- | --------- |
 | DAK             | [1, 3]    | [0.2, 30] |
 | Hall-Yarborough | [1.15, 3] | (0, 20.5] |
